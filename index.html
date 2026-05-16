@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <script>tailwind.config={theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
     <style>
-        :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366}
+        :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366;--email:#EA4335}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
@@ -24,16 +24,7 @@
         .splash-ring:nth-child(3){width:260px;height:260px;border-color:rgba(212,168,67,.2);animation-delay:1s}
         @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:1}}
 
-        .splash-logo{
-            width:140px;height:140px;border-radius:50%;
-            background:#ffffff;
-            display:flex;align-items:center;justify-content:center;
-            animation:logoEntry 1s cubic-bezier(.34,1.56,.64,1) forwards,logoFloat 3s ease-in-out 1s infinite;
-            opacity:0;transform:scale(.3) rotate(-20deg);
-            box-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2),0 12px 50px rgba(0,0,0,.5);
-            z-index:2;position:relative;overflow:hidden;
-            border:4px solid var(--accent-light);
-        }
+        .splash-logo{width:140px;height:140px;border-radius:50%;background:#ffffff;display:flex;align-items:center;justify-content:center;animation:logoEntry 1s cubic-bezier(.34,1.56,.64,1) forwards,logoFloat 3s ease-in-out 1s infinite;opacity:0;transform:scale(.3) rotate(-20deg);box-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2),0 12px 50px rgba(0,0,0,.5);z-index:2;position:relative;overflow:hidden;border:4px solid var(--accent-light)}
         .splash-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
         @keyframes logoEntry{to{opacity:1;transform:scale(1) rotate(0)}}
         @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -64,13 +55,7 @@
         .btn-outline{background:transparent;color:var(--accent-light);border:1px solid rgba(46,204,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
         .btn-outline:hover{background:var(--accent-glow)}
 
-        .logo-zone{
-            width:120px;height:120px;border-radius:50%;
-            border:3px dashed rgba(46,204,113,.3);
-            display:flex;align-items:center;justify-content:center;
-            cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;
-            background:#ffffff;
-        }
+        .logo-zone{width:120px;height:120px;border-radius:50%;border:3px dashed rgba(46,204,113,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;background:#ffffff}
         .logo-zone:hover{border-color:var(--accent-light);box-shadow:0 0 25px var(--accent-glow)}
         .logo-zone img{width:100%;height:100%;object-fit:cover;border-radius:50%}
         .logo-zone .overlay{position:absolute;inset:0;background:rgba(6,26,18,.65);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;border-radius:50%}
@@ -78,22 +63,14 @@
 
         .soc-icon{width:50px;height:50px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;transition:all .3s;cursor:pointer;text-decoration:none;color:#fff}
         .soc-icon:hover{transform:translateY(-4px) scale(1.1)}
-        .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-wa{background:var(--whatsapp)}
+        .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-wa{background:var(--whatsapp)}.soc-em{background:var(--email)}
 
         .phone-frame{width:300px;background:linear-gradient(160deg,#0F3325,#081A12);border-radius:30px;border:2.5px solid rgba(46,204,113,.15);padding:30px 18px 24px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px var(--accent-glow2)}
         .phone-frame::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:65px;height:4px;background:rgba(46,204,113,.2);border-radius:2px}
 
         .green-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));border-radius:2px}
 
-        .preview-logo-wrap{
-            width:110px;height:110px;border-radius:50%;
-            background:#ffffff;
-            margin:0 auto;display:flex;align-items:center;justify-content:center;
-            overflow:hidden;
-            box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 20px var(--accent-glow2);
-            position:relative;
-            border:3px solid var(--accent-light);
-        }
+        .preview-logo-wrap{width:110px;height:110px;border-radius:50%;background:#ffffff;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 20px var(--accent-glow2);position:relative;border:3px solid var(--accent-light)}
         .preview-logo-wrap img{width:100%;height:100%;object-fit:cover;border-radius:50%}
         .preview-logo-wrap i{font-size:32px;color:var(--muted)}
         .logo-shimmer{position:relative;overflow:hidden}
@@ -121,55 +98,25 @@
         .qr-tab{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
         .qr-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border-color:transparent;box-shadow:0 4px 15px var(--accent-glow)}
 
-        /* ===== بطاقة العرض - الترتيب الجديد ===== */
-        .view-card{
-            background:linear-gradient(160deg,var(--card2),var(--bg));
-            border:1px solid var(--border);border-radius:28px;overflow:hidden;position:relative;
-        }
+        .view-card{background:linear-gradient(160deg,var(--card2),var(--bg));border:1px solid var(--border);border-radius:28px;overflow:hidden;position:relative}
 
-        /* غلاف ترويجي - بدون لوجو عائم */
         .promo-cover{position:relative;width:100%;height:260px;overflow:hidden}
         .promo-cover .bg{width:100%;height:100%;background-size:cover;background-position:center}
         .promo-cover .grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.95) 0%,rgba(6,26,18,.6) 40%,rgba(6,26,18,.1) 100%);pointer-events:none}
 
-        /* اللوجو فوق الجزء الأخضر مباشرة */
-        .card-logo-area{
-            display:flex;justify-content:center;
-            margin-top:-55px;position:relative;z-index:10;
-            padding:0 20px;
-        }
-        .card-logo-circle{
-            width:110px;height:110px;border-radius:50%;
-            background:#ffffff;overflow:hidden;
-            border:4px solid var(--accent-light);
-            box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 25px var(--accent-glow2);
-        }
+        .card-logo-area{display:flex;justify-content:center;margin-top:-55px;position:relative;z-index:10;padding:0 20px}
+        .card-logo-circle{width:110px;height:110px;border-radius:50%;background:#ffffff;overflow:hidden;border:4px solid var(--accent-light);box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 25px var(--accent-glow2)}
         .card-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
-        /* لوجو منفرد لما مفيش غلاف */
-        .solo-logo-area{
-            display:flex;justify-content:center;
-            padding:30px 20px 0;
-        }
-        .solo-logo-circle{
-            width:130px;height:130px;border-radius:50%;
-            background:#ffffff;overflow:hidden;
-            border:4px solid var(--accent-light);
-            box-shadow:0 10px 35px rgba(0,0,0,.5),0 0 25px var(--accent-glow2);
-        }
+        .solo-logo-area{display:flex;justify-content:center;padding:30px 20px 0}
+        .solo-logo-circle{width:130px;height:130px;border-radius:50%;background:#ffffff;overflow:hidden;border:4px solid var(--accent-light);box-shadow:0 10px 35px rgba(0,0,0,.5),0 0 25px var(--accent-glow2)}
         .solo-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
         .promo-preview{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);height:160px}
         .promo-preview .bg{width:100%;height:100%;background-size:cover;background-position:center}
         .promo-preview .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.7),transparent 60%)}
 
-        .header-logo{
-            width:50px;height:50px;border-radius:50%;
-            background:#ffffff;padding:2px;
-            display:flex;align-items:center;justify-content:center;
-            overflow:hidden;flex-shrink:0;
-            border:2px solid var(--accent-light);
-        }
+        .header-logo{width:50px;height:50px;border-radius:50%;background:#ffffff;padding:2px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--accent-light)}
         .header-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -195,7 +142,6 @@
     <div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="particles"></div>
     <div id="toast" class="toast-msg"></div>
 
-    <!-- وضع التعديل -->
     <div id="editorMode" style="display:none" class="relative z-10">
         <header class="py-6 px-4 text-center fade-up">
             <div class="flex items-center justify-center gap-4 mb-2">
@@ -233,9 +179,11 @@
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> رقم هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="updatePreview()"></div>
                     </div>
                 </div>
+                <!-- السوشيال ميديا + الإيميل -->
                 <div class="glass rounded-2xl p-6">
                     <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد الإلكتروني</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="updatePreview()"></div>
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="updatePreview()"></div>
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div>
                     </div>
@@ -292,23 +240,18 @@
         </main>
     </div>
 
-    <!-- ===== وضع العرض - اللوجو فوق الجزء الأخضر ===== -->
+    <!-- وضع العرض -->
     <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none">
         <div class="view-card w-full max-w-md fade-up">
-            <!-- الغلاف -->
             <div id="viewPromoCover" class="promo-cover" style="display:none">
                 <div id="viewPromoBg" class="bg"></div>
                 <div class="grad"></div>
             </div>
-
-            <!-- اللوجو فوق المحتوى مباشرة -->
             <div id="viewLogoArea" class="card-logo-area" style="display:none">
                 <div class="card-logo-circle">
                     <img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'">
                 </div>
             </div>
-
-            <!-- المحتوى -->
             <div class="p-8 text-center" id="viewContent">
                 <h1 class="text-2xl font-black mb-1" id="viewName"></h1>
                 <p class="text-sm mb-5" id="viewDesc" style="color:var(--muted)"></p>
@@ -338,9 +281,9 @@
 
         var logoBase64='';
 
-        function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),logoUrl:document.getElementById('logoUrl').value.trim(),promoUrl:document.getElementById('promoUrl').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
+        function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),logoUrl:document.getElementById('logoUrl').value.trim(),promoUrl:document.getElementById('promoUrl').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),email:document.getElementById('email').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
 
-        function setFormData(d){if(!d)return;document.getElementById('companyName').value=d.name||'';document.getElementById('companyDesc').value=d.desc||'';document.getElementById('logoUrl').value=d.logoUrl||'';document.getElementById('promoUrl').value=d.promoUrl||'';document.getElementById('whatsapp').value=d.whatsapp||'';document.getElementById('phone1').value=d.phone1||'';document.getElementById('phone2').value=d.phone2||'';document.getElementById('facebook').value=d.facebook||'';document.getElementById('tiktok').value=d.tiktok||'';if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
+        function setFormData(d){if(!d)return;document.getElementById('companyName').value=d.name||'';document.getElementById('companyDesc').value=d.desc||'';document.getElementById('logoUrl').value=d.logoUrl||'';document.getElementById('promoUrl').value=d.promoUrl||'';document.getElementById('whatsapp').value=d.whatsapp||'';document.getElementById('phone1').value=d.phone1||'';document.getElementById('phone2').value=d.phone2||'';document.getElementById('email').value=d.email||'';document.getElementById('facebook').value=d.facebook||'';document.getElementById('tiktok').value=d.tiktok||'';if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
         function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){logoBase64=ev.target.result;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};r.readAsDataURL(f);}
 
@@ -348,11 +291,78 @@
 
         function downloadQR(containerId,filename){var container=document.getElementById(containerId),img=container?container.querySelector('img'):null;if(!img||!img.src){showToast('QR مش جاهز');return;}var a=document.createElement('a');a.download=filename;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
 
-        function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoBase64||d.logoUrl;var logoImg=document.getElementById('previewLogoImg');var logoIcon=document.getElementById('previewLogoIcon');if(ls){logoImg.src=ls;logoImg.style.display='block';logoIcon.style.display='none';}else{logoImg.style.display='none';logoIcon.style.display='';}if(d.promoUrl){document.getElementById('promoPreviewBg').style.backgroundImage='url('+d.promoUrl+')';document.getElementById('promoPreview').style.display='block';}else{document.getElementById('promoPreview').style.display='none';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb'},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk'}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.url;a.target='_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';var wb=document.getElementById('previewWaBtn');var waNum=cleanWhatsApp(d.whatsapp);if(waNum){wb.href='https://wa.me/'+waNum;wb.style.display='flex';}else{wb.style.display='none';}}
+        function updatePreview(){
+            var d=getFormData();
+            document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';
+            document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';
+            var ls=logoBase64||d.logoUrl;
+            var logoImg=document.getElementById('previewLogoImg');
+            var logoIcon=document.getElementById('previewLogoIcon');
+            if(ls){logoImg.src=ls;logoImg.style.display='block';logoIcon.style.display='none';}
+            else{logoImg.style.display='none';logoIcon.style.display='';}
+            if(d.promoUrl){document.getElementById('promoPreviewBg').style.backgroundImage='url('+d.promoUrl+')';document.getElementById('promoPreview').style.display='block';}
+            else{document.getElementById('promoPreview').style.display='none';}
 
-        function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\n';v+='FN:'+(d.name||'شركة')+'\n';v+='ORG:'+(d.name||'شركة')+'\n';if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.logoUrl)v+='PHOTO;VALUE=uri:'+d.logoUrl+'\n';if(d.facebook)v+='URL:'+d.facebook+'\n';if(d.tiktok)v+='URL:'+d.tiktok+'\n';if(d.desc)v+='NOTE:'+d.desc+'\n';v+='END:VCARD';return v;}
+            /* السوشيال + الإيميل */
+            var se=document.getElementById('previewSocials');se.innerHTML='';
+            [{url:d.email,icon:'fas fa-envelope',cls:'soc-em',isEmail:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',isEmail:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',isEmail:false}].forEach(function(s){
+                if(s.url){
+                    var a=document.createElement('a');
+                    a.href=s.isEmail?'mailto:'+s.url:s.url;
+                    a.target=s.isEmail?'_self':'_blank';
+                    a.className='soc-icon '+s.cls;
+                    a.innerHTML='<i class="'+s.icon+'"></i>';
+                    se.appendChild(a);
+                }
+            });
 
-        function saveAndGenerate(){var d=getFormData();if(!d.name){showToast('أدخلي اسم الشركة');document.getElementById('companyName').focus();return;}var waNum=cleanWhatsApp(d.whatsapp);if(d.whatsapp&&waNum.length<10){showToast('رقم الواتساب مش صح');return;}var saveData=Object.assign({},d,{logoBase64:logoBase64});localStorage.setItem('businessCardData',JSON.stringify(saveData));document.getElementById('qrSection').style.display='block';document.getElementById('qrSection').classList.add('fade-up');var pageUrl=document.getElementById('pageUrl').value.trim();if(pageUrl){var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,facebook:d.facebook,tiktok:d.tiktok};var encoded=safeEncode(JSON.stringify(dataForQR));makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12');}else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54');}else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12');showToast('تم توليد أكواد QR');setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);}
+            var ce=document.getElementById('previewContact');ce.innerHTML='';
+            if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';
+            if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';
+            if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';
+
+            var wb=document.getElementById('previewWaBtn');var waNum=cleanWhatsApp(d.whatsapp);
+            if(waNum){wb.href='https://wa.me/'+waNum;wb.style.display='flex';}else{wb.style.display='none';}
+        }
+
+        function generateVCard(d){
+            var v='BEGIN:VCARD\nVERSION:3.0\n';
+            v+='FN:'+(d.name||'شركة')+'\n';v+='ORG:'+(d.name||'شركة')+'\n';
+            if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';
+            if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';
+            if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';
+            if(d.email)v+='EMAIL;TYPE=WORK:'+d.email+'\n';
+            if(d.logoUrl)v+='PHOTO;VALUE=uri:'+d.logoUrl+'\n';
+            if(d.facebook)v+='URL:'+d.facebook+'\n';
+            if(d.tiktok)v+='URL:'+d.tiktok+'\n';
+            if(d.desc)v+='NOTE:'+d.desc+'\n';
+            v+='END:VCARD';return v;
+        }
+
+        function saveAndGenerate(){
+            var d=getFormData();
+            if(!d.name){showToast('أدخلي اسم الشركة');document.getElementById('companyName').focus();return;}
+            var waNum=cleanWhatsApp(d.whatsapp);
+            if(d.whatsapp&&waNum.length<10){showToast('رقم الواتساب مش صح');return;}
+            var saveData=Object.assign({},d,{logoBase64:logoBase64});
+            localStorage.setItem('businessCardData',JSON.stringify(saveData));
+            document.getElementById('qrSection').style.display='block';
+            document.getElementById('qrSection').classList.add('fade-up');
+            var pageUrl=document.getElementById('pageUrl').value.trim();
+            if(pageUrl){
+                var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok};
+                var encoded=safeEncode(JSON.stringify(dataForQR));
+                makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12');
+            }else{
+                document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';
+                document.getElementById('qrPageStatus').innerHTML='';
+            }
+            if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54');}
+            else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
+            makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12');
+            showToast('تم توليد أكواد QR');
+            setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);
+        }
 
         function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
 
@@ -360,7 +370,6 @@
 
         function resetForm(){document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoBase64='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';document.getElementById('qrSection').style.display='none';document.getElementById('promoPreview').style.display='none';localStorage.removeItem('businessCardData');updatePreview();showToast('تم مسح البيانات');}
 
-        /* ===== وضع العرض - اللوجو فوق الجزء الأخضر ===== */
         function showViewMode(data){
             document.getElementById('editorMode').style.display='none';
             var ls=data.logoUrl||'';
@@ -369,30 +378,12 @@
             document.getElementById('viewName').textContent=data.name||'';
             document.getElementById('viewDesc').textContent=data.desc||'';
 
-            /* الغلاف */
-            if(ps){
-                document.getElementById('viewPromoCover').style.display='block';
-                document.getElementById('viewPromoBg').style.backgroundImage='url('+ps+')';
-            }else{
-                document.getElementById('viewPromoCover').style.display='none';
-            }
+            if(ps){document.getElementById('viewPromoCover').style.display='block';document.getElementById('viewPromoBg').style.backgroundImage='url('+ps+')';}
+            else{document.getElementById('viewPromoCover').style.display='none';}
 
-            /* اللوجو - دايماً فوق المحتوى */
             var logoArea=document.getElementById('viewLogoArea');
-            if(ls){
-                document.getElementById('viewLogoImg').src=ls;
-                logoArea.style.display='flex';
-                /* لو مفيش غلاف اللوجو ينزل شوية */
-                if(!ps){
-                    logoArea.style.marginTop='0';
-                    logoArea.style.paddingTop='30px';
-                }else{
-                    logoArea.style.marginTop='-55px';
-                    logoArea.style.paddingTop='0';
-                }
-            }else{
-                logoArea.style.display='none';
-            }
+            if(ls){document.getElementById('viewLogoImg').src=ls;logoArea.style.display='flex';if(!ps){logoArea.style.marginTop='0';logoArea.style.paddingTop='30px';}else{logoArea.style.marginTop='-55px';logoArea.style.paddingTop='0';}}
+            else{logoArea.style.display='none';}
 
             var vp=document.getElementById('viewPhones');vp.innerHTML='';
             if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all hover:bg-[rgba(46,204,113,.1)]" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
@@ -402,9 +393,10 @@
             var waNum=cleanWhatsApp(data.whatsapp);
             if(waNum)wd.innerHTML='<a href="https://wa.me/'+waNum+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
 
+            /* السوشيال + الإيميل */
             var vs=document.getElementById('viewSocials');vs.innerHTML='';
-            [{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb'},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk'}].forEach(function(s){
-                if(s.url){var a=document.createElement('a');a.href=s.url;a.target='_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vs.appendChild(a);}
+            [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',isEmail:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',isEmail:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',isEmail:false}].forEach(function(s){
+                if(s.url){var a=document.createElement('a');a.href=s.isEmail?'mailto:'+s.url:s.url;a.target=s.isEmail?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vs.appendChild(a);}
             });
 
             document.getElementById('viewMode').style.display='flex';
