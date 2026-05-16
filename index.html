@@ -24,7 +24,6 @@
         .splash-ring:nth-child(3){width:260px;height:260px;border-color:rgba(212,168,67,.2);animation-delay:1s}
         @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:1}}
 
-        /* لوجو السبلش - دائري كبير */
         .splash-logo{
             width:140px;height:140px;border-radius:50%;
             background:#ffffff;
@@ -65,7 +64,6 @@
         .btn-outline{background:transparent;color:var(--accent-light);border:1px solid rgba(46,204,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
         .btn-outline:hover{background:var(--accent-glow)}
 
-        /* منطقة رفع اللوجو - دائرية */
         .logo-zone{
             width:120px;height:120px;border-radius:50%;
             border:3px dashed rgba(46,204,113,.3);
@@ -87,7 +85,6 @@
 
         .green-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));border-radius:2px}
 
-        /* لوجو المعاينة في الموبايل - دائري وكبير */
         .preview-logo-wrap{
             width:110px;height:110px;border-radius:50%;
             background:#ffffff;
@@ -124,37 +121,48 @@
         .qr-tab{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
         .qr-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border-color:transparent;box-shadow:0 4px 15px var(--accent-glow)}
 
-        .view-card{background:linear-gradient(160deg,var(--card2),var(--bg));border:1px solid var(--border);border-radius:28px;overflow:hidden;position:relative}
-        .view-card::after{content:'';position:absolute;bottom:-60px;left:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(37,211,102,.08),transparent 70%);pointer-events:none}
+        /* ===== بطاقة العرض - الترتيب الجديد ===== */
+        .view-card{
+            background:linear-gradient(160deg,var(--card2),var(--bg));
+            border:1px solid var(--border);border-radius:28px;overflow:hidden;position:relative;
+        }
 
-        .promo-cover{position:relative;width:100%;height:320px;overflow:hidden}
+        /* غلاف ترويجي - بدون لوجو عائم */
+        .promo-cover{position:relative;width:100%;height:260px;overflow:hidden}
         .promo-cover .bg{width:100%;height:100%;background-size:cover;background-position:center}
-        .promo-cover .grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,1) 0%,rgba(6,26,18,.92) 15%,rgba(6,26,18,.4) 45%,rgba(6,26,18,.05) 100%);pointer-events:none}
+        .promo-cover .grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.95) 0%,rgba(6,26,18,.6) 40%,rgba(6,26,18,.1) 100%);pointer-events:none}
 
-        /* لوجو عائم على الغلاف - دائري وكبير */
-        .float-logo{
-            width:130px;height:130px;border-radius:50%;
-            border:5px solid var(--card2);
-            overflow:hidden;position:absolute;left:50%;bottom:-65px;transform:translateX(-50%);z-index:10;
-            background:#ffffff;
-            box-shadow:0 15px 50px rgba(0,0,0,.7),0 0 30px var(--accent-glow2);
+        /* اللوجو فوق الجزء الأخضر مباشرة */
+        .card-logo-area{
+            display:flex;justify-content:center;
+            margin-top:-55px;position:relative;z-index:10;
+            padding:0 20px;
         }
-        .float-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-
-        /* لوجو منفرد - دائري وكبير */
-        .solo-logo{
-            width:150px;height:150px;border-radius:50%;overflow:hidden;margin:0 auto 20px;
+        .card-logo-circle{
+            width:110px;height:110px;border-radius:50%;
+            background:#ffffff;overflow:hidden;
             border:4px solid var(--accent-light);
-            box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px var(--accent-glow2);
-            background:#ffffff;
+            box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 25px var(--accent-glow2);
         }
-        .solo-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+        .card-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+        /* لوجو منفرد لما مفيش غلاف */
+        .solo-logo-area{
+            display:flex;justify-content:center;
+            padding:30px 20px 0;
+        }
+        .solo-logo-circle{
+            width:130px;height:130px;border-radius:50%;
+            background:#ffffff;overflow:hidden;
+            border:4px solid var(--accent-light);
+            box-shadow:0 10px 35px rgba(0,0,0,.5),0 0 25px var(--accent-glow2);
+        }
+        .solo-logo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
         .promo-preview{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);height:160px}
         .promo-preview .bg{width:100%;height:100%;background-size:cover;background-position:center}
         .promo-preview .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.7),transparent 60%)}
 
-        /* لوجو الهيدر - دائري */
         .header-logo{
             width:50px;height:50px;border-radius:50%;
             background:#ffffff;padding:2px;
@@ -165,7 +173,7 @@
         .header-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-        @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.float-logo{width:110px;height:110px;bottom:-55px}.solo-logo{width:130px;height:130px}}
+        @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.solo-logo-circle{width:115px;height:115px}}
     </style>
 </head>
 <body class="font-cairo">
@@ -187,6 +195,7 @@
     <div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="particles"></div>
     <div id="toast" class="toast-msg"></div>
 
+    <!-- وضع التعديل -->
     <div id="editorMode" style="display:none" class="relative z-10">
         <header class="py-6 px-4 text-center fade-up">
             <div class="flex items-center justify-center gap-4 mb-2">
@@ -199,41 +208,25 @@
         <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
             <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
                 <div class="glass rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة
-                    </h2>
+                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2>
                     <div class="flex gap-5 items-start mb-4">
                         <div>
                             <div class="logo-zone" onclick="document.getElementById('logoInput').click()">
-                                <div id="logoPlaceholder" class="text-center">
-                                    <i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i>
-                                    <p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p>
-                                </div>
+                                <div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div>
                                 <img id="logoPreviewThumb" src="" style="display:none">
                                 <div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div>
                             </div>
                             <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
                         </div>
                         <div class="flex-1 space-y-3">
-                            <div>
-                                <label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label>
-                                <input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="updatePreview()">
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label>
-                                <input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="updatePreview()">
-                            </div>
+                            <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="updatePreview()"></div>
+                            <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="updatePreview()"></div>
                         </div>
                     </div>
-                    <div>
-                        <label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-link ml-1"></i> رابط اللوجو</label>
-                        <input class="inp inp-ltr" id="logoUrl" placeholder="https://i.ibb.co/xxxx/logo.jpg" oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190">
-                    </div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-link ml-1"></i> رابط اللوجو</label><input class="inp inp-ltr" id="logoUrl" placeholder="https://i.ibb.co/xxxx/logo.jpg" oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190"></div>
                 </div>
                 <div class="glass rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل
-                    </h2>
+                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب (بدون +)</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="updatePreview()"></div>
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> رقم هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="updatePreview()"></div>
@@ -241,37 +234,21 @@
                     </div>
                 </div>
                 <div class="glass rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا
-                    </h2>
+                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="updatePreview()"></div>
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div>
                     </div>
                 </div>
                 <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.25)">
-                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-image text-sm" style="color:var(--gold)"></i></span> صورة الغلاف
-                    </h2>
-                    <div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);color:var(--gold)">
-                        <i class="fas fa-star ml-1"></i> الصورة دي بتظهر كغلاف كبير واللوجو بيطلع عائم عليها - ارفعيها على imgbb.com
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label>
-                        <input class="inp inp-ltr" id="promoUrl" placeholder="https://i.ibb.co/xxxx/promo.png" oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562">
-                    </div>
-                    <div id="promoPreview" class="mt-3" style="display:none">
-                        <div class="promo-preview"><div id="promoPreviewBg" class="bg"></div><div class="ov"></div></div>
-                    </div>
+                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-image text-sm" style="color:var(--gold)"></i></span> صورة الغلاف</h2>
+                    <div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);color:var(--gold)"><i class="fas fa-star ml-1"></i> الصورة دي بتظهر كغلاف واللوجو بيطلع فوقها مباشرة - ارفعيها على imgbb.com</div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label><input class="inp inp-ltr" id="promoUrl" placeholder="https://i.ibb.co/xxxx/promo.png" oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562"></div>
+                    <div id="promoPreview" class="mt-3" style="display:none"><div class="promo-preview"><div id="promoPreviewBg" class="bg"></div><div class="ov"></div></div></div>
                 </div>
                 <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)">
-                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة
-                    </h2>
-                    <div>
-                        <label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label>
-                        <input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app">
-                    </div>
+                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة</h2>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app"></div>
                 </div>
                 <div class="flex flex-wrap gap-3">
                     <button class="btn-green" onclick="saveAndGenerate()"><i class="fas fa-qrcode"></i> حفظ وتوليد QR</button>
@@ -281,9 +258,7 @@
 
             <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
                 <div class="glass rounded-2xl p-5">
-                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة البطاقة
-                    </h2>
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة البطاقة</h2>
                     <div class="flex justify-center">
                         <div class="phone-frame">
                             <div id="cardPreview" class="text-center space-y-3 mt-3">
@@ -303,48 +278,37 @@
                 </div>
 
                 <div id="qrSection" class="glass rounded-2xl p-5" style="display:none">
-                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR
-                    </h2>
+                    <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2>
                     <div class="flex gap-2 mb-5 flex-wrap">
                         <button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة الموقع</button>
                         <button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button>
                         <button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button>
                     </div>
-                    <div id="qrPage" class="text-center">
-                        <div id="qrPageResult"></div><div id="qrPageStatus"></div>
-                        <div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-mobile-screen ml-1"></i> يمسح = يشوف السبلش + الغلاف + اللوجو + البيانات</div>
-                        <button class="btn-outline" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل QR</button>
-                    </div>
-                    <div id="qrWhatsapp" class="text-center" style="display:none">
-                        <div id="qrWaResult"></div><div id="qrWaStatus"></div>
-                        <div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.15);color:var(--whatsapp)"><i class="fab fa-whatsapp ml-1"></i> يفتح واتساب مباشرة</div>
-                        <button class="btn-outline" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل QR</button>
-                    </div>
-                    <div id="qrVcard" class="text-center" style="display:none">
-                        <div id="qrVcardResult"></div><div id="qrVcardStatus"></div>
-                        <div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--muted)"><i class="fas fa-address-card ml-1"></i> كونتاكت يقدر يحفظه</div>
-                        <button class="btn-outline" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل QR</button>
-                    </div>
+                    <div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-mobile-screen ml-1"></i> يمسح = يشوف السبلش + الغلاف + اللوجو + البيانات</div><button class="btn-outline" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل QR</button></div>
+                    <div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.15);color:var(--whatsapp)"><i class="fab fa-whatsapp ml-1"></i> يفتح واتساب مباشرة</div><button class="btn-outline" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل QR</button></div>
+                    <div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><div class="p-3 rounded-xl text-xs mt-3 mb-3" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--muted)"><i class="fas fa-address-card ml-1"></i> كونتاكت يقدر يحفظه</div><button class="btn-outline" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل QR</button></div>
                 </div>
             </aside>
         </main>
     </div>
 
+    <!-- ===== وضع العرض - اللوجو فوق الجزء الأخضر ===== -->
     <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none">
         <div class="view-card w-full max-w-md fade-up">
+            <!-- الغلاف -->
             <div id="viewPromoCover" class="promo-cover" style="display:none">
                 <div id="viewPromoBg" class="bg"></div>
                 <div class="grad"></div>
-                <div id="viewFloatLogo" class="float-logo">
-                    <img id="viewFloatLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
+            </div>
+
+            <!-- اللوجو فوق المحتوى مباشرة -->
+            <div id="viewLogoArea" class="card-logo-area" style="display:none">
+                <div class="card-logo-circle">
+                    <img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'">
                 </div>
             </div>
-            <div id="viewSoloLogo" style="display:none" class="pt-8 px-8">
-                <div class="solo-logo">
-                    <img id="viewSoloLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
-                </div>
-            </div>
+
+            <!-- المحتوى -->
             <div class="p-8 text-center" id="viewContent">
                 <h1 class="text-2xl font-black mb-1" id="viewName"></h1>
                 <p class="text-sm mb-5" id="viewDesc" style="color:var(--muted)"></p>
@@ -363,253 +327,90 @@
         function cleanPhone(n){if(!n)return'';return n.trim().replace(/[^0-9+]/g,'');}
 
         var splashGone=false,pendingViewData=null;
-        function hideSplash(){
-            if(splashGone)return;splashGone=true;
-            var s=document.getElementById('splash');if(!s)return;
-            s.classList.add('fade-out');
-            setTimeout(function(){
-                if(s&&s.parentNode)s.parentNode.removeChild(s);
-                if(pendingViewData)showViewMode(pendingViewData);
-                else document.getElementById('editorMode').style.display='';
-            },700);
-        }
+        function hideSplash(){if(splashGone)return;splashGone=true;var s=document.getElementById('splash');if(!s)return;s.classList.add('fade-out');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);if(pendingViewData)showViewMode(pendingViewData);else document.getElementById('editorMode').style.display='';},700);}
         function skipSplash(){hideSplash();}
 
-        (function(){
-            var c=document.getElementById('splashParticles');
-            for(var i=0;i<30;i++){
-                var p=document.createElement('div');p.className='splash-particle';
-                p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';
-                p.style.setProperty('--dur',(3+Math.random()*4)+'s');
-                p.style.setProperty('--delay',(Math.random()*3)+'s');
-                p.style.setProperty('--tx',(Math.random()*80-40)+'px');
-                p.style.setProperty('--ty',(Math.random()*80-40)+'px');
-                var cl=['var(--accent-light)','var(--gold)','rgba(255,255,255,.6)'];
-                p.style.background=cl[Math.floor(Math.random()*cl.length)];
-                p.style.width=p.style.height=(2+Math.random()*4)+'px';
-                c.appendChild(p);
-            }
-        })();
+        (function(){var c=document.getElementById('splashParticles');for(var i=0;i<30;i++){var p=document.createElement('div');p.className='splash-particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--dur',(3+Math.random()*4)+'s');p.style.setProperty('--delay',(Math.random()*3)+'s');p.style.setProperty('--tx',(Math.random()*80-40)+'px');p.style.setProperty('--ty',(Math.random()*80-40)+'px');var cl=['var(--accent-light)','var(--gold)','rgba(255,255,255,.6)'];p.style.background=cl[Math.floor(Math.random()*cl.length)];p.style.width=p.style.height=(2+Math.random()*4)+'px';c.appendChild(p);}})();
 
-        setTimeout(hideSplash,3500);
-        setTimeout(function(){if(!splashGone)hideSplash();},5000);
+        setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},5000);
 
-        (function(){
-            var c=document.getElementById('particles');
-            for(var i=0;i<15;i++){
-                var p=document.createElement('div');p.className='particle';
-                p.style.left=Math.random()*100+'%';
-                p.style.setProperty('--dur',(14+Math.random()*20)+'s');
-                p.style.setProperty('--delay',(Math.random()*15)+'s');
-                p.style.width=p.style.height=(1.5+Math.random()*2)+'px';
-                c.appendChild(p);
-            }
-        })();
+        (function(){var c=document.getElementById('particles');for(var i=0;i<15;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.setProperty('--dur',(14+Math.random()*20)+'s');p.style.setProperty('--delay',(Math.random()*15)+'s');p.style.width=p.style.height=(1.5+Math.random()*2)+'px';c.appendChild(p);}})();
 
         var logoBase64='';
 
-        function getFormData(){
-            return{
-                name:document.getElementById('companyName').value.trim(),
-                desc:document.getElementById('companyDesc').value.trim(),
-                logoUrl:document.getElementById('logoUrl').value.trim(),
-                promoUrl:document.getElementById('promoUrl').value.trim(),
-                whatsapp:document.getElementById('whatsapp').value.trim(),
-                phone1:document.getElementById('phone1').value.trim(),
-                phone2:document.getElementById('phone2').value.trim(),
-                facebook:document.getElementById('facebook').value.trim(),
-                tiktok:document.getElementById('tiktok').value.trim()
-            };
-        }
+        function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),logoUrl:document.getElementById('logoUrl').value.trim(),promoUrl:document.getElementById('promoUrl').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
 
-        function setFormData(d){
-            if(!d)return;
-            document.getElementById('companyName').value=d.name||'';
-            document.getElementById('companyDesc').value=d.desc||'';
-            document.getElementById('logoUrl').value=d.logoUrl||'';
-            document.getElementById('promoUrl').value=d.promoUrl||'';
-            document.getElementById('whatsapp').value=d.whatsapp||'';
-            document.getElementById('phone1').value=d.phone1||'';
-            document.getElementById('phone2').value=d.phone2||'';
-            document.getElementById('facebook').value=d.facebook||'';
-            document.getElementById('tiktok').value=d.tiktok||'';
-            if(d.logoBase64){
-                logoBase64=d.logoBase64;
-                document.getElementById('logoPreviewThumb').src=logoBase64;
-                document.getElementById('logoPreviewThumb').style.display='block';
-                document.getElementById('logoPlaceholder').style.display='none';
-            }
-            updatePreview();
-        }
+        function setFormData(d){if(!d)return;document.getElementById('companyName').value=d.name||'';document.getElementById('companyDesc').value=d.desc||'';document.getElementById('logoUrl').value=d.logoUrl||'';document.getElementById('promoUrl').value=d.promoUrl||'';document.getElementById('whatsapp').value=d.whatsapp||'';document.getElementById('phone1').value=d.phone1||'';document.getElementById('phone2').value=d.phone2||'';document.getElementById('facebook').value=d.facebook||'';document.getElementById('tiktok').value=d.tiktok||'';if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
-        function handleLogoUpload(e){
-            var f=e.target.files[0];if(!f)return;
-            var r=new FileReader();
-            r.onload=function(ev){
-                logoBase64=ev.target.result;
-                document.getElementById('logoPreviewThumb').src=logoBase64;
-                document.getElementById('logoPreviewThumb').style.display='block';
-                document.getElementById('logoPlaceholder').style.display='none';
-                updatePreview();
-            };
-            r.readAsDataURL(f);
-        }
+        function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){logoBase64=ev.target.result;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};r.readAsDataURL(f);}
 
-        function makeQR(text,containerId,statusId,darkColor){
-            var container=document.getElementById(containerId),status=document.getElementById(statusId);
-            darkColor=darkColor||'#061A12';if(!container)return;
-            try{
-                var qr=qrcode(0,'L');qr.addData(text);qr.make();
-                var mc=qr.getModuleCount(),cellSize=Math.max(2,Math.floor(196/mc)),margin=12,size=mc*cellSize+margin*2;
-                var cv=document.createElement('canvas');cv.width=size;cv.height=size;
-                var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);
-                ctx.fillStyle=darkColor;
-                for(var r=0;r<mc;r++){for(var c=0;c<mc;c++){if(qr.isDark(r,c)){ctx.fillRect(margin+c*cellSize,margin+r*cellSize,cellSize,cellSize);}}}
-                var dataURL=cv.toDataURL('image/png');
-                container.innerHTML='';
-                var img=document.createElement('img');img.src=dataURL;img.style.cssText='width:196px;height:196px;border-radius:12px;image-rendering:pixelated';
-                container.appendChild(img);container.className='qr-result';
-                if(status)status.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم التوليد</span>';
-                return true;
-            }catch(e){
-                container.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>البيانات كبيرة</p></div>';container.className='';
-                if(status)status.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;
-            }
-        }
+        function makeQR(text,containerId,statusId,darkColor){var container=document.getElementById(containerId),status=document.getElementById(statusId);darkColor=darkColor||'#061A12';if(!container)return;try{var qr=qrcode(0,'L');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cellSize=Math.max(2,Math.floor(196/mc)),margin=12,size=mc*cellSize+margin*2;var cv=document.createElement('canvas');cv.width=size;cv.height=size;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);ctx.fillStyle=darkColor;for(var r=0;r<mc;r++){for(var c=0;c<mc;c++){if(qr.isDark(r,c)){ctx.fillRect(margin+c*cellSize,margin+r*cellSize,cellSize,cellSize);}}}var dataURL=cv.toDataURL('image/png');container.innerHTML='';var img=document.createElement('img');img.src=dataURL;img.style.cssText='width:196px;height:196px;border-radius:12px;image-rendering:pixelated';container.appendChild(img);container.className='qr-result';if(status)status.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم التوليد</span>';return true;}catch(e){container.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>البيانات كبيرة</p></div>';container.className='';if(status)status.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;}}
 
-        function downloadQR(containerId,filename){
-            var container=document.getElementById(containerId),img=container?container.querySelector('img'):null;
-            if(!img||!img.src){showToast('QR مش جاهز');return;}
-            var a=document.createElement('a');a.download=filename;a.href=img.src;
-            document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');
-        }
+        function downloadQR(containerId,filename){var container=document.getElementById(containerId),img=container?container.querySelector('img'):null;if(!img||!img.src){showToast('QR مش جاهز');return;}var a=document.createElement('a');a.download=filename;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
 
-        function updatePreview(){
-            var d=getFormData();
-            document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';
-            document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';
-            var ls=logoBase64||d.logoUrl;
-            var logoImg=document.getElementById('previewLogoImg');
-            var logoIcon=document.getElementById('previewLogoIcon');
-            if(ls){logoImg.src=ls;logoImg.style.display='block';logoIcon.style.display='none';}
-            else{logoImg.style.display='none';logoIcon.style.display='';}
-            if(d.promoUrl){
-                document.getElementById('promoPreviewBg').style.backgroundImage='url('+d.promoUrl+')';
-                document.getElementById('promoPreview').style.display='block';
-            }else{document.getElementById('promoPreview').style.display='none';}
-            var se=document.getElementById('previewSocials');se.innerHTML='';
-            [{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb'},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk'}].forEach(function(s){
-                if(s.url){var a=document.createElement('a');a.href=s.url;a.target='_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}
-            });
-            var ce=document.getElementById('previewContact');ce.innerHTML='';
-            if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';
-            if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';
-            var wb=document.getElementById('previewWaBtn');var waNum=cleanWhatsApp(d.whatsapp);
-            if(waNum){wb.href='https://wa.me/'+waNum;wb.style.display='flex';}else{wb.style.display='none';}
-        }
+        function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoBase64||d.logoUrl;var logoImg=document.getElementById('previewLogoImg');var logoIcon=document.getElementById('previewLogoIcon');if(ls){logoImg.src=ls;logoImg.style.display='block';logoIcon.style.display='none';}else{logoImg.style.display='none';logoIcon.style.display='';}if(d.promoUrl){document.getElementById('promoPreviewBg').style.backgroundImage='url('+d.promoUrl+')';document.getElementById('promoPreview').style.display='block';}else{document.getElementById('promoPreview').style.display='none';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb'},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk'}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.url;a.target='_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';var wb=document.getElementById('previewWaBtn');var waNum=cleanWhatsApp(d.whatsapp);if(waNum){wb.href='https://wa.me/'+waNum;wb.style.display='flex';}else{wb.style.display='none';}}
 
-        function generateVCard(d){
-            var v='BEGIN:VCARD\nVERSION:3.0\n';
-            v+='FN:'+(d.name||'شركة')+'\n';v+='ORG:'+(d.name||'شركة')+'\n';
-            if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';
-            if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';
-            if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';
-            if(d.logoUrl)v+='PHOTO;VALUE=uri:'+d.logoUrl+'\n';
-            if(d.facebook)v+='URL:'+d.facebook+'\n';
-            if(d.tiktok)v+='URL:'+d.tiktok+'\n';
-            if(d.desc)v+='NOTE:'+d.desc+'\n';
-            v+='END:VCARD';return v;
-        }
+        function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\n';v+='FN:'+(d.name||'شركة')+'\n';v+='ORG:'+(d.name||'شركة')+'\n';if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.logoUrl)v+='PHOTO;VALUE=uri:'+d.logoUrl+'\n';if(d.facebook)v+='URL:'+d.facebook+'\n';if(d.tiktok)v+='URL:'+d.tiktok+'\n';if(d.desc)v+='NOTE:'+d.desc+'\n';v+='END:VCARD';return v;}
 
-        function saveAndGenerate(){
-            var d=getFormData();
-            if(!d.name){showToast('أدخلي اسم الشركة');document.getElementById('companyName').focus();return;}
-            var waNum=cleanWhatsApp(d.whatsapp);
-            if(d.whatsapp&&waNum.length<10){showToast('رقم الواتساب مش صح');return;}
-            var saveData=Object.assign({},d,{logoBase64:logoBase64});
-            localStorage.setItem('businessCardData',JSON.stringify(saveData));
-            document.getElementById('qrSection').style.display='block';
-            document.getElementById('qrSection').classList.add('fade-up');
-            var pageUrl=document.getElementById('pageUrl').value.trim();
-            if(pageUrl){
-                var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,facebook:d.facebook,tiktok:d.tiktok};
-                var encoded=safeEncode(JSON.stringify(dataForQR));
-                makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12');
-            }else{
-                document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';
-                document.getElementById('qrPageStatus').innerHTML='';
-            }
-            if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54');}
-            else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
-            makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12');
-            showToast('تم توليد أكواد QR');
-            setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);
-        }
+        function saveAndGenerate(){var d=getFormData();if(!d.name){showToast('أدخلي اسم الشركة');document.getElementById('companyName').focus();return;}var waNum=cleanWhatsApp(d.whatsapp);if(d.whatsapp&&waNum.length<10){showToast('رقم الواتساب مش صح');return;}var saveData=Object.assign({},d,{logoBase64:logoBase64});localStorage.setItem('businessCardData',JSON.stringify(saveData));document.getElementById('qrSection').style.display='block';document.getElementById('qrSection').classList.add('fade-up');var pageUrl=document.getElementById('pageUrl').value.trim();if(pageUrl){var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,facebook:d.facebook,tiktok:d.tiktok};var encoded=safeEncode(JSON.stringify(dataForQR));makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12');}else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54');}else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12');showToast('تم توليد أكواد QR');setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);}
 
-        function switchQRTab(tab){
-            document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});
-            document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');
-            document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';
-            document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';
-            document.getElementById('qrPage').style.display=tab==='page'?'':'none';
-        }
+        function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
 
-        function showToast(msg){
-            var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-            setTimeout(function(){t.classList.remove('show');},2500);
-        }
+        function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
-        function resetForm(){
-            document.querySelectorAll('.inp').forEach(function(i){i.value='';});
-            logoBase64='';
-            document.getElementById('logoPreviewThumb').style.display='none';
-            document.getElementById('logoPlaceholder').style.display='';
-            document.getElementById('qrSection').style.display='none';
-            document.getElementById('promoPreview').style.display='none';
-            localStorage.removeItem('businessCardData');updatePreview();showToast('تم مسح البيانات');
-        }
+        function resetForm(){document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoBase64='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';document.getElementById('qrSection').style.display='none';document.getElementById('promoPreview').style.display='none';localStorage.removeItem('businessCardData');updatePreview();showToast('تم مسح البيانات');}
 
+        /* ===== وضع العرض - اللوجو فوق الجزء الأخضر ===== */
         function showViewMode(data){
             document.getElementById('editorMode').style.display='none';
-            var ls=data.logoUrl||'',ps=data.promoUrl||'';
+            var ls=data.logoUrl||'';
+            var ps=data.promoUrl||'';
+
             document.getElementById('viewName').textContent=data.name||'';
             document.getElementById('viewDesc').textContent=data.desc||'';
+
+            /* الغلاف */
             if(ps){
                 document.getElementById('viewPromoCover').style.display='block';
                 document.getElementById('viewPromoBg').style.backgroundImage='url('+ps+')';
-                document.getElementById('viewSoloLogo').style.display='none';
-                if(ls){document.getElementById('viewFloatLogoImg').src=ls;document.getElementById('viewFloatLogo').style.display='block';}
-                else{document.getElementById('viewFloatLogo').style.display='none';}
-                document.getElementById('viewContent').style.paddingTop='70px';
             }else{
                 document.getElementById('viewPromoCover').style.display='none';
-                if(ls){document.getElementById('viewSoloLogo').style.display='block';document.getElementById('viewSoloLogoImg').src=ls;}
-                else{document.getElementById('viewSoloLogo').style.display='none';}
-                document.getElementById('viewContent').style.paddingTop='0';
             }
+
+            /* اللوجو - دايماً فوق المحتوى */
+            var logoArea=document.getElementById('viewLogoArea');
+            if(ls){
+                document.getElementById('viewLogoImg').src=ls;
+                logoArea.style.display='flex';
+                /* لو مفيش غلاف اللوجو ينزل شوية */
+                if(!ps){
+                    logoArea.style.marginTop='0';
+                    logoArea.style.paddingTop='30px';
+                }else{
+                    logoArea.style.marginTop='-55px';
+                    logoArea.style.paddingTop='0';
+                }
+            }else{
+                logoArea.style.display='none';
+            }
+
             var vp=document.getElementById('viewPhones');vp.innerHTML='';
             if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all hover:bg-[rgba(46,204,113,.1)]" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
             if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all hover:bg-[rgba(46,204,113,.1)]" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';
+
             var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';
             var waNum=cleanWhatsApp(data.whatsapp);
             if(waNum)wd.innerHTML='<a href="https://wa.me/'+waNum+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
+
             var vs=document.getElementById('viewSocials');vs.innerHTML='';
             [{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb'},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk'}].forEach(function(s){
                 if(s.url){var a=document.createElement('a');a.href=s.url;a.target='_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vs.appendChild(a);}
             });
+
             document.getElementById('viewMode').style.display='flex';
         }
 
-        (function init(){
-            var urlParams=new URLSearchParams(window.location.search);
-            var dataParam=urlParams.get('d');
-            if(dataParam){
-                try{var jsonStr=safeDecode(dataParam);var data=JSON.parse(jsonStr);if(data&&data.name){pendingViewData=data;return;}}catch(e){}
-            }
-            var saved=localStorage.getItem('businessCardData');
-            if(saved){try{setFormData(JSON.parse(saved));}catch(e){}}
-            updatePreview();
-        })();
+        (function init(){var urlParams=new URLSearchParams(window.location.search);var dataParam=urlParams.get('d');if(dataParam){try{var jsonStr=safeDecode(dataParam);var data=JSON.parse(jsonStr);if(data&&data.name){pendingViewData=data;return;}}catch(e){}}var saved=localStorage.getItem('businessCardData');if(saved){try{setFormData(JSON.parse(saved));}catch(e){}}updatePreview();})();
     </script>
 </body>
 </html>
