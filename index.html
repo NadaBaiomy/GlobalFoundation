@@ -14,7 +14,6 @@
         :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366;--email:#EA4335}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
         #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .7s ease,visibility .7s ease}
         #splash.fade-out{opacity:0;visibility:hidden;pointer-events:none}
         .splash-rings{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
@@ -58,7 +57,7 @@
         .logo-zone:hover .overlay{opacity:1}
         .soc-icon{width:50px;height:50px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;transition:all .3s;cursor:pointer;text-decoration:none;color:#fff}
         .soc-icon:hover{transform:translateY(-4px) scale(1.1)}
-        .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-wa{background:var(--whatsapp)}.soc-em{background:var(--email)}
+        .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-em{background:var(--email)}
         .phone-frame{width:300px;background:linear-gradient(160deg,#0F3325,#081A12);border-radius:30px;border:2.5px solid rgba(46,204,113,.15);padding:30px 18px 24px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px var(--accent-glow2)}
         .phone-frame::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:65px;height:4px;background:rgba(46,204,113,.2);border-radius:2px}
         .green-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));border-radius:2px}
@@ -96,6 +95,25 @@
         .promo-preview .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.7),transparent 60%)}
         .header-logo{width:50px;height:50px;border-radius:50%;background:#ffffff;padding:2px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--accent-light)}
         .header-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+        /* ===== كروت الخدمات ===== */
+        .svc-card{
+            border-radius:16px;overflow:hidden;position:relative;
+            border:1px solid var(--border);transition:all .3s;
+            background:var(--card);
+        }
+        .svc-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 15px var(--accent-glow2);border-color:var(--accent-light)}
+        .svc-card .svc-img{width:100%;height:140px;object-fit:cover;display:block}
+        .svc-card .svc-body{padding:12px 14px;text-align:center}
+        .svc-card .svc-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+        .svc-card .svc-sub{font-size:11px;color:var(--muted)}
+
+        /* كروت الخدمات في المعاينة الصغيرة */
+        .svc-mini{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--card);transition:all .3s}
+        .svc-mini .svc-img{width:100%;height:70px;object-fit:cover;display:block}
+        .svc-mini .svc-body{padding:6px 8px;text-align:center}
+        .svc-mini .svc-title{font-size:10px;font-weight:700;color:var(--text)}
+
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
         @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}}
     </style>
@@ -147,9 +165,45 @@
                         <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div>
                     </div>
                 </div>
+
+                <!-- ===== قسم الخدمات ===== -->
+                <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)">
+                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2>
+                    <div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);color:var(--gold)"><i class="fas fa-star ml-1"></i> الصور دي بتظهر جوا البطاقة ككروت خدمات - رفعي الصور على imgbb.com وحطي الرابط</div>
+                    <div class="space-y-4">
+                        <!-- خدمة 1 -->
+                        <div class="p-4 rounded-xl" style="background:rgba(6,26,18,.5);border:1px solid var(--border)">
+                            <div class="flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-utensils text-xs" style="color:var(--accent-light)"></i></span><span class="text-sm font-bold">خدمة 1</span></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">عنوان الخدمة</label><input class="inp" id="svc1Title" placeholder="خدمات الأغذية" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="svc1Desc" placeholder="أدوات تغليف ومستلزمات مطاعم" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label><input class="inp inp-ltr" id="svc1Img" placeholder="https://i.ibb.co/..." oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/0bac471f-6f1d-468b-88d0-12357b1a4877.png?auth_key=1879122962-66fc6f23e1944f92a0bfa0899fe8050e-0-86e087db1aa0677669e37b29464d0a66"></div>
+                            </div>
+                        </div>
+                        <!-- خدمة 2 -->
+                        <div class="p-4 rounded-xl" style="background:rgba(6,26,18,.5);border:1px solid var(--border)">
+                            <div class="flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-spray-can-sparkles text-xs" style="color:var(--accent-light)"></i></span><span class="text-sm font-bold">خدمة 2</span></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">عنوان الخدمة</label><input class="inp" id="svc2Title" placeholder="خدمات التنظيف" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="svc2Desc" placeholder="مواد تنظيف ومستلزمات صحية" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label><input class="inp inp-ltr" id="svc2Img" placeholder="https://i.ibb.co/..." oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/cacab090-2cfb-484b-8c1d-3986993f5563.png?auth_key=1879122962-ebf8c676aff44fdf9639ad6054986789-0-3a86eb0b5a98a34e1b021b13541b8d2d"></div>
+                            </div>
+                        </div>
+                        <!-- خدمة 3 -->
+                        <div class="p-4 rounded-xl" style="background:rgba(6,26,18,.5);border:1px solid var(--border)">
+                            <div class="flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-pen-ruler text-xs" style="color:var(--accent-light)"></i></span><span class="text-sm font-bold">خدمة 3</span></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">عنوان الخدمة</label><input class="inp" id="svc3Title" placeholder="المكتبة التعليمية" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="svc3Desc" placeholder="ومستلزمات مكتبية" oninput="updatePreview()"></div>
+                                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label><input class="inp inp-ltr" id="svc3Img" placeholder="https://i.ibb.co/..." oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/091b0de2-232c-47dc-84c5-dd47ee0c0cfe.png?auth_key=1879122962-5d5c33a4069a48dc8fb0e227b1c44af6-0-7235479ba1e596d6bdca745cce26aa95"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.25)">
                     <h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-image text-sm" style="color:var(--gold)"></i></span> صورة الغلاف</h2>
-                    <div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);color:var(--gold)"><i class="fas fa-star ml-1"></i> الصورة دي بتظهر كغلاف واللوجو بيطلع فوقها مباشرة - ارفعيها على imgbb.com</div>
+                    <div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);color:var(--gold)"><i class="fas fa-star ml-1"></i> الصورة دي بتظهر كغلاف واللوجو بيطلع فوقها مباشرة</div>
                     <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الصورة</label><input class="inp inp-ltr" id="promoUrl" placeholder="https://i.ibb.co/xxxx/promo.png" oninput="updatePreview()" value="https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562"></div>
                     <div id="promoPreview" class="mt-3" style="display:none"><div class="promo-preview"><div id="promoPreviewBg" class="bg"></div><div class="ov"></div></div></div>
                 </div>
@@ -166,7 +220,17 @@
             <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
                 <div class="glass rounded-2xl p-5">
                     <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة البطاقة</h2>
-                    <div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer" id="previewLogoWrap"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName" style="color:var(--text)">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div>
+                    <div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3">
+                        <div class="preview-logo-wrap logo-shimmer" id="previewLogoWrap"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div>
+                        <h3 class="font-bold text-base" id="previewName" style="color:var(--text)">المؤسسة العالمية للتوريدات</h3>
+                        <p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p>
+                        <div class="green-bar w-10 mx-auto"></div>
+                        <div id="previewSocials" class="flex justify-center gap-2 mt-2"></div>
+                        <div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div>
+                        <!-- الخدمات في المعاينة -->
+                        <div id="previewServices" class="space-y-2"></div>
+                        <a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>
+                    </div></div></div>
                 </div>
                 <div id="qrSection" class="glass rounded-2xl p-5" style="display:none">
                     <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2>
@@ -179,11 +243,21 @@
         </main>
     </div>
 
+    <!-- وضع العرض -->
     <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none">
         <div class="view-card w-full max-w-md fade-up">
             <div id="viewPromoCover" class="promo-cover" style="display:none"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div>
             <div id="viewLogoArea" class="card-logo-area" style="display:none"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div>
-            <div class="p-8 text-center" id="viewContent"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-5" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-6"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div>
+            <div class="p-8 text-center" id="viewContent">
+                <h1 class="text-2xl font-black mb-1" id="viewName"></h1>
+                <p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p>
+                <div class="green-bar w-20 mx-auto mb-5"></div>
+                <!-- الخدمات -->
+                <div id="viewServices" class="mb-5"></div>
+                <div id="viewPhones" class="space-y-2 text-sm mb-5"></div>
+                <div id="viewWhatsApp" class="mb-5"></div>
+                <div id="viewSocials" class="flex justify-center gap-4"></div>
+            </div>
         </div>
     </div>
 
@@ -202,89 +276,81 @@
 
         var logoBase64='';
 
-        function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),logoUrl:document.getElementById('logoUrl').value.trim(),promoUrl:document.getElementById('promoUrl').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),email:document.getElementById('email').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
+        /* بيانات الخدمات الافتراضية */
+        var defaultServices=[
+            {title:'خدمات الأغذية',desc:'أدوات تغليف ومستلزمات مطاعم',img:'https://z-cdn-media.chatglm.cn/files/0bac471f-6f1d-468b-88d0-12357b1a4877.png?auth_key=1879122962-66fc6f23e1944f92a0bfa0899fe8050e-0-86e087db1aa0677669e37b29464d0a66'},
+            {title:'خدمات التنظيف',desc:'مواد تنظيف ومستلزمات صحية',img:'https://z-cdn-media.chatglm.cn/files/cacab090-2cfb-484b-8c1d-3986993f5563.png?auth_key=1879122962-ebf8c676aff44fdf9639ad6054986789-0-3a86eb0b5a98a34e1b021b13541b8d2d'},
+            {title:'المكتبة التعليمية',desc:'ومستلزمات مكتبية',img:'https://z-cdn-media.chatglm.cn/files/091b0de2-232c-47dc-84c5-dd47ee0c0cfe.png?auth_key=1879122962-5d5c33a4069a48dc8fb0e227b1c44af6-0-7235479ba1e596d6bdca745cce26aa95'}
+        ];
 
-        function setFormData(d){if(!d)return;document.getElementById('companyName').value=d.name||'';document.getElementById('companyDesc').value=d.desc||'';document.getElementById('logoUrl').value=d.logoUrl||'';document.getElementById('promoUrl').value=d.promoUrl||'';document.getElementById('whatsapp').value=d.whatsapp||'';document.getElementById('phone1').value=d.phone1||'';document.getElementById('phone2').value=d.phone2||'';document.getElementById('email').value=d.email||'';document.getElementById('facebook').value=d.facebook||'';document.getElementById('tiktok').value=d.tiktok||'';if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
+        function getFormData(){return{
+            name:document.getElementById('companyName').value.trim(),
+            desc:document.getElementById('companyDesc').value.trim(),
+            logoUrl:document.getElementById('logoUrl').value.trim(),
+            promoUrl:document.getElementById('promoUrl').value.trim(),
+            whatsapp:document.getElementById('whatsapp').value.trim(),
+            phone1:document.getElementById('phone1').value.trim(),
+            phone2:document.getElementById('phone2').value.trim(),
+            email:document.getElementById('email').value.trim(),
+            facebook:document.getElementById('facebook').value.trim(),
+            tiktok:document.getElementById('tiktok').value.trim(),
+            svc1Title:document.getElementById('svc1Title').value.trim(),
+            svc1Desc:document.getElementById('svc1Desc').value.trim(),
+            svc1Img:document.getElementById('svc1Img').value.trim(),
+            svc2Title:document.getElementById('svc2Title').value.trim(),
+            svc2Desc:document.getElementById('svc2Desc').value.trim(),
+            svc2Img:document.getElementById('svc2Img').value.trim(),
+            svc3Title:document.getElementById('svc3Title').value.trim(),
+            svc3Desc:document.getElementById('svc3Desc').value.trim(),
+            svc3Img:document.getElementById('svc3Img').value.trim()
+        };}
+
+        function getServices(d){
+            var svcs=[];
+            [{t:d.svc1Title,ds:d.svc1Desc,img:d.svc1Img,def:defaultServices[0]},{t:d.svc2Title,ds:d.svc2Desc,img:d.svc2Img,def:defaultServices[1]},{t:d.svc3Title,ds:d.svc3Desc,img:d.svc3Img,def:defaultServices[2]}].forEach(function(s){
+                var t=s.t||s.def.title;var ds=s.ds||s.def.desc;var img=s.img||s.def.img;
+                if(t||img)svcs.push({title:t,desc:ds,img:img});
+            });
+            return svcs;
+        }
+
+        function setFormData(d){if(!d)return;document.getElementById('companyName').value=d.name||'';document.getElementById('companyDesc').value=d.desc||'';document.getElementById('logoUrl').value=d.logoUrl||'';document.getElementById('promoUrl').value=d.promoUrl||'';document.getElementById('whatsapp').value=d.whatsapp||'';document.getElementById('phone1').value=d.phone1||'';document.getElementById('phone2').value=d.phone2||'';document.getElementById('email').value=d.email||'';document.getElementById('facebook').value=d.facebook||'';document.getElementById('tiktok').value=d.tiktok||'';document.getElementById('svc1Title').value=d.svc1Title||'';document.getElementById('svc1Desc').value=d.svc1Desc||'';document.getElementById('svc1Img').value=d.svc1Img||'';document.getElementById('svc2Title').value=d.svc2Title||'';document.getElementById('svc2Desc').value=d.svc2Desc||'';document.getElementById('svc2Img').value=d.svc2Img||'';document.getElementById('svc3Title').value=d.svc3Title||'';document.getElementById('svc3Desc').value=d.svc3Desc||'';document.getElementById('svc3Img').value=d.svc3Img||'';if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
         function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){logoBase64=ev.target.result;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};r.readAsDataURL(f);}
 
-        /* ===== QR مع اللوجو في النص ===== */
+        /* ===== QR مع اللوجو ===== */
         function makeQR(text,containerId,statusId,darkColor,logoSrc){
-            var container=document.getElementById(containerId),status=document.getElementById(statusId);
-            darkColor=darkColor||'#061A12';if(!container)return;
-            try{
-                /* مستوى تصحيح H عشان اللوجو في النص */
-                var qr=qrcode(0,'H');qr.addData(text);qr.make();
-                var mc=qr.getModuleCount(),cellSize=Math.max(2,Math.floor(196/mc)),margin=12,size=mc*cellSize+margin*2;
-                var cv=document.createElement('canvas');cv.width=size;cv.height=size;
-                var ctx=cv.getContext('2d');
-                ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);
-                ctx.fillStyle=darkColor;
-                for(var r=0;r<mc;r++){for(var c=0;c<mc;c++){if(qr.isDark(r,c)){ctx.fillRect(margin+c*cellSize,margin+r*cellSize,cellSize,cellSize);}}}
-
-                /* لو فيه لوجو، ارسمه في النص */
-                if(logoSrc){
-                    var img=new Image();
-                    img.crossOrigin='Anonymous';
-                    img.onload=function(){
-                        var logoSize=size*0.22;
-                        var x=(size-logoSize)/2;
-                        var y=(size-logoSize)/2;
-                        /* خلفية بيضا دائرية تحت اللوجو */
-                        ctx.save();
-                        ctx.beginPath();
-                        ctx.arc(x+logoSize/2,y+logoSize/2,logoSize/2+4,0,Math.PI*2);
-                        ctx.fillStyle='#ffffff';
-                        ctx.fill();
-                        ctx.closePath();
-                        /* قص اللوجو دائري */
-                        ctx.beginPath();
-                        ctx.arc(x+logoSize/2,y+logoSize/2,logoSize/2,0,Math.PI*2);
-                        ctx.closePath();
-                        ctx.clip();
-                        ctx.drawImage(img,x,y,logoSize,logoSize);
-                        ctx.restore();
-                        /* حد أخضر حوالين اللوجو */
-                        ctx.beginPath();
-                        ctx.arc(x+logoSize/2,y+logoSize/2,logoSize/2+1,0,Math.PI*2);
-                        ctx.strokeStyle=darkColor;
-                        ctx.lineWidth=1.5;
-                        ctx.stroke();
-                        finishQR();
-                    };
-                    img.onerror=function(){finishQR();};
-                    img.src=logoSrc;
-                }else{
-                    finishQR();
-                }
-
-                function finishQR(){
-                    try{
-                        var dataURL=cv.toDataURL('image/png');
-                        container.innerHTML='';
-                        var imgEl=document.createElement('img');imgEl.src=dataURL;imgEl.style.cssText='width:196px;height:196px;border-radius:12px;image-rendering:pixelated';
-                        container.appendChild(imgEl);container.className='qr-result';
-                        if(status)status.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم التوليد</span>';
-                    }catch(secErr){
-                        /* لو الصورة من رابط خارجي رفضت، ارسم الـ QR بدون لوجو */
-                        makeQR(text,containerId,statusId,darkColor,null);
-                    }
-                }
-                return true;
-            }catch(e){
-                container.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>البيانات كبيرة</p></div>';container.className='';
-                if(status)status.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;
-            }
+            var container=document.getElementById(containerId),status=document.getElementById(statusId);darkColor=darkColor||'#061A12';if(!container)return;
+            try{var qr=qrcode(0,'H');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cellSize=Math.max(2,Math.floor(196/mc)),margin=12,size=mc*cellSize+margin*2;var cv=document.createElement('canvas');cv.width=size;cv.height=size;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);ctx.fillStyle=darkColor;for(var r=0;r<mc;r++){for(var c=0;c<mc;c++){if(qr.isDark(r,c)){ctx.fillRect(margin+c*cellSize,margin+r*cellSize,cellSize,cellSize);}}}
+            if(logoSrc){var img=new Image();img.crossOrigin='Anonymous';img.onload=function(){var ls=size*0.22,x=(size-ls)/2,y=(size-ls)/2;ctx.save();ctx.beginPath();ctx.arc(x+ls/2,y+ls/2,ls/2+4,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.closePath();ctx.beginPath();ctx.arc(x+ls/2,y+ls/2,ls/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,ls,ls);ctx.restore();ctx.beginPath();ctx.arc(x+ls/2,y+ls/2,ls/2+1,0,Math.PI*2);ctx.strokeStyle=darkColor;ctx.lineWidth=1.5;ctx.stroke();finishQR();};img.onerror=function(){finishQR();};img.src=logoSrc;}else{finishQR();}
+            function finishQR(){try{var dataURL=cv.toDataURL('image/png');container.innerHTML='';var imgEl=document.createElement('img');imgEl.src=dataURL;imgEl.style.cssText='width:196px;height:196px;border-radius:12px;image-rendering:pixelated';container.appendChild(imgEl);container.className='qr-result';if(status)status.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم التوليد</span>';}catch(secErr){makeQR(text,containerId,statusId,darkColor,null);}}return true;}catch(e){container.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>البيانات كبيرة</p></div>';container.className='';if(status)status.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;}
         }
 
         function downloadQR(containerId,filename){var container=document.getElementById(containerId),img=container?container.querySelector('img'):null;if(!img||!img.src){showToast('QR مش جاهز');return;}var a=document.createElement('a');a.download=filename;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
+
+        /* ===== بناء كروت الخدمات ===== */
+        function buildServicesHTML(svcs,mini){
+            if(!svcs||!svcs.length)return'';
+            var cls=mini?'svc-mini':'svc-card';
+            var imgH=mini?'70px':'140px';
+            var h='';
+            svcs.forEach(function(s){
+                if(!s.img)return;
+                h+='<div class="'+cls+'">';
+                h+='<img class="svc-img" src="'+s.img+'" alt="'+(s.title||'')+'" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'" style="height:'+imgH+'">';
+                h+='<div class="svc-body">';
+                if(s.title)h+='<div class="svc-title">'+s.title+'</div>';
+                if(s.desc&&!mini)h+='<div class="svc-sub">'+s.desc+'</div>';
+                h+='</div></div>';
+            });
+            return h;
+        }
 
         function updatePreview(){
             var d=getFormData();
             document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';
             document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';
-            var ls=logoBase64||d.logoUrl;
-            var logoImg=document.getElementById('previewLogoImg');var logoIcon=document.getElementById('previewLogoIcon');
+            var ls=logoBase64||d.logoUrl;var logoImg=document.getElementById('previewLogoImg');var logoIcon=document.getElementById('previewLogoIcon');
             if(ls){logoImg.src=ls;logoImg.style.display='block';logoIcon.style.display='none';}else{logoImg.style.display='none';logoIcon.style.display='';}
             if(d.promoUrl){document.getElementById('promoPreviewBg').style.backgroundImage='url('+d.promoUrl+')';document.getElementById('promoPreview').style.display='block';}else{document.getElementById('promoPreview').style.display='none';}
             var se=document.getElementById('previewSocials');se.innerHTML='';
@@ -293,6 +359,12 @@
             if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';
             if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';
             if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';
+
+            /* الخدمات في المعاينة */
+            var svcs=getServices(d);
+            var ps=document.getElementById('previewServices');
+            if(svcs.length){ps.innerHTML=buildServicesHTML(svcs,true);}else{ps.innerHTML='';}
+
             var wb=document.getElementById('previewWaBtn');var waNum=cleanWhatsApp(d.whatsapp);if(waNum){wb.href='https://wa.me/'+waNum;wb.style.display='flex';}else{wb.style.display='none';}
         }
 
@@ -305,26 +377,14 @@
             if(d.whatsapp&&waNum.length<10){showToast('رقم الواتساب مش صح');return;}
             var saveData=Object.assign({},d,{logoBase64:logoBase64});
             localStorage.setItem('businessCardData',JSON.stringify(saveData));
-            document.getElementById('qrSection').style.display='block';
-            document.getElementById('qrSection').classList.add('fade-up');
-
-            /* مصدر اللوجو (base64 أفضل عشان يتكتب على الكانفاس بدون مشاكل CORS) */
+            document.getElementById('qrSection').style.display='block';document.getElementById('qrSection').classList.add('fade-up');
             var ls=logoBase64||d.logoUrl;
-
             var pageUrl=document.getElementById('pageUrl').value.trim();
-            if(pageUrl){
-                var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok};
-                var encoded=safeEncode(JSON.stringify(dataForQR));
-                makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12',ls);
-            }else{
-                document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';
-                document.getElementById('qrPageStatus').innerHTML='';
-            }
-            if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54',ls);}
-            else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
+            if(pageUrl){var dataForQR={name:d.name,desc:d.desc,logoUrl:d.logoUrl,promoUrl:d.promoUrl,whatsapp:waNum,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,svc1Title:d.svc1Title,svc1Desc:d.svc1Desc,svc1Img:d.svc1Img,svc2Title:d.svc2Title,svc2Desc:d.svc2Desc,svc2Img:d.svc2Img,svc3Title:d.svc3Title,svc3Desc:d.svc3Desc,svc3Img:d.svc3Img};var encoded=safeEncode(JSON.stringify(dataForQR));makeQR(pageUrl+'?d='+encoded,'qrPageResult','qrPageStatus','#061A12',ls);}
+            else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}
+            if(waNum){makeQR('https://wa.me/'+waNum,'qrWaResult','qrWaStatus','#075E54',ls);}else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد رقم واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
             makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);
-            showToast('تم توليد أكواد QR');
-            setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);
+            showToast('تم توليد أكواد QR');setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);
         }
 
         function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
@@ -341,12 +401,20 @@
             if(ps){document.getElementById('viewPromoCover').style.display='block';document.getElementById('viewPromoBg').style.backgroundImage='url('+ps+')';}else{document.getElementById('viewPromoCover').style.display='none';}
             var logoArea=document.getElementById('viewLogoArea');
             if(ls){document.getElementById('viewLogoImg').src=ls;logoArea.style.display='flex';if(!ps){logoArea.style.marginTop='0';logoArea.style.paddingTop='30px';}else{logoArea.style.marginTop='-55px';logoArea.style.paddingTop='0';}}else{logoArea.style.display='none';}
+
+            /* الخدمات */
+            var svcs=getServices(data);
+            var vs=document.getElementById('viewServices');
+            if(svcs.length){
+                vs.innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(svcs,false)+'</div>';
+            }else{vs.innerHTML='';}
+
             var vp=document.getElementById('viewPhones');vp.innerHTML='';
             if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all hover:bg-[rgba(46,204,113,.1)]" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
             if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all hover:bg-[rgba(46,204,113,.1)]" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';
             var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var waNum=cleanWhatsApp(data.whatsapp);if(waNum)wd.innerHTML='<a href="https://wa.me/'+waNum+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
-            var vs=document.getElementById('viewSocials');vs.innerHTML='';
-            [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',isEmail:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',isEmail:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',isEmail:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.isEmail?'mailto:'+s.url:s.url;a.target=s.isEmail?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vs.appendChild(a);}});
+            var vsc=document.getElementById('viewSocials');vsc.innerHTML='';
+            [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',isEmail:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',isEmail:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',isEmail:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.isEmail?'mailto:'+s.url:s.url;a.target=s.isEmail?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});
             document.getElementById('viewMode').style.display='flex';
         }
 
