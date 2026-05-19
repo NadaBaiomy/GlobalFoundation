@@ -9,38 +9,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <!-- مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>tailwind.config={theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
     <style>
         :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366;--email:#EA4335}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-        #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .7s ease,visibility .7s ease}
+        #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .7s,visibility .7s}
         #splash.fade-out{opacity:0;visibility:hidden;pointer-events:none}
         .splash-rings{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
-        .splash-ring{position:absolute;border-radius:50%;border:2px solid transparent;animation:ringPulse 3s ease-in-out infinite}
+        .splash-ring{position:absolute;border-radius:50%;border:2px solid transparent;animation:rp 3s ease-in-out infinite}
         .splash-ring:nth-child(1){width:160px;height:160px;border-color:rgba(46,204,113,.5)}
         .splash-ring:nth-child(2){width:210px;height:210px;border-color:rgba(46,204,113,.3);animation-delay:.5s}
         .splash-ring:nth-child(3){width:260px;height:260px;border-color:rgba(212,168,67,.2);animation-delay:1s}
-        @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:1}}
-        .splash-logo{width:140px;height:140px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;animation:logoEntry 1s cubic-bezier(.34,1.56,.64,1) forwards,logoFloat 3s ease-in-out 1s infinite;opacity:0;transform:scale(.3) rotate(-20deg);box-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2),0 12px 50px rgba(0,0,0,.5);z-index:2;position:relative;overflow:hidden;border:4px solid var(--accent-light);padding:6px}
+        @keyframes rp{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:1}}
+        .splash-logo{width:140px;height:140px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;animation:le 1s cubic-bezier(.34,1.56,.64,1) forwards,lf 3s ease-in-out 1s infinite;opacity:0;transform:scale(.3) rotate(-20deg);box-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);z-index:2;position:relative;overflow:hidden;border:4px solid var(--accent-light);padding:6px}
         .splash-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-        @keyframes logoEntry{to{opacity:1;transform:scale(1) rotate(0)}}
-        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-        .splash-title{margin-top:36px;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--accent-light),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:translateY(20px);animation:textUp .8s ease forwards .6s;text-align:center;padding:0 20px}
-        .splash-sub{margin-top:8px;font-size:14px;color:var(--muted);opacity:0;transform:translateY(15px);animation:textUp .8s ease forwards .9s}
-        .splash-skip{margin-top:20px;font-size:11px;color:var(--muted);opacity:0;animation:textUp .6s ease forwards 2s;letter-spacing:1px}
-        @keyframes textUp{to{opacity:1;transform:translateY(0)}}
-        .splash-bar-wrap{width:200px;height:3px;border-radius:2px;background:rgba(46,204,113,.1);margin-top:30px;overflow:hidden;opacity:0;animation:textUp .6s ease forwards 1.2s}
-        .splash-bar{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));animation:barFill 2s ease forwards 1.4s}
-        @keyframes barFill{to{width:100%}}
-        .splash-particle{position:absolute;border-radius:50%;opacity:0;animation:sPart var(--dur) ease-in-out infinite var(--delay)}
-        @keyframes sPart{0%{transform:translate(0,0) scale(0);opacity:0}20%{opacity:.7}80%{opacity:.7}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
+        @keyframes le{to{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes lf{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .splash-title{margin-top:36px;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--accent-light),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:translateY(20px);animation:tu .8s ease forwards .6s;text-align:center;padding:0 20px}
+        .splash-sub{margin-top:8px;font-size:14px;color:var(--muted);opacity:0;transform:translateY(15px);animation:tu .8s ease forwards .9s}
+        .splash-skip{margin-top:20px;font-size:11px;color:var(--muted);opacity:0;animation:tu .6s ease forwards 2s}
+        @keyframes tu{to{opacity:1;transform:translateY(0)}}
+        .splash-bar-wrap{width:200px;height:3px;border-radius:2px;background:rgba(46,204,113,.1);margin-top:30px;overflow:hidden;opacity:0;animation:tu .6s ease forwards 1.2s}
+        .splash-bar{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));animation:bf 2s ease forwards 1.4s}
+        @keyframes bf{to{width:100%}}
+        .splash-particle{position:absolute;border-radius:50%;opacity:0;animation:sp var(--dur) ease-in-out infinite var(--delay)}
+        @keyframes sp{0%{transform:translate(0,0) scale(0);opacity:0}20%{opacity:.7}80%{opacity:.7}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
         .bg-blob{position:fixed;border-radius:50%;filter:blur(120px);opacity:.08;pointer-events:none;z-index:0}
-        .blob-1{width:500px;height:500px;background:var(--accent-light);top:-180px;right:-180px;animation:bFloat 22s ease-in-out infinite}
-        .blob-2{width:400px;height:400px;background:var(--accent);bottom:-120px;left:-120px;animation:bFloat 18s ease-in-out infinite reverse}
-        @keyframes bFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-40px) scale(1.1)}66%{transform:translate(-30px,30px) scale(.92)}}
-        .particle{position:fixed;width:2px;height:2px;background:var(--accent-light);border-radius:50%;pointer-events:none;z-index:0;opacity:0;animation:pFloat var(--dur) linear infinite var(--delay)}
-        @keyframes pFloat{0%{transform:translateY(100vh);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-10vh);opacity:0}}
+        .blob-1{width:500px;height:500px;background:var(--accent-light);top:-180px;right:-180px;animation:bb 22s ease-in-out infinite}
+        .blob-2{width:400px;height:400px;background:var(--accent);bottom:-120px;left:-120px;animation:bb 18s ease-in-out infinite reverse}
+        @keyframes bb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-40px) scale(1.1)}66%{transform:translate(-30px,30px) scale(.92)}}
         .glass{background:rgba(12,41,29,.7);backdrop-filter:blur(20px);border:1px solid var(--border)}
         .inp{background:rgba(6,26,18,.8);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:12px;font-family:'Cairo';font-size:14px;width:100%;transition:all .3s}
         .inp:focus{outline:none;border-color:var(--accent-light);box-shadow:0 0 0 3px var(--accent-glow)}
@@ -50,7 +50,7 @@
         .btn-green:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
         .btn-outline{background:transparent;color:var(--accent-light);border:1px solid rgba(46,204,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
         .btn-outline:hover{background:var(--accent-glow)}
-        .btn-red{background:transparent;color:#f87171;border:1px solid rgba(248,113,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
+        .btn-red{background:transparent;color:#f87171;border:1px solid rgba(248,113,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;display:inline-flex;align-items:center;gap:6px}
         .logo-zone{width:120px;height:120px;border-radius:50%;border:3px dashed rgba(46,204,113,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;background:#fff;padding:6px}
         .logo-zone:hover{border-color:var(--accent-light);box-shadow:0 0 25px var(--accent-glow)}
         .logo-zone img{width:100%;height:100%;object-fit:contain;border-radius:50%}
@@ -66,16 +66,15 @@
         .preview-logo-wrap img{width:100%;height:100%;object-fit:contain;border-radius:50%}
         .preview-logo-wrap i{font-size:32px;color:var(--muted)}
         .logo-shimmer{position:relative;overflow:hidden}
-        .logo-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%);animation:shimmer 3s ease-in-out infinite}
-        @keyframes shimmer{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
+        .logo-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%);animation:sh 3s ease-in-out infinite}
+        @keyframes sh{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
         .wa-btn{background:var(--whatsapp);color:#fff;font-weight:700;padding:14px 24px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:15px;transition:all .3s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:100%;justify-content:center}
-        .wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,211,102,.3)}
-        .toast-msg{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);padding:14px 28px;border-radius:14px;font-weight:700;z-index:9999;transition:transform .4s ease;pointer-events:none;font-size:14px;text-align:center;max-width:90vw}
+        .toast-msg{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);padding:14px 28px;border-radius:14px;font-weight:700;z-index:9999;transition:transform .4s;pointer-events:none;font-size:14px;text-align:center;max-width:90vw}
         .toast-msg.show{transform:translateX(-50%) translateY(0)}
         .toast-ok{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff}
         .toast-err{background:linear-gradient(135deg,#dc2626,#f87171);color:#fff}
-        .fade-up{animation:fadeUp .6s ease-out both}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        .fade-up{animation:fu .6s ease-out both}
+        @keyframes fu{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
         ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
         .qr-result{width:220px;height:220px;border-radius:14px;background:#fff;padding:12px;display:inline-flex;align-items:center;justify-content:center}
         .qr-result img{width:100%;height:100%;image-rendering:pixelated}
@@ -94,7 +93,6 @@
         .card-logo-circle img{width:100%;height:100%;object-fit:contain;border-radius:50%}
         .header-logo{width:50px;height:50px;border-radius:50%;background:#fff;padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--accent-light)}
         .header-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-
         .svc-card{border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--border);transition:all .35s;background:var(--card);cursor:pointer}
         .svc-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.5),0 0 20px var(--accent-glow2);border-color:var(--accent-light)}
         .svc-card .svc-cover{width:100%;height:200px;position:relative;overflow:hidden}
@@ -103,26 +101,24 @@
         .svc-card .svc-cover .svc-cover-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.85) 0%,rgba(6,26,18,.2) 50%,transparent 100%);z-index:1}
         .svc-card .svc-cover .svc-cover-icon{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.4)}
         .svc-card .svc-body{padding:14px 16px 16px;text-align:center;position:relative;z-index:2;margin-top:-30px}
-        .svc-card .svc-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+        .svc-card .svc-title{font-size:15px;font-weight:800;color:var(--text);text-shadow:0 2px 8px rgba(0,0,0,.5)}
         .svc-card .svc-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px}
         .svc-card .svc-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
         .svc-badge{font-size:10px;padding:3px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
         .svc-badge-imgs{background:rgba(46,204,113,.1);color:var(--accent-light)}
         .svc-badge-pdf{background:rgba(212,168,67,.1);color:var(--gold)}
-
-        .svc-mini{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .3s}
+        .svc-mini{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--card);cursor:pointer}
         .svc-mini .svc-cover{width:100%;height:60px;position:relative;overflow:hidden}
         .svc-mini .svc-cover img{width:100%;height:100%;object-fit:cover}
         .svc-mini .svc-cover .svc-cover-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.7),transparent);z-index:1}
         .svc-mini .svc-body{padding:5px 8px;text-align:center}
-        .svc-mini .svc-title{font-size:9px;font-weight:700;color:var(--text);line-height:1.3}
-
-        .svc-editor-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:rgba(6,26,18,.5);transition:all .3s}
+        .svc-mini .svc-title{font-size:9px;font-weight:700;color:var(--text)}
+        .svc-editor-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:rgba(6,26,18,.5)}
         .svc-editor-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s}
         .svc-editor-header:hover{background:rgba(46,204,113,.04)}
         .svc-editor-header .svc-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
         .svc-editor-header .svc-h-title{font-size:14px;font-weight:700;flex:1}
-        .svc-editor-header .svc-h-desc{font-size:10px;color:var(--muted);display:block;margin-top:1px}
+        .svc-editor-header .svc-h-desc{font-size:10px;color:var(--muted);display:block}
         .svc-editor-header .svc-h-badge{font-size:10px;padding:3px 10px;border-radius:8px;background:rgba(46,204,113,.1);color:var(--accent-light)}
         .svc-editor-header .svc-h-arrow{transition:transform .3s;color:var(--muted);font-size:12px}
         .svc-editor-header.open .svc-h-arrow{transform:rotate(180deg)}
@@ -131,8 +127,7 @@
         .svc-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-bottom:10px}
         .svc-img-thumb{position:relative;width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;border:2px solid var(--accent-light);cursor:pointer}
         .svc-img-thumb img{width:100%;height:100%;object-fit:cover}
-        .svc-img-thumb .del-btn{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;border:none;cursor:pointer;font-size:9px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
-        .svc-img-thumb:hover .del-btn{opacity:1}
+        .svc-img-thumb .del-btn{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;border:none;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center}
         .svc-add-img{width:100%;aspect-ratio:1;border-radius:10px;border:2px dashed rgba(46,204,113,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted);font-size:10px;gap:4px}
         .svc-add-img:hover{border-color:var(--accent-light);background:var(--accent-glow2);color:var(--accent-light)}
         .svc-add-img i{font-size:18px}
@@ -140,14 +135,12 @@
         .svc-pdf-row{display:flex;align-items:center;gap:8px}
         .svc-pdf-row i{color:var(--gold);font-size:18px}
         .svc-pdf-row .pdf-name{flex:1;font-size:12px;color:var(--gold);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-        .svc-pdf-row .pdf-del{background:none;border:none;color:#f87171;cursor:pointer;font-size:14px;padding:4px}
-        .svc-pdf-upload{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted);transition:color .2s}
+        .svc-pdf-row .pdf-del{background:none;border:none;color:#f87171;cursor:pointer;font-size:14px}
+        .svc-pdf-upload{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted)}
         .svc-pdf-upload:hover{color:var(--gold)}
-
         .gallery-overlay{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:opacity .3s}
         .gallery-overlay.show{display:flex;opacity:1}
         .gallery-close{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
-        .gallery-close:hover{background:rgba(255,255,255,.2)}
         .gallery-title{position:absolute;top:20px;right:20px;font-size:18px;font-weight:700;color:#fff;z-index:10}
         .gallery-counter{position:absolute;bottom:80px;font-size:13px;color:rgba(255,255,255,.6);z-index:10}
         .gallery-img-wrap{max-width:90vw;max-height:70vh;display:flex;align-items:center;justify-content:center}
@@ -164,70 +157,70 @@
         .gallery-bottom .g-wa{background:var(--whatsapp);color:#fff}
         .gallery-thumbs{position:absolute;bottom:110px;display:flex;gap:6px;max-width:90vw;overflow-x:auto;padding:6px 10px;z-index:10}
         .gallery-thumbs::-webkit-scrollbar{height:3px}
-        .gallery-thumbs::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
         .gallery-th-item{width:50px;height:50px;border-radius:8px;overflow:hidden;border:2px solid transparent;cursor:pointer;flex-shrink:0}
         .gallery-th-item.active{border-color:var(--accent-light)}
         .gallery-th-item img{width:100%;height:100%;object-fit:cover}
-
-        .storage-bar{height:6px;border-radius:3px;background:rgba(46,204,113,.1);overflow:hidden;margin-top:6px}
-        .storage-bar-fill{height:100%;border-radius:3px;transition:width .5s}
-
-        .upload-status{padding:8px 12px;border-radius:8px;font-size:11px;margin-top:8px;display:none;text-align:center}
-        .upload-status.working{display:block;background:rgba(46,204,113,.08);color:var(--accent-light);border:1px solid rgba(46,204,113,.15)}
-        .upload-status.done{display:block;background:rgba(46,204,113,.12);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
-        .upload-status.fail{display:block;background:rgba(239,68,68,.08);color:#f87171;border:1px solid rgba(239,68,68,.15)}
-
-        @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.gallery-nav{width:36px;height:36px;font-size:14px}.gallery-prev{right:8px}.gallery-next{left:8px}.svc-card .svc-cover{height:160px}}
+        .upload-msg{padding:10px;border-radius:10px;font-size:12px;margin-top:8px;display:none;font-weight:600;text-align:center}
+        .upload-msg.working{display:block;background:rgba(46,204,113,.06);color:var(--accent-light);border:1px solid rgba(46,204,113,.12)}
+        .upload-msg.done{display:block;background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
+        .upload-msg.fail{display:block;background:rgba(239,68,68,.06);color:#f87171;border:1px solid rgba(239,68,68,.12)}
+        @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.gallery-nav{width:36px;height:36px}.svc-card .svc-cover{height:160px}}
     </style>
 </head>
 <body class="font-cairo">
-    <div id="splash" onclick="skipSplash()">
-        <div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div>
-        <div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div>
-        <div class="splash-title">المؤسسة العالمية للتوريدات</div>
-        <div class="splash-sub">شريكك الموثوق في التوريدات</div>
-        <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
-        <div class="splash-skip">اضغط لتخطي</div>
-    </div>
+    <div id="splash" onclick="skipSplash()"><div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div><div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div><div class="splash-title">المؤسسة العالمية للتوريدات</div><div class="splash-sub">شريكك الموثوق في التوريدات</div><div class="splash-bar-wrap"><div class="splash-bar"></div></div><div class="splash-skip">اضغط لتخطي</div></div>
     <div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="particles"></div>
     <div id="toast" class="toast-msg toast-ok"></div>
 
     <div id="editorMode" style="display:none" class="relative z-10">
-        <header class="py-6 px-4 text-center fade-up"><div class="flex items-center justify-center gap-4 mb-2"><div class="header-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.parentElement.style.background='var(--accent-glow2)'"></div><h1 class="text-2xl md:text-3xl font-black tracking-tight">المؤسسة العالمية للتوريدات</h1></div></header>
+        <header class="py-6 px-4 text-center fade-up"><div class="flex items-center justify-center gap-4 mb-2"><div class="header-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer"></div><h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1></div></header>
         <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
             <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
                 <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2><div class="flex gap-5 items-start mb-4"><div><div class="logo-zone" onclick="document.getElementById('logoInput').click()"><div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div><img id="logoPreviewThumb" src="" style="display:none"><div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div></div><input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"></div><div class="flex-1 space-y-3"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="updatePreview()"></div></div></div></div>
-                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب (بدون +)</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> رقم هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> رقم هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="updatePreview()"></div></div></div>
-                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد الإلكتروني</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div></div></div>
+                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="updatePreview()"></div></div></div>
+                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div></div></div>
                 <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)">
                     <h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2>
-                    <p class="text-xs mb-3" style="color:var(--muted)">اضغطي على الخدمة > افتحيها > اضغطي (+) لرفع الصور</p>
+                    <p class="text-xs mb-3" style="color:var(--muted)">اضغطي الخدمة > افتحيها > (+) لرفع صور</p>
                     <div id="servicesEditor" class="space-y-3"></div>
-                    <div id="uploadStatus" class="upload-status"></div>
-                    <div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-info-circle ml-1"></i> الصور بتتحفظ على جهازك - أقصى حجم 4 ميجا</div>
-                    <div class="mt-3"><div class="flex justify-between text-xs" style="color:var(--muted)"><span>المساحة المستخدمة</span><span id="storageUsed">0 KB</span></div><div class="storage-bar"><div class="storage-bar-fill" id="storageBarFill" style="width:0%"></div></div></div>
+                    <div id="uploadMsg" class="upload-msg"></div>
+                    <div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-cloud ml-1"></i> الصور بتتحفظ على Supabase - مش بتتمسح أبداً</div>
                 </div>
-                <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة</h2><div class="p-3 rounded-xl text-xs mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-lock ml-1"></i> كود QR ثابت - الصور مش بتأثر عليه</div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app"></div></div>
-                <div class="flex flex-wrap gap-3"><button class="btn-green" onclick="saveAndGenerate()"><i class="fas fa-qrcode"></i> حفظ وتوليد QR</button><button class="btn-outline" onclick="clearQROnly()"><i class="fas fa-eraser"></i> مسح QR بس</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح كل حاجة</button></div>
+                <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة</h2><div class="p-3 rounded-xl text-xs mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-lock ml-1"></i> QR ثابت - الصور مش بتأثر عليه</div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app"></div></div>
+                <div class="flex flex-wrap gap-3"><button class="btn-green" onclick="saveAndGenerate()"><i class="fas fa-qrcode"></i> حفظ وتوليد QR</button><button class="btn-outline" onclick="clearQR()"><i class="fas fa-eraser"></i> مسح QR</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button></div>
             </section>
             <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
-                <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة البطاقة</h2><div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName" style="color:var(--text)">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><div id="previewServices" class="space-y-2"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div></div>
+                <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة</h2><div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><div id="previewServices" class="space-y-2"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div></div>
                 <div id="qrSection" class="glass rounded-2xl p-5" style="display:none"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2><div class="flex gap-2 mb-5 flex-wrap"><button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button><button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button><button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button></div><div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button></div></div>
             </aside>
         </main>
     </div>
 
-    <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card w-full max-w-md fade-up"><div id="viewPromoCover" class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div><div id="viewLogoArea" class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div><div class="p-8 text-center" id="viewContent"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-5"></div><div id="viewServices" class="mb-5"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div></div></div>
+    <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card w-full max-w-md fade-up"><div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div><div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div><div class="p-8 text-center"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-5"></div><div id="viewServices" class="mb-5"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div></div></div>
 
-    <div id="galleryOverlay" class="gallery-overlay" onclick="closeGalleryOutside(event)"><button class="gallery-close" onclick="closeGallery()"><i class="fas fa-times"></i></button><div class="gallery-title" id="galleryTitle"></div><button class="gallery-nav gallery-prev" onclick="galleryNav(-1)"><i class="fas fa-chevron-right"></i></button><div class="gallery-img-wrap"><img id="galleryImg" src="" alt=""></div><button class="gallery-nav gallery-next" onclick="galleryNav(1)"><i class="fas fa-chevron-left"></i></button><div class="gallery-counter" id="galleryCounter"></div><div class="gallery-thumbs" id="galleryThumbs"></div><div class="gallery-dots" id="galleryDots"></div><div class="gallery-bottom" id="galleryBottom"></div></div>
+    <div id="galleryOverlay" class="gallery-overlay" onclick="if(event.target===this)closeGallery()"><button class="gallery-close" onclick="closeGallery()"><i class="fas fa-times"></i></button><div class="gallery-title" id="galleryTitle"></div><button class="gallery-nav gallery-prev" onclick="galleryNav(-1)"><i class="fas fa-chevron-right"></i></button><div class="gallery-img-wrap"><img id="galleryImg" src="" alt=""></div><button class="gallery-nav gallery-next" onclick="galleryNav(1)"><i class="fas fa-chevron-left"></i></button><div class="gallery-counter" id="galleryCounter"></div><div class="gallery-thumbs" id="galleryThumbs"></div><div class="gallery-dots" id="galleryDots"></div><div class="gallery-bottom" id="galleryBottom"></div></div>
 
     <script>
+    /* =========================================================
+       🔴 خطوة مهمة: حطي بيانات الـ Supabase بتاعتك هنا
+       ========================================================= */
+    var SUPABASE_URL = 'https://sishklcxcqafaaacqwlb.supabase.co'; // رابط المشروع
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpc2hrbGN4Y3FhZmFhYWNxd2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzI5MjYsImV4cCI6MjA5NDcwODkyNn0.B6jDUvKxD5nBc_dapvqG6oTjEBWBY6TMc3umlzDyrvQ'; // المفتاح العام (anon public)
+    var BUCKET_NAME = 'business-uploads'; // اسم الـ Bucket
+
+    var supabaseClient = null;
+    try {
+        if(SUPABASE_URL && SUPABASE_URL.indexOf('xxxx') === -1) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+    } catch(e) { console.error('Supabase init error:', e); }
+
     var SERVICES=[
-        {id:'svc0',title:'مستلزمات نظافه',desc:'مواد تنظيف ومستلزمات صحية احترافية',icon:'fa-broom',color:'#2ECC71',cover:'https://z-cdn-media.chatglm.cn/files/1e73ae9c-e26a-4eac-ad8a-952a57ab635d.jpg?auth_key=1879136683-5f6b69db885e4d6eaba44505680b44bb-0-9cf8563d520c541beec68cc384c98f07'},
-        {id:'svc1',title:'مستلزمات مكتبيه',desc:'قرطاسية ومستلزمات مكتبية متنوعة',icon:'fa-pen-ruler',color:'#3498DB',cover:'https://z-cdn-media.chatglm.cn/files/5647a95d-ce35-4503-8c87-719f401665fd.png?auth_key=1879137737-dc1987d2100c4cf6a985846eb38c5469-0-9de213a86ab5078e08ab7e05441edccd'},
-        {id:'svc2',title:'منتجات البوفيه',desc:'قهوة وشاي ومستلزمات ضيافة وبوفيه',icon:'fa-mug-hot',color:'#E67E22',cover:'https://z-cdn-media.chatglm.cn/files/13e8782b-e9de-4500-8b33-c271b7b59806.png?auth_key=1879136993-f6c0b9ba84f44232acfd3da199b7df60-0-5d98316a27ed0935030bedcae9a8d637'},
-        {id:'svc3',title:'التعبئه والتغليف',desc:'أكواب وأطباق ومستلزمات تغليف وتعبئة',icon:'fa-box-open',color:'#9B59B6',cover:'https://z-cdn-media.chatglm.cn/files/ecae6afe-cba3-4aa6-b1a7-e4e46497c6cc.png?auth_key=1879136993-6f93ea84dc6742258300573fdb09aca5-0-84a0b67115f4cc5a2647c68d251fa58a'},
-        {id:'svc4',title:'مستلزمات من تصنيعنا',desc:'منتجات تنظيف بتصنيعنا الخاص - جودة مضمونة',icon:'fa-industry',color:'#1ABC9C',cover:'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2'}
+        {id:'svc0',title:'مستلزمات نظافه',desc:'مستلزمات نظافه',icon:'fa-broom',color:'#2ECC71',cover:'https://z-cdn-media.chatglm.cn/files/1e73ae9c-e26a-4eac-ad8a-952a57ab635d.jpg?auth_key=1879136683-5f6b69db885e4d6eaba44505680b44bb-0-9cf8563d520c541beec68cc384c98f07'},
+        {id:'svc1',title:'مستلزمات مكتبيه',desc:'ومستلزمات مكتبية',icon:'fa-pen-ruler',color:'#3498DB',cover:'https://z-cdn-media.chatglm.cn/files/5647a95d-ce35-4503-8c87-719f401665fd.png?auth_key=1879137737-dc1987d2100c4cf6a985846eb38c5469-0-9de213a86ab5078e08ab7e05441edccd'},
+        {id:'svc2',title:'منتجات البوفيه',desc:'قهوة وشاي ومستلزمات بوفية',icon:'fa-mug-hot',color:'#E67E22',cover:'https://z-cdn-media.chatglm.cn/files/13e8782b-e9de-4500-8b33-c271b7b59806.png?auth_key=1879136993-f6c0b9ba84f44232acfd3da199b7df60-0-5d98316a27ed0935030bedcae9a8d637'},
+        {id:'svc3',title:'التعبئه والتغليف',desc:'أكواب وأطباق ومستلزمات تغليف',icon:'fa-box-open',color:'#9B59B6',cover:'https://z-cdn-media.chatglm.cn/files/ecae6afe-cba3-4aa6-b1a7-e4e46497c6cc.png?auth_key=1879136993-6f93ea84dc6742258300573fdb09aca5-0-84a0b67115f4cc5a2647c68d251fa58a'},
+        {id:'svc4',title:'مستلزمات من تصنيعنا',desc:'منتجات تنظيف بتصنيعنا الخاص',icon:'fa-industry',color:'#1ABC9C',cover:'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2'}
     ];
     var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190';
     var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
@@ -243,46 +236,32 @@
 
     /* ===== Splash ===== */
     var splashGone=false,pendingViewData=null;
-    function hideSplash(){if(splashGone)return;splashGone=true;var s=document.getElementById('splash');if(!s)return;s.classList.add('fade-out');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);if(pendingViewData)showViewMode(pendingViewData);else{document.getElementById('editorMode').style.display='';loadServicesData();renderServicesEditor();updatePreview();}},700);}
+    function hideSplash(){if(splashGone)return;splashGone=true;var s=document.getElementById('splash');if(!s)return;s.classList.add('fade-out');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);if(pendingViewData)showViewMode(pendingViewData);else{document.getElementById('editorMode').style.display='';loadState();}},700);}
     function skipSplash(){hideSplash();}
     (function(){var c=document.getElementById('splashParticles');if(!c)return;for(var i=0;i<20;i++){var p=document.createElement('div');p.className='splash-particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--dur',(3+Math.random()*4)+'s');p.style.setProperty('--delay',(Math.random()*3)+'s');p.style.setProperty('--tx',(Math.random()*80-40)+'px');p.style.setProperty('--ty',(Math.random()*80-40)+'px');var cl=['var(--accent-light)','var(--gold)','rgba(255,255,255,.6)'];p.style.background=cl[Math.floor(Math.random()*cl.length)];p.style.width=p.style.height=(2+Math.random()*3)+'px';c.appendChild(p);}})();
     setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},5000);
     (function(){var c=document.getElementById('particles');if(!c)return;for(var i=0;i<8;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.setProperty('--dur',(14+Math.random()*20)+'s');p.style.setProperty('--delay',(Math.random()*15)+'s');p.style.width=p.style.height=(1+Math.random()*2)+'px';c.appendChild(p);}})();
 
-    /* ===== ضغط صور بسيط ومضمون ===== */
-    function processImage(file){
-        return new Promise(function(resolve,reject){
-            /* الخطوة 1: قراءة الملف */
-            var reader=new FileReader();
-            reader.onerror=function(){reject('فشل قراءة الملف');};
-            reader.onload=function(e){
-                var dataUrl=e.target.result;
-                /* لو الملف أصغر من 200KB خلاص نرجعه زي ما هو */
-                if(dataUrl.length<200000){resolve(dataUrl);return;}
-                /* الخطوة 2: نحاول نضغطه */
-                var img=new Image();
-                img.onerror=function(){resolve(dataUrl);};/* لو فشل نرجع الأصلي */
-                img.onload=function(){
-                    try{
-                        var cv=document.createElement('canvas');
-                        var w=img.width,h=img.height;
-                        var maxW=250;/* صغير جداً عشان نوفر مساحة */
-                        if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
-                        cv.width=Math.max(1,w);cv.height=Math.max(1,h);
-                        var ctx=cv.getContext('2d');
-                        ctx.drawImage(img,0,0,w,h);
-                        var result=cv.toDataURL('image/jpeg',0.25);
-                        if(result&&result.length>50){resolve(result);}
-                        else{resolve(dataUrl);}
-                    }catch(err){resolve(dataUrl);}
-                };
-                img.src=dataUrl;
-            };
-            reader.readAsDataURL(file);
-        });
+    /* ===== Supabase Upload Functions ===== */
+    async function uploadToSupabase(file, folder){
+        if(!supabaseClient) { throw 'Supabase مش متصل - ضيفي البيانات في الكود'; }
+        var ext = file.name.split('.').pop();
+        var fileName = folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,5)+'.'+ext;
+        var { data, error } = await supabaseClient.storage.from(BUCKET_NAME).upload(fileName, file, { cacheControl: '3600', upsert: false });
+        if(error) throw error.message || 'فشل الرفع';
+        var { data: urlData } = supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(data.path);
+        return urlData.publicUrl;
     }
 
-    function fileToBase64(file){return new Promise(function(resolve,reject){var r=new FileReader();r.onload=function(e){resolve(e.target.result);};r.onerror=function(){reject('فشل');};r.readAsDataURL(file);});}
+    async function deleteFromSupabase(url){
+        if(!supabaseClient || !url) return;
+        try {
+            var parts = url.split('/public/'+BUCKET_NAME+'/');
+            if(parts.length < 2) return;
+            var path = parts[1].split('?')[0]; // Remove query params
+            await supabaseClient.storage.from(BUCKET_NAME).remove([path]);
+        } catch(e) { console.error(e); }
+    }
 
     /* ===== محرر الخدمات ===== */
     function renderServicesEditor(){
@@ -291,129 +270,103 @@
             var sd=servicesData[svc.id]||{images:[],pdf:null,pdfName:''};
             var ic=sd.images.length,hp=!!sd.pdf;
             h+='<div class="svc-editor-card">';
-            h+='<div class="svc-editor-header" onclick="toggleSvc(\''+svc.id+'\')">';
+            h+='<div class="svc-editor-header" id="hdr_'+svc.id+'" onclick="toggleSvc(\''+svc.id+'\')">';
             h+='<div class="svc-ico" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div>';
             h+='<div style="flex:1"><span class="svc-h-title">'+svc.title+'</span><span class="svc-h-desc">'+svc.desc+'</span></div>';
-            h+='<span class="svc-h-badge" id="badge_'+svc.id+'">'+ic+' صور'+(hp?' + PDF':'')+'</span>';
-            h+='<i class="fas fa-chevron-down svc-h-arrow" id="arrow_'+svc.id+'"></i></div>';
+            h+='<span class="svc-h-badge">'+ic+' صور'+(hp?' + PDF':'')+'</span>';
+            h+='<i class="fas fa-chevron-down svc-h-arrow"></i></div>';
             h+='<div class="svc-editor-body" id="body_'+svc.id+'">';
             h+='<div class="svc-img-grid">';
-            sd.images.forEach(function(src,i){
-                h+='<div class="svc-img-thumb" onclick="event.stopPropagation();openGallery(\''+svc.id+'\','+i+')"><img src="'+src+'" alt=""><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+')"><i class="fas fa-times"></i></button></div>';
+            sd.images.forEach(function(url,i){
+                h+='<div class="svc-img-thumb" onclick="event.stopPropagation();openGallery(\''+svc.id+'\','+i+')"><img src="'+url+'" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+',\''+url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button></div>';
             });
-            if(ic<8)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';
+            if(ic<10)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';
             h+='</div>';
-            h+='<input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgUpload(event,\''+svc.id+'\')" style="display:none">';
+            h+='<input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgFiles(event,\''+svc.id+'\')" style="display:none">';
             h+='<div class="svc-pdf-area">';
-            if(hp){h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\')"><i class="fas fa-trash"></i></button></div>';}
-            else{h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع قائمة أسعار PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfUpload(event,\''+svc.id+'\')" style="display:none">';}
+            if(hp){
+                var pdfUrl = sd.pdf.replace(/'/g,"\\'");
+                h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\',\''+pdfUrl+'\')"><i class="fas fa-trash"></i></button></div>';
+            }else{
+                h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfFile(event,\''+svc.id+'\')" style="display:none">';
+            }
             h+='</div></div></div>';
         });
-        c.innerHTML=h;updateStorageInfo();
+        c.innerHTML=h;
     }
 
-    function toggleSvc(id){
-        var a=document.getElementById('arrow_'+id),b=document.getElementById('body_'+id);
-        if(a)a.parentElement.classList.toggle('open');
-        if(b)b.classList.toggle('open');
-    }
-
+    function toggleSvc(id){var h=document.getElementById('hdr_'+id),b=document.getElementById('body_'+id);if(h)h.classList.toggle('open');if(b)b.classList.toggle('open');}
     function doUpload(id){var f=document.getElementById('fup_'+id);if(f){f.value='';f.click();}}
     function doPdfUpload(id){var f=document.getElementById('pfup_'+id);if(f){f.value='';f.click();}}
 
-    function setStatus(msg,type){
-        var s=document.getElementById('uploadStatus');
-        if(!s)return;s.textContent=msg;s.className='upload-status '+type;
-        if(type==='done'||type==='fail'){setTimeout(function(){s.className='upload-status';},5000);}
-    }
+    function setMsg(msg,type){var m=document.getElementById('uploadMsg');if(!m)return;m.textContent=msg;m.className='upload-msg '+type;if(type!=='working')setTimeout(function(){m.className='upload-msg';},5000);}
 
-    async function onImgUpload(e,svcId){
+    async function onImgFiles(e,svcId){
         var files=Array.from(e.target.files);if(!files.length)return;
         var sd=servicesData[svcId];if(!sd)return;
-        var rem=8-sd.images.length;if(rem<=0){showToastErr('الحد أقصى 8 صور لكل خدمة');return;}
-        files=files.slice(0,rem);
-        setStatus('جاري معالجة '+files.length+' صورة...','working');
+        if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}
+        setMsg('جاري رفع '+files.length+' صورة على السيرفر...','working');
         var ok=0;
         for(var i=0;i<files.length;i++){
             try{
-                var result=await processImage(files[i]);
-                sd.images.push(result);ok++;
-            }catch(err){console.error(err);}
+                var url = await uploadToSupabase(files[i], svcId);
+                sd.images.push(url); ok++;
+                saveState();
+            }catch(err){ setMsg('فشل رفع صورة: '+err, 'fail'); console.error(err); }
         }
-        if(ok>0){
-            var saved=saveServicesData();
-            if(saved){
-                renderServicesEditor();updatePreview();
-                setStatus('تم رفع '+ok+' صورة بنجاح','done');
-            }else{
-                sd.images.splice(sd.images.length-ok,ok);
-                setStatus('المساحة مش كافية! احذفي صور من خدمات تانية','fail');
-            }
-        }else{setStatus('فشل رفع الصور','fail');}
+        if(ok>0){ renderServicesEditor(); updatePreview(); setMsg('✓ تم رفع '+ok+' صورة بنجاح على السيرفر','done'); }
         e.target.value='';
     }
 
-    function delImg(svcId,idx){servicesData[svcId].images.splice(idx,1);saveServicesData();renderServicesEditor();updatePreview();showToast('تم حذف الصورة');}
+    async function delImg(svcId,idx,url){
+        servicesData[svcId].images.splice(idx,1);
+        deleteFromSupabase(url); // مسح من السيرفر برضه
+        saveState(); renderServicesEditor(); updatePreview(); showToast('تم حذف الصورة');
+    }
 
-    async function onPdfUpload(e,svcId){
+    async function onPdfFile(e,svcId){
         var file=e.target.files[0];if(!file)return;
-        if(file.size>3*1024*1024){showToastErr('PDF لازم أقل من 3 ميجا');return;}
-        setStatus('جاري رفع PDF...','working');
+        setMsg('جاري رفع PDF...','working');
         try{
-            var b64=await fileToBase64(file);
-            servicesData[svcId].pdf=b64;servicesData[svcId].pdfName=file.name;
-            var saved=saveServicesData();
-            if(saved){renderServicesEditor();updatePreview();setStatus('تم رفع PDF بنجاح','done');}
-            else{servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';setStatus('المساحة مش كافية','fail');}
-        }catch(err){setStatus('فشل رفع PDF','fail');}
+            var url = await uploadToSupabase(file, svcId+'_pdf');
+            servicesData[svcId].pdf=url; servicesData[svcId].pdfName=file.name;
+            saveState(); renderServicesEditor(); updatePreview();
+            setMsg('✓ تم رفع PDF','done');
+        }catch(err){ setMsg('فشل رفع PDF: '+err,'fail'); }
         e.target.value='';
     }
 
-    function delPdf(svcId){servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';saveServicesData();renderServicesEditor();updatePreview();showToast('تم حذف PDF');}
-
-    function saveServicesData(){
-        try{
-            var data=JSON.stringify(servicesData);
-            localStorage.setItem('gsi_servicesData',data);
-            return true;
-        }catch(e){
-            /* مسح بيانات قديمة وحاول تاني */
-            try{localStorage.removeItem('gsi_servicesData');localStorage.setItem('gsi_servicesData',data);return true;}
-            catch(e2){return false;}
-        }
+    async function delPdf(svcId,url){
+        servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';
+        deleteFromSupabase(url);
+        saveState(); renderServicesEditor(); updatePreview(); showToast('تم حذف PDF');
     }
 
-    function loadServicesData(){
-        try{
-            var saved=localStorage.getItem('gsi_servicesData');
-            if(saved){var p=JSON.parse(saved);SERVICES.forEach(function(s){if(p[s.id])servicesData[s.id]=p[s.id];});}
-        }catch(e){try{localStorage.removeItem('gsi_servicesData');}catch(e2){}}
+    /* ===== حفظ الحالة (URLs بس - حجمها صغير) في localStorage ===== */
+    function saveState(){
+        try{ localStorage.setItem('gsi_state', JSON.stringify(servicesData)); }catch(e){}
     }
-
-    function updateStorageInfo(){
-        var total=0;try{for(var k in localStorage)if(localStorage.hasOwnProperty(k))total+=localStorage[k].length*2;}catch(e){}
-        var mb=(total/1024/1024).toFixed(2),pct=Math.min(100,(total/1024/1024/4.5*100)).toFixed(0);
-        var el=document.getElementById('storageUsed'),bar=document.getElementById('storageBarFill');
-        if(el)el.textContent=mb+' MB من 4.5 MB';
-        if(bar){bar.style.width=pct+'%';bar.style.background=pct>80?'#ef4444':pct>50?'#fbbf24':'var(--accent-light)';}
+    function loadState(){
+        try{
+            var s=localStorage.getItem('gsi_state');
+            if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}
+        }catch(e){}
+        renderServicesEditor(); updatePreview();
     }
 
     /* ===== معرض الصور ===== */
-    var gs={svcId:null,images:[],cur:0,pdf:null,pdfName:'',title:''};
+    var gs={svcId:'',images:[],cur:0,pdf:null,pdfName:'',title:''};
     function openGallery(svcId,idx){
         var sd=servicesData[svcId];
-        if(!sd||!sd.images.length){showToastErr('لا توجد صور بعد');return;}
+        if(!sd||!sd.images.length){showToastErr('لا توجد صور');return;}
         var svc=SERVICES.find(function(s){return s.id===svcId;});
         gs={svcId:svcId,images:sd.images,cur:idx||0,pdf:sd.pdf,pdfName:sd.pdfName,title:svc?svc.title:''};
-        renderGal();document.getElementById('galleryOverlay').style.display='flex';
-        setTimeout(function(){document.getElementById('galleryOverlay').classList.add('show');},10);document.body.style.overflow='hidden';
+        renderGal();document.getElementById('galleryOverlay').style.display='flex';setTimeout(function(){document.getElementById('galleryOverlay').classList.add('show');},10);document.body.style.overflow='hidden';
     }
     function closeGallery(){document.getElementById('galleryOverlay').classList.remove('show');setTimeout(function(){document.getElementById('galleryOverlay').style.display='none';},300);document.body.style.overflow='';}
-    function closeGalleryOutside(e){if(e.target===document.getElementById('galleryOverlay'))closeGallery();}
-    function renderGal(){var imgs=gs.images,idx=gs.cur;document.getElementById('galleryTitle').textContent=gs.title;document.getElementById('galleryImg').src=imgs[idx];document.getElementById('galleryCounter').textContent=(idx+1)+' / '+imgs.length;var d='';for(var i=0;i<Math.min(imgs.length,10);i++)d+='<button class="gallery-dot'+(i===idx?' active':'')+'" onclick="galGo('+i+')"></button>';document.getElementById('galleryDots').innerHTML=d;var t='';for(var i=0;i<imgs.length;i++)t+='<div class="gallery-th-item'+(i===idx?' active':'')+'" onclick="galGo('+i+')"><img src="'+imgs[i]+'" alt=""></div>';document.getElementById('galleryThumbs').innerHTML=t;var b='';if(gs.pdf)b+='<button class="g-btn g-pdf" onclick="dlPdf()"><i class="fas fa-file-pdf"></i> تحميل الأسعار</button>';var w=document.getElementById('whatsapp'),wn=w?cleanWhatsApp(w.value):'';if(wn)b+='<a class="g-btn g-wa" href="https://wa.me/'+wn+'" target="_blank"><i class="fab fa-whatsapp"></i> استفسار</a>';document.getElementById('galleryBottom').innerHTML=b;document.querySelector('.gallery-prev').style.display=imgs.length>1?'flex':'none';document.querySelector('.gallery-next').style.display=imgs.length>1?'flex':'none';}
+    function renderGal(){var imgs=gs.images,idx=gs.cur;document.getElementById('galleryTitle').textContent=gs.title;document.getElementById('galleryImg').src=imgs[idx];document.getElementById('galleryCounter').textContent=(idx+1)+' / '+imgs.length;var d='';for(var i=0;i<Math.min(imgs.length,10);i++)d+='<button class="gallery-dot'+(i===idx?' active':'')+'" onclick="galGo('+i+')"></button>';document.getElementById('galleryDots').innerHTML=d;var t='';for(var i=0;i<imgs.length;i++)t+='<div class="gallery-th-item'+(i===idx?' active':'')+'" onclick="galGo('+i+')"><img src="'+imgs[i]+'" alt="" referrerpolicy="no-referrer"></div>';document.getElementById('galleryThumbs').innerHTML=t;var b='';if(gs.pdf)b+='<a href="'+gs.pdf+'" target="_blank" class="g-btn g-pdf"><i class="fas fa-file-pdf"></i> فتح/تحميل PDF</a>';var w=document.getElementById('whatsapp'),wn=w?cleanWhatsApp(w.value):'';if(wn)b+='<a class="g-btn g-wa" href="https://wa.me/'+wn+'" target="_blank"><i class="fab fa-whatsapp"></i> استفسار</a>';document.getElementById('galleryBottom').innerHTML=b;document.querySelector('.gallery-prev').style.display=imgs.length>1?'flex':'none';document.querySelector('.gallery-next').style.display=imgs.length>1?'flex':'none';}
     function galleryNav(d){gs.cur=(gs.cur+d+gs.images.length)%gs.images.length;renderGal();}
     function galGo(i){gs.cur=i;renderGal();}
-    function dlPdf(){if(!gs.pdf)return;var a=document.createElement('a');a.href=gs.pdf;a.download=gs.pdfName||'price-list.pdf';document.body.appendChild(a);a.click();document.body.removeChild(a);}
     (function(){var sx=0,dg=false;document.addEventListener('touchstart',function(e){var o=document.getElementById('galleryOverlay');if(!o||o.style.display==='none')return;if(e.target.closest('.gallery-nav,.gallery-close,.gallery-th-item,.gallery-dot,.g-btn'))return;sx=e.touches[0].clientX;dg=true;},{passive:true});document.addEventListener('touchend',function(e){if(!dg)return;dg=false;var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)galleryNav(d>0?-1:1);},{passive:true});})();
     document.addEventListener('keydown',function(e){var o=document.getElementById('galleryOverlay');if(!o||o.style.display==='none')return;if(e.key==='ArrowRight')galleryNav(-1);else if(e.key==='ArrowLeft')galleryNav(1);else if(e.key==='Escape')closeGallery();});
 
@@ -421,7 +374,7 @@
     function setFormData(d){if(!d)return;['companyName','companyDesc','whatsapp','phone1','phone2','email','facebook','tiktok'].forEach(function(f){if(d[f]!==undefined)document.getElementById(f).value=d[f];});if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
     function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){logoBase64=ev.target.result;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};r.readAsDataURL(f);}
 
-    function makeQR(text,cid,sid,dc,ls){var container=document.getElementById(cid),status=document.getElementById(sid);dc=dc||'#061A12';if(!container)return;try{var qr=qrcode(0,'H');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cs=Math.max(3,Math.floor(220/mc)),mg=14,sz=mc*cs+mg*2;var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);if(ls){var img=new Image();img.crossOrigin='Anonymous';img.onload=function(){var l=sz*.2,x=(sz-l)/2,y=(sz-l)/2;ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.closePath();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,l,l);ctx.restore();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=1.5;ctx.stroke();done();};img.onerror=function(){done();};img.src=ls;}else done();function done(){try{var du=cv.toDataURL('image/png');container.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';container.appendChild(ie);container.className='qr-result';if(status)status.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم التوليد</span>';}catch(e2){makeQR(text,cid,sid,dc,null);}}return true;}catch(e){container.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>البيانات كبيرة</p></div>';if(status)status.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;}}
+    function makeQR(text,cid,sid,dc,ls){var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return;try{var qr=qrcode(0,'H');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cs=Math.max(3,Math.floor(220/mc)),mg=14,sz=mc*cs+mg*2;var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);if(ls){var img=new Image();img.crossOrigin='Anonymous';img.onload=function(){var l=sz*.2,x=(sz-l)/2,y=(sz-l)/2;ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.closePath();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,l,l);ctx.restore();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=1.5;ctx.stroke();done();};img.onerror=function(){done();};img.src=ls;}else done();function done(){try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}catch(e2){makeQR(text,cid,sid,dc,null);}}return true;}catch(e){ct.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>بيانات كبيرة</p></div>';if(st)st.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;}}
     function downloadQR(cid,fn){var c=document.getElementById(cid),img=c?c.querySelector('img'):null;if(!img||!img.src){showToastErr('QR مش جاهز');return;}var a=document.createElement('a');a.download=fn;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
 
     function buildServicesHTML(svcs,mini){
@@ -437,25 +390,35 @@
     function saveAndGenerate(){
         var d=getFormData();if(!d.name){showToastErr('أدخلي اسم الشركة');return;}
         var wn=cleanWhatsApp(d.whatsapp);if(d.whatsapp&&wn.length<10){showToastErr('رقم واتساب مش صح');return;}
-        localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoBase64:logoBase64})));saveServicesData();
+        localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoBase64:logoBase64})));
         document.getElementById('qrSection').style.display='block';document.getElementById('qrSection').classList.add('fade-up');
         var ls=logoBase64||STATIC_LOGO,pu=document.getElementById('pageUrl').value.trim();
         if(pu){var qd={n:d.name,d:d.desc,w:wn,p1:d.phone1,p2:d.phone2,e:d.email,f:d.facebook,t:d.tiktok};makeQR(pu+'?d='+safeEncode(JSON.stringify(qd)),'qrPageResult','qrPageStatus','#061A12',ls);}
         else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}
         if(wn)makeQR('https://wa.me/'+wn,'qrWaResult','qrWaStatus','#075E54',ls);else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
         makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);
-        showToast('تم الحفظ وتوليد QR ✓');setTimeout(function(){document.getElementById('qrSection').scrollIntoView({behavior:'smooth',block:'center'});},300);
+        showToast('تم الحفظ وتوليد QR ✓');
     }
 
-    function clearQROnly(){document.getElementById('qrSection').style.display='none';showToast('تم مسح QR بس - الصور لسه موجودة');}
+    function clearQR(){document.getElementById('qrSection').style.display='none';showToast('تم مسح QR - الصور لسه موجودة على السيرفر');}
 
-    function resetAll(){
-        if(!confirm('هتمسحي كل حاجة بما فيها الصور والـ PDF؟'))return;
+    async function resetAll(){
+        if(!confirm('هتمسحي كل حاجة؟'))return;
         document.querySelectorAll('.inp').forEach(function(i){i.value='';});
         logoBase64='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';
         document.getElementById('qrSection').style.display='none';
+        /* مسح الصور من Supabase */
+        if(supabaseClient){
+            for(var i=0;i<SERVICES.length;i++){
+                var sd=servicesData[SERVICES[i].id];
+                if(sd){
+                    sd.images.forEach(function(u){deleteFromSupabase(u);});
+                    if(sd.pdf) deleteFromSupabase(sd.pdf);
+                }
+            }
+        }
         SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});
-        localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_servicesData');
+        localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_state');
         renderServicesEditor();updatePreview();showToast('تم مسح كل حاجة');
     }
 
@@ -463,9 +426,15 @@
     function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
     function showToastErr(msg){var t=document.getElementById('toast');t.textContent='⚠ '+msg;t.className='toast-msg toast-err show';setTimeout(function(){t.className='toast-msg toast-err';},4000);}
 
-    function showViewMode(data){document.getElementById('editorMode').style.display='none';document.getElementById('viewName').textContent=data.name||data.n||'المؤسسة العالمية للتوريدات';document.getElementById('viewDesc').textContent=data.desc||data.d||'';document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';document.getElementById('viewLogoImg').src=STATIC_LOGO;document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false)+'</div>';var vp=document.getElementById('viewPhones');vp.innerHTML='';var p1=data.phone1||data.p1,p2=data.phone2||data.p2;if(p1)vp.innerHTML+='<a href="tel:'+cleanPhone(p1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p1+'</a>';if(p2)vp.innerHTML+='<a href="tel:'+cleanPhone(p2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p2+'</a>';var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp||data.w||'');if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';var vsc=document.getElementById('viewSocials');vsc.innerHTML='';[{url:data.email||data.e||'',icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook||data.f||'',icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok||data.t||'',icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});document.getElementById('viewMode').style.display='flex';}
+    function showViewMode(data){document.getElementById('editorMode').style.display='none';document.getElementById('viewName').textContent=data.name||data.n||'المؤسسة العالمية للتوريدات';document.getElementById('viewDesc').textContent=data.desc||data.d||'';document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';document.getElementById('viewLogoImg').src=STATIC_LOGO;document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false)+'</div>';var vp=document.getElementById('viewPhones');vp.innerHTML='';var p1=data.phone1||data.p1,p2=data.phone2||data.p2;if(p1)vp.innerHTML+='<a href="tel:'+cleanPhone(p1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p1+'</a>';if(p2)vp.innerHTML+='<a href="tel:'+cleanPhone(p2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p2+'</a>';var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp||data.w||'');if(wn)wd.innerHTML+='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';var vsc=document.getElementById('viewSocials');vsc.innerHTML='';[{url:data.email||data.e||'',icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook||data.f||'',icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok||data.t||'',icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});document.getElementById('viewMode').style.display='flex';}
 
-    (function init(){var up=new URLSearchParams(window.location.search),dp=up.get('d');if(dp){try{var d=JSON.parse(safeDecode(dp));if(d&&(d.name||d.n)){pendingViewData=d;loadServicesData();return;}}catch(e){}}loadServicesData();var sv=localStorage.getItem('businessCardData');if(sv){try{setFormData(JSON.parse(sv));}catch(e){}}updatePreview();})();
+    (function init(){
+        var up=new URLSearchParams(window.location.search),dp=up.get('d');
+        if(dp){try{var d=JSON.parse(safeDecode(dp));if(d&&(d.name||d.n)){pendingViewData=d;loadState();return;}}catch(e){}}
+        var sv=localStorage.getItem('businessCardData');
+        if(sv){try{setFormData(JSON.parse(sv));}catch(e){}}
+        loadState();
+    })();
     </script>
 </body>
 </html>
