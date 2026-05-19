@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-    <!-- مكتبة Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>tailwind.config={theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
     <style>
@@ -78,8 +77,8 @@
         ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
         .qr-result{width:220px;height:220px;border-radius:14px;background:#fff;padding:12px;display:inline-flex;align-items:center;justify-content:center}
         .qr-result img{width:100%;height:100%;image-rendering:pixelated}
-        .qr-err{width:220px;height:220px;border-radius:14px;background:rgba(239,68,68,.08);display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center}
-        .qr-err i{font-size:28px;color:#f87171}.qr-err p{font-size:11px;color:#f87171}
+        .qr-err{width:220px;height:220px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center}
+        .qr-err i{font-size:28px}.qr-err p{font-size:11px}
         .qr-status{padding:8px 16px;border-radius:10px;font-size:12px;margin-top:8px;display:inline-block}
         .qr-status.ok{background:rgba(46,204,113,.1);color:var(--accent-light)}
         .qr-tab{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
@@ -164,277 +163,934 @@
         .upload-msg.working{display:block;background:rgba(46,204,113,.06);color:var(--accent-light);border:1px solid rgba(46,204,113,.12)}
         .upload-msg.done{display:block;background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
         .upload-msg.fail{display:block;background:rgba(239,68,68,.06);color:#f87171;border:1px solid rgba(239,68,68,.12)}
+        .save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 14px;border-radius:10px;transition:all .3s}
+        .save-indicator.saving{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.2)}
+        .save-indicator.saved{background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
+        .save-indicator.offline{background:rgba(239,68,68,.06);color:#f87171;border:1px solid rgba(239,68,68,.15)}
+        .view-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px}
+        .view-loading .spinner{width:40px;height:40px;border:3px solid rgba(46,204,113,.15);border-top-color:var(--accent-light);border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
         @media(max-width:768px){.phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.gallery-nav{width:36px;height:36px}.svc-card .svc-cover{height:160px}}
     </style>
 </head>
 <body class="font-cairo">
-    <div id="splash" onclick="skipSplash()"><div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div><div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div><div class="splash-title">المؤسسة العالمية للتوريدات</div><div class="splash-sub">شريكك الموثوق في التوريدات</div><div class="splash-bar-wrap"><div class="splash-bar"></div></div><div class="splash-skip">اضغط لتخطي</div></div>
-    <div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="particles"></div>
-    <div id="toast" class="toast-msg toast-ok"></div>
 
-    <div id="editorMode" style="display:none" class="relative z-10">
-        <header class="py-6 px-4 text-center fade-up"><div class="flex items-center justify-center gap-4 mb-2"><div class="header-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer"></div><h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1></div></header>
-        <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
-            <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
-                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2><div class="flex gap-5 items-start mb-4"><div><div class="logo-zone" onclick="document.getElementById('logoInput').click()"><div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div><img id="logoPreviewThumb" src="" style="display:none"><div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div></div><input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"></div><div class="flex-1 space-y-3"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="updatePreview()"></div></div></div></div>
-                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="updatePreview()"></div></div></div>
-                <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="updatePreview()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="updatePreview()"></div></div></div>
-                <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)">
-                    <h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2>
-                    <p class="text-xs mb-3" style="color:var(--muted)">اضغطي الخدمة > افتحيها > (+) لرفع صور</p>
-                    <div id="servicesEditor" class="space-y-3"></div>
-                    <div id="uploadMsg" class="upload-msg"></div>
-                    <div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-cloud ml-1"></i> الصور بتتحفظ على Supabase - مش بتتمسح أبداً</div>
-                </div>
-                <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة</h2><div class="p-3 rounded-xl text-xs mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-lock ml-1"></i> QR ثابت - الصور مش بتأثر عليه</div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app"></div></div>
-                <div class="flex flex-wrap gap-3"><button class="btn-green" onclick="saveAndGenerate()"><i class="fas fa-qrcode"></i> حفظ وتوليد QR</button><button class="btn-outline" onclick="clearQR()"><i class="fas fa-eraser"></i> مسح QR</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button></div>
-            </section>
-            <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
-                <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة</h2><div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><div id="previewServices" class="space-y-2"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div></div>
-                <div id="qrSection" class="glass rounded-2xl p-5" style="display:none"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2><div class="flex gap-2 mb-5 flex-wrap"><button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button><button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button><button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button></div><div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button></div></div>
-            </aside>
-        </main>
+<!-- شاشة البداية -->
+<div id="splash" onclick="skipSplash()">
+    <div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div>
+    <div class="splash-rings">
+        <div class="splash-ring"></div>
+        <div class="splash-ring"></div>
+        <div class="splash-ring"></div>
+        <div class="splash-logo">
+            <img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+        </div>
     </div>
+    <div class="splash-title">المؤسسة العالمية للتوريدات</div>
+    <div class="splash-sub">شريكك الموثوق في التوريدات</div>
+    <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+    <div class="splash-skip">اضغط لتخطي</div>
+</div>
 
-    <div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card w-full max-w-md fade-up"><div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div><div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div><div class="p-8 text-center"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-5"></div><div id="viewServices" class="mb-5"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div></div></div>
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
+<div id="toast" class="toast-msg toast-ok"></div>
 
-    <div id="galleryOverlay" class="gallery-overlay" onclick="if(event.target===this)closeGallery()"><button class="gallery-close" onclick="closeGallery()"><i class="fas fa-times"></i></button><div class="gallery-title" id="galleryTitle"></div><button class="gallery-nav gallery-prev" onclick="galleryNav(-1)"><i class="fas fa-chevron-right"></i></button><div class="gallery-img-wrap"><img id="galleryImg" src="" alt=""></div><button class="gallery-nav gallery-next" onclick="galleryNav(1)"><i class="fas fa-chevron-left"></i></button><div class="gallery-counter" id="galleryCounter"></div><div class="gallery-thumbs" id="galleryThumbs"></div><div class="gallery-dots" id="galleryDots"></div><div class="gallery-bottom" id="galleryBottom"></div></div>
+<!-- ===== وضع التعديل ===== -->
+<div id="editorMode" style="display:none" class="relative z-10">
+    <header class="py-6 px-4 text-center fade-up">
+        <div class="flex items-center justify-center gap-4 mb-2">
+            <div class="header-logo">
+                <img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer">
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1>
+        </div>
+        <div id="saveStatus" class="save-indicator saved mt-2"><i class="fas fa-cloud-arrow-up"></i> <span id="saveText">جاهز</span></div>
+    </header>
 
-    <script>
-    /* =========================================================
-       🔴 خطوة مهمة: حطي بيانات الـ Supabase بتاعتك هنا
-       ========================================================= */
-    var SUPABASE_URL = 'https://sishklcxcqafaaacqwlb.supabase.co'; // رابط المشروع
-    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpc2hrbGN4Y3FhZmFhYWNxd2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzI5MjYsImV4cCI6MjA5NDcwODkyNn0.B6jDUvKxD5nBc_dapvqG6oTjEBWBY6TMc3umlzDyrvQ'; // المفتاح العام (anon public)
-    var BUCKET_NAME = 'business-uploads'; // اسم الـ Bucket
+    <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
 
-    var supabaseClient = null;
+            <!-- بيانات الشركة -->
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2>
+                <div class="flex gap-5 items-start mb-4">
+                    <div>
+                        <div class="logo-zone" onclick="document.getElementById('logoInput').click()">
+                            <div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div>
+                            <img id="logoPreviewThumb" src="" style="display:none">
+                            <div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div>
+                        </div>
+                        <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="onFormChange()"></div>
+                        <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="onFormChange()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بيانات التواصل -->
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="onFormChange()"></div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="onFormChange()"></div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="onFormChange()"></div>
+                </div>
+            </div>
+
+            <!-- السوشيال ميديا -->
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="onFormChange()"></div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="onFormChange()"></div>
+                    <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="onFormChange()"></div>
+                </div>
+            </div>
+
+            <!-- خدماتنا -->
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)">
+                <h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2>
+                <p class="text-xs mb-3" style="color:var(--muted)">اضغطي الخدمة > افتحيها > (+) لرفع صور</p>
+                <div id="servicesEditor" class="space-y-3"></div>
+                <div id="uploadMsg" class="upload-msg"></div>
+                <div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-cloud ml-1"></i> الصور بتتحفظ على Supabase - مش بتتمسح أبداً</div>
+            </div>
+
+            <!-- رابط الصفحة -->
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)">
+                <h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة</h2>
+                <div class="p-3 rounded-xl text-xs mb-3" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)">
+                    <i class="fas fa-lock ml-1"></i> QR ثابت مش بيتغيرش - أي تعديل بتحديثه بيظهر تلقائي للي بيمسح الـ QR
+                </div>
+                <div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app" oninput="onPageUrlChange()"></div>
+                <div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.12);color:var(--gold)">
+                    <i class="fas fa-lightbulb ml-1"></i> رابط البطاقة الثابت: <span id="fixedUrlDisplay" style="direction:ltr;display:inline-block;font-weight:700">—</span>
+                </div>
+            </div>
+
+            <!-- أزرار -->
+            <div class="flex flex-wrap gap-3 items-center">
+                <button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button>
+                <span class="text-xs mr-auto" style="color:var(--muted)"><i class="fas fa-info-circle ml-1"></i> الحفظ تلقائي - مش محتاجة تضغطي زر</span>
+            </div>
+        </section>
+
+        <!-- العمود الأيمن -->
+        <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
+            <!-- المعاينة -->
+            <div class="glass rounded-2xl p-5">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة</h2>
+                <div class="flex justify-center">
+                    <div class="phone-frame">
+                        <div id="cardPreview" class="text-center space-y-3 mt-3">
+                            <div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div>
+                            <h3 class="font-bold text-base" id="previewName">المؤسسة العالمية للتوريدات</h3>
+                            <p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p>
+                            <div class="green-bar w-10 mx-auto"></div>
+                            <div id="previewSocials" class="flex justify-center gap-2 mt-2"></div>
+                            <div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div>
+                            <div id="previewServices" class="space-y-2"></div>
+                            <a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR -->
+            <div id="qrSection" class="glass rounded-2xl p-5">
+                <h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2>
+                <div class="flex gap-2 mb-5 flex-wrap">
+                    <button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button>
+                    <button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button>
+                    <button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button>
+                </div>
+                <div id="qrPage" class="text-center">
+                    <div id="qrPageResult"></div>
+                    <div id="qrPageStatus"></div>
+                    <button class="btn-outline mt-3" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button>
+                </div>
+                <div id="qrWhatsapp" class="text-center" style="display:none">
+                    <div id="qrWaResult"></div>
+                    <div id="qrWaStatus"></div>
+                    <button class="btn-outline mt-3" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button>
+                </div>
+                <div id="qrVcard" class="text-center" style="display:none">
+                    <div id="qrVcardResult"></div>
+                    <div id="qrVcardStatus"></div>
+                    <button class="btn-outline mt-3" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+</div>
+
+<!-- ===== وضع العرض ===== -->
+<div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none">
+    <div class="view-card w-full max-w-md">
+        <div id="viewLoading" class="view-loading">
+            <div class="spinner"></div>
+            <p style="color:var(--muted)">جاري تحميل البيانات...</p>
+        </div>
+        <div id="viewContent" style="display:none">
+            <div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div>
+            <div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div>
+            <div class="p-8 text-center">
+                <h1 class="text-2xl font-black mb-1" id="viewName"></h1>
+                <p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p>
+                <div class="green-bar w-20 mx-auto mb-5"></div>
+                <div id="viewServices" class="mb-5"></div>
+                <div id="viewPhones" class="space-y-2 text-sm mb-5"></div>
+                <div id="viewWhatsApp" class="mb-5"></div>
+                <div id="viewSocials" class="flex justify-center gap-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- معرض الصور -->
+<div id="galleryOverlay" class="gallery-overlay" onclick="if(event.target===this)closeGallery()">
+    <button class="gallery-close" onclick="closeGallery()"><i class="fas fa-times"></i></button>
+    <div class="gallery-title" id="galleryTitle"></div>
+    <button class="gallery-nav gallery-prev" onclick="galleryNav(-1)"><i class="fas fa-chevron-right"></i></button>
+    <div class="gallery-img-wrap"><img id="galleryImg" src="" alt=""></div>
+    <button class="gallery-nav gallery-next" onclick="galleryNav(1)"><i class="fas fa-chevron-left"></i></button>
+    <div class="gallery-counter" id="galleryCounter"></div>
+    <div class="gallery-thumbs" id="galleryThumbs"></div>
+    <div class="gallery-dots" id="galleryDots"></div>
+    <div class="gallery-bottom" id="galleryBottom"></div>
+</div>
+
+<script>
+/* =========================================================
+   إعدادات Supabase
+   ========================================================= */
+var SUPABASE_URL = 'https://sishklcxcqafaaacqwlb.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpc2hrbGN4Y3FhZmFhYWNxd2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzI5MjYsImV4cCI6MjA5NDcwODkyNn0.B6jDUvKxD5nBc_dapvqG6oTjEBWBY6TMc3umlzDyrvQ';
+var BUCKET_NAME = 'business-uploads';
+
+var supabaseClient = null;
+try {
+    if (SUPABASE_URL && SUPABASE_URL.indexOf('xxxx') === -1) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+} catch (e) { console.error('Supabase init error:', e); }
+
+/* =========================================================
+   تعريف الخدمات
+   ========================================================= */
+var SERVICES = [
+    { id: 'svc0', title: 'مستلزمات نظافه', desc: 'مستلزمات نظافه', icon: 'fa-broom', color: '#2ECC71', cover: 'https://z-cdn-media.chatglm.cn/files/1e73ae9c-e26a-4eac-ad8a-952a57ab635d.jpg?auth_key=1879136683-5f6b69db885e4d6eaba44505680b44bb-0-9cf8563d520c541beec68cc384c98f07' },
+    { id: 'svc1', title: 'مستلزمات مكتبيه', desc: 'ومستلزمات مكتبية', icon: 'fa-pen-ruler', color: '#3498DB', cover: 'https://z-cdn-media.chatglm.cn/files/5647a95d-ce35-4503-8c87-719f401665fd.png?auth_key=1879137737-dc1987d2100c4cf6a985846eb38c5469-0-9de213a86ab5078e08ab7e05441edccd' },
+    { id: 'svc2', title: 'منتجات البوفيه', desc: 'قهوة وشاي ومستلزمات بوفية', icon: 'fa-mug-hot', color: '#E67E22', cover: 'https://z-cdn-media.chatglm.cn/files/13e8782b-e9de-4500-8b33-c271b7b59806.png?auth_key=1879136993-f6c0b9ba84f44232acfd3da199b7df60-0-5d98316a27ed0935030bedcae9a8d637' },
+    { id: 'svc3', title: 'التعبئه والتغليف', desc: 'أكواب وأطباق ومستلزمات تغليف', icon: 'fa-box-open', color: '#9B59B6', cover: 'https://z-cdn-media.chatglm.cn/files/ecae6afe-cba3-4aa6-b1a7-e4e46497c6cc.png?auth_key=1879136993-6f93ea84dc6742258300573fdb09aca5-0-84a0b67115f4cc5a2647c68d251fa58a' },
+    { id: 'svc4', title: 'مستلزمات من تصنيعنا', desc: 'منتجات تنظيف بتصنيعنا الخاص', icon: 'fa-industry', color: '#1ABC9C', cover: 'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2' }
+];
+var STATIC_LOGO = 'https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190';
+var STATIC_PROMO = 'https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
+
+/* =========================================================
+   حالة التطبيق
+   ========================================================= */
+var cardId = '';
+var logoUrl = '';
+var servicesData = {};
+var saveTimer = null;
+var viewModeServicesData = null; // بيانات الخدمات في وضع العرض
+
+SERVICES.forEach(function (s) { servicesData[s.id] = { images: [], pdf: null, pdfName: '' }; });
+
+/* =========================================================
+   أدوات
+   ========================================================= */
+function cleanWhatsApp(n) { if (!n) return ''; n = n.trim().replace(/[^0-9]/g, ''); if (n.indexOf('00') === 0) n = n.substring(2); if (n.indexOf('0') === 0 && n.length === 11) n = '2' + n; return n; }
+function cleanPhone(n) { if (!n) return ''; return n.trim().replace(/[^0-9+]/g, ''); }
+
+function getCardId() {
+    if (cardId) return cardId;
+    cardId = localStorage.getItem('card_id');
+    if (!cardId) {
+        cardId = 'c' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        localStorage.setItem('card_id', cardId);
+    }
+    return cardId;
+}
+
+/* =========================================================
+   Splash
+   ========================================================= */
+var splashGone = false;
+var pendingViewId = null;
+
+function hideSplash() {
+    if (splashGone) return;
+    splashGone = true;
+    var s = document.getElementById('splash');
+    if (!s) return;
+    s.classList.add('fade-out');
+    setTimeout(function () {
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+        if (pendingViewId) {
+            startViewMode(pendingViewId);
+        } else {
+            document.getElementById('editorMode').style.display = '';
+            loadState();
+            generateAllQR();
+        }
+    }, 700);
+}
+function skipSplash() { hideSplash(); }
+
+// جزيئات البداية
+(function () {
+    var c = document.getElementById('splashParticles');
+    if (!c) return;
+    for (var i = 0; i < 20; i++) {
+        var p = document.createElement('div');
+        p.className = 'splash-particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.setProperty('--dur', (3 + Math.random() * 4) + 's');
+        p.style.setProperty('--delay', (Math.random() * 3) + 's');
+        p.style.setProperty('--tx', (Math.random() * 80 - 40) + 'px');
+        p.style.setProperty('--ty', (Math.random() * 80 - 40) + 'px');
+        var cl = ['var(--accent-light)', 'var(--gold)', 'rgba(255,255,255,.6)'];
+        p.style.background = cl[Math.floor(Math.random() * cl.length)];
+        p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+        c.appendChild(p);
+    }
+})();
+
+setTimeout(hideSplash, 3500);
+setTimeout(function () { if (!splashGone) hideSplash(); }, 5000);
+
+/* =========================================================
+   Supabase: رفع / حذف / تحميل
+   ========================================================= */
+async function uploadToSupabase(file, folder) {
+    if (!supabaseClient) throw 'Supabase مش متصل';
+    var ext = file.name.split('.').pop();
+    var fileName = folder + '/' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '.' + ext;
+    var result = await supabaseClient.storage.from(BUCKET_NAME).upload(fileName, file, { cacheControl: '3600', upsert: false });
+    if (result.error) throw result.error.message || 'فشل الرفع';
+    var urlResult = supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(result.data.path);
+    return urlResult.data.publicUrl;
+}
+
+async function deleteFromSupabase(url) {
+    if (!supabaseClient || !url) return;
     try {
-        if(SUPABASE_URL && SUPABASE_URL.indexOf('xxxx') === -1) {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        }
-    } catch(e) { console.error('Supabase init error:', e); }
+        var parts = url.split('/public/' + BUCKET_NAME + '/');
+        if (parts.length < 2) return;
+        var path = parts[1].split('?')[0];
+        await supabaseClient.storage.from(BUCKET_NAME).remove([path]);
+    } catch (e) { console.error(e); }
+}
 
-    var SERVICES=[
-        {id:'svc0',title:'مستلزمات نظافه',desc:'مستلزمات نظافه',icon:'fa-broom',color:'#2ECC71',cover:'https://z-cdn-media.chatglm.cn/files/1e73ae9c-e26a-4eac-ad8a-952a57ab635d.jpg?auth_key=1879136683-5f6b69db885e4d6eaba44505680b44bb-0-9cf8563d520c541beec68cc384c98f07'},
-        {id:'svc1',title:'مستلزمات مكتبيه',desc:'ومستلزمات مكتبية',icon:'fa-pen-ruler',color:'#3498DB',cover:'https://z-cdn-media.chatglm.cn/files/5647a95d-ce35-4503-8c87-719f401665fd.png?auth_key=1879137737-dc1987d2100c4cf6a985846eb38c5469-0-9de213a86ab5078e08ab7e05441edccd'},
-        {id:'svc2',title:'منتجات البوفيه',desc:'قهوة وشاي ومستلزمات بوفية',icon:'fa-mug-hot',color:'#E67E22',cover:'https://z-cdn-media.chatglm.cn/files/13e8782b-e9de-4500-8b33-c271b7b59806.png?auth_key=1879136993-f6c0b9ba84f44232acfd3da199b7df60-0-5d98316a27ed0935030bedcae9a8d637'},
-        {id:'svc3',title:'التعبئه والتغليف',desc:'أكواب وأطباق ومستلزمات تغليف',icon:'fa-box-open',color:'#9B59B6',cover:'https://z-cdn-media.chatglm.cn/files/ecae6afe-cba3-4aa6-b1a7-e4e46497c6cc.png?auth_key=1879136993-6f93ea84dc6742258300573fdb09aca5-0-84a0b67115f4cc5a2647c68d251fa58a'},
-        {id:'svc4',title:'مستلزمات من تصنيعنا',desc:'منتجات تنظيف بتصنيعنا الخاص',icon:'fa-industry',color:'#1ABC9C',cover:'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2'}
-    ];
-    var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190';
-    var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
+// حفظ بيانات البطاقة كاملة كملف JSON على Supabase
+async function saveCardToCloud() {
+    if (!supabaseClient) return;
+    var d = getFormData();
+    var payload = {
+        name: d.name, desc: d.desc, whatsapp: d.whatsapp,
+        phone1: d.phone1, phone2: d.phone2,
+        email: d.email, facebook: d.facebook, tiktok: d.tiktok,
+        logoUrl: logoUrl,
+        services: {}
+    };
+    SERVICES.forEach(function (svc) {
+        var sd = servicesData[svc.id];
+        if (sd) payload.services[svc.id] = { images: sd.images.slice(), pdf: sd.pdf, pdfName: sd.pdfName };
+    });
+    var jsonStr = JSON.stringify(payload);
+    var blob = new Blob([jsonStr], { type: 'application/json' });
+    var file = new File([blob], getCardId() + '.json', { type: 'application/json' });
+    try {
+        await supabaseClient.storage.from(BUCKET_NAME).upload('cards/' + getCardId() + '.json', file, { cacheControl: 'no-cache', upsert: true });
+    } catch (e) { console.error('Cloud save error:', e); }
+}
 
-    var logoBase64='';
-    var servicesData={};
-    SERVICES.forEach(function(s){servicesData[s.id]={images:[],pdf:null,pdfName:''};});
+// تحميل بيانات البطاقة من Supabase
+async function loadCardFromCloud(id) {
+    if (!supabaseClient) return null;
+    try {
+        var result = await supabaseClient.storage.from(BUCKET_NAME).download('cards/' + id + '.json');
+        if (result.error || !result.data) return null;
+        var text = await result.data.text();
+        return JSON.parse(text);
+    } catch (e) { console.error('Cloud load error:', e); return null; }
+}
 
-    function safeEncode(s){try{var b=btoa(unescape(encodeURIComponent(s)));return b.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}catch(e){return'';}}
-    function safeDecode(s){try{var b=s.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';return decodeURIComponent(escape(atob(b)));}catch(e){return'';}}
-    function cleanWhatsApp(n){if(!n)return'';n=n.trim().replace(/[^0-9]/g,'');if(n.indexOf('00')===0)n=n.substring(2);if(n.indexOf('0')===0&&n.length===11)n='2'+n;return n;}
-    function cleanPhone(n){if(!n)return'';return n.trim().replace(/[^0-9+]/g,'');}
+/* =========================================================
+   الحفظ التلقائي
+   ========================================================= */
+function setSaveStatus(type) {
+    var el = document.getElementById('saveStatus');
+    var txt = document.getElementById('saveText');
+    if (!el || !txt) return;
+    el.className = 'save-indicator ' + type;
+    var icon = el.querySelector('i');
+    if (type === 'saving') { txt.textContent = 'جاري الحفظ...'; if (icon) icon.className = 'fas fa-spinner fa-spin'; }
+    else if (type === 'saved') { txt.textContent = 'تم الحفظ'; if (icon) icon.className = 'fas fa-check-circle'; }
+    else if (type === 'offline') { txt.textContent = 'حفظ محلي'; if (icon) icon.className = 'fas fa-exclamation-circle'; }
+}
 
-    /* ===== Splash ===== */
-    var splashGone=false,pendingViewData=null;
-    function hideSplash(){if(splashGone)return;splashGone=true;var s=document.getElementById('splash');if(!s)return;s.classList.add('fade-out');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);if(pendingViewData)showViewMode(pendingViewData);else{document.getElementById('editorMode').style.display='';loadState();}},700);}
-    function skipSplash(){hideSplash();}
-    (function(){var c=document.getElementById('splashParticles');if(!c)return;for(var i=0;i<20;i++){var p=document.createElement('div');p.className='splash-particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--dur',(3+Math.random()*4)+'s');p.style.setProperty('--delay',(Math.random()*3)+'s');p.style.setProperty('--tx',(Math.random()*80-40)+'px');p.style.setProperty('--ty',(Math.random()*80-40)+'px');var cl=['var(--accent-light)','var(--gold)','rgba(255,255,255,.6)'];p.style.background=cl[Math.floor(Math.random()*cl.length)];p.style.width=p.style.height=(2+Math.random()*3)+'px';c.appendChild(p);}})();
-    setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},5000);
-    (function(){var c=document.getElementById('particles');if(!c)return;for(var i=0;i<8;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.setProperty('--dur',(14+Math.random()*20)+'s');p.style.setProperty('--delay',(Math.random()*15)+'s');p.style.width=p.style.height=(1+Math.random()*2)+'px';c.appendChild(p);}})();
+function onFormChange() {
+    updatePreview();
+    triggerAutoSave();
+}
 
-    /* ===== Supabase Upload Functions ===== */
-    async function uploadToSupabase(file, folder){
-        if(!supabaseClient) { throw 'Supabase مش متصل - ضيفي البيانات في الكود'; }
-        var ext = file.name.split('.').pop();
-        var fileName = folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,5)+'.'+ext;
-        var { data, error } = await supabaseClient.storage.from(BUCKET_NAME).upload(fileName, file, { cacheControl: '3600', upsert: false });
-        if(error) throw error.message || 'فشل الرفع';
-        var { data: urlData } = supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(data.path);
-        return urlData.publicUrl;
-    }
+function triggerAutoSave() {
+    saveToLocalStorage();
+    clearTimeout(saveTimer);
+    setSaveStatus('saving');
+    saveTimer = setTimeout(async function () {
+        await saveCardToCloud();
+        setSaveStatus('saved');
+    }, 2000);
+}
 
-    async function deleteFromSupabase(url){
-        if(!supabaseClient || !url) return;
-        try {
-            var parts = url.split('/public/'+BUCKET_NAME+'/');
-            if(parts.length < 2) return;
-            var path = parts[1].split('?')[0]; // Remove query params
-            await supabaseClient.storage.from(BUCKET_NAME).remove([path]);
-        } catch(e) { console.error(e); }
-    }
+function saveToLocalStorage() {
+    try {
+        var d = getFormData();
+        localStorage.setItem('businessCardData', JSON.stringify(Object.assign({}, d, { logoUrl: logoUrl })));
+        localStorage.setItem('gsi_state', JSON.stringify(servicesData));
+    } catch (e) { }
+}
 
-    /* ===== محرر الخدمات ===== */
-    function renderServicesEditor(){
-        var c=document.getElementById('servicesEditor');if(!c)return;var h='';
-        SERVICES.forEach(function(svc){
-            var sd=servicesData[svc.id]||{images:[],pdf:null,pdfName:''};
-            var ic=sd.images.length,hp=!!sd.pdf;
-            h+='<div class="svc-editor-card">';
-            h+='<div class="svc-editor-header" id="hdr_'+svc.id+'" onclick="toggleSvc(\''+svc.id+'\')">';
-            h+='<div class="svc-ico" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div>';
-            h+='<div style="flex:1"><span class="svc-h-title">'+svc.title+'</span><span class="svc-h-desc">'+svc.desc+'</span></div>';
-            h+='<span class="svc-h-badge">'+ic+' صور'+(hp?' + PDF':'')+'</span>';
-            h+='<i class="fas fa-chevron-down svc-h-arrow"></i></div>';
-            h+='<div class="svc-editor-body" id="body_'+svc.id+'">';
-            h+='<div class="svc-img-grid">';
-            sd.images.forEach(function(url,i){
-                h+='<div class="svc-img-thumb" onclick="event.stopPropagation();openGallery(\''+svc.id+'\','+i+')"><img src="'+url+'" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+',\''+url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button></div>';
-            });
-            if(ic<10)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';
-            h+='</div>';
-            h+='<input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgFiles(event,\''+svc.id+'\')" style="display:none">';
-            h+='<div class="svc-pdf-area">';
-            if(hp){
-                var pdfUrl = sd.pdf.replace(/'/g,"\\'");
-                h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\',\''+pdfUrl+'\')"><i class="fas fa-trash"></i></button></div>';
-            }else{
-                h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfFile(event,\''+svc.id+'\')" style="display:none">';
-            }
-            h+='</div></div></div>';
+/* =========================================================
+   محرر الخدمات
+   ========================================================= */
+function renderServicesEditor() {
+    var c = document.getElementById('servicesEditor');
+    if (!c) return;
+    var h = '';
+    SERVICES.forEach(function (svc) {
+        var sd = servicesData[svc.id] || { images: [], pdf: null, pdfName: '' };
+        var ic = sd.images.length, hp = !!sd.pdf;
+        h += '<div class="svc-editor-card">';
+        h += '<div class="svc-editor-header" id="hdr_' + svc.id + '" onclick="toggleSvc(\'' + svc.id + '\')">';
+        h += '<div class="svc-ico" style="background:' + svc.color + '"><i class="fas ' + svc.icon + '"></i></div>';
+        h += '<div style="flex:1"><span class="svc-h-title">' + svc.title + '</span><span class="svc-h-desc">' + svc.desc + '</span></div>';
+        h += '<span class="svc-h-badge">' + ic + ' صور' + (hp ? ' + PDF' : '') + '</span>';
+        h += '<i class="fas fa-chevron-down svc-h-arrow"></i></div>';
+        h += '<div class="svc-editor-body" id="body_' + svc.id + '">';
+        h += '<div class="svc-img-grid">';
+        sd.images.forEach(function (url, i) {
+            h += '<div class="svc-img-thumb" onclick="event.stopPropagation();openGallery(\'' + svc.id + '\',' + i + ')"><img src="' + url + '" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\'' + svc.id + '\',' + i + ',\'' + url.replace(/'/g, "\\'") + '\')"><i class="fas fa-times"></i></button></div>';
         });
-        c.innerHTML=h;
-    }
-
-    function toggleSvc(id){var h=document.getElementById('hdr_'+id),b=document.getElementById('body_'+id);if(h)h.classList.toggle('open');if(b)b.classList.toggle('open');}
-    function doUpload(id){var f=document.getElementById('fup_'+id);if(f){f.value='';f.click();}}
-    function doPdfUpload(id){var f=document.getElementById('pfup_'+id);if(f){f.value='';f.click();}}
-
-    function setMsg(msg,type){var m=document.getElementById('uploadMsg');if(!m)return;m.textContent=msg;m.className='upload-msg '+type;if(type!=='working')setTimeout(function(){m.className='upload-msg';},5000);}
-
-    async function onImgFiles(e,svcId){
-        var files=Array.from(e.target.files);if(!files.length)return;
-        var sd=servicesData[svcId];if(!sd)return;
-        if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}
-        setMsg('جاري رفع '+files.length+' صورة على السيرفر...','working');
-        var ok=0;
-        for(var i=0;i<files.length;i++){
-            try{
-                var url = await uploadToSupabase(files[i], svcId);
-                sd.images.push(url); ok++;
-                saveState();
-            }catch(err){ setMsg('فشل رفع صورة: '+err, 'fail'); console.error(err); }
+        if (ic < 10) h += '<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\'' + svc.id + '\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';
+        h += '</div>';
+        h += '<input type="file" id="fup_' + svc.id + '" accept="image/*" multiple onchange="onImgFiles(event,\'' + svc.id + '\')" style="display:none">';
+        h += '<div class="svc-pdf-area">';
+        if (hp) {
+            var pdfUrl = sd.pdf.replace(/'/g, "\\'");
+            h += '<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">' + sd.pdfName + '</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\'' + svc.id + '\',\'' + pdfUrl + '\')"><i class="fas fa-trash"></i></button></div>';
+        } else {
+            h += '<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\'' + svc.id + '\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_' + svc.id + '" accept="application/pdf" onchange="onPdfFile(event,\'' + svc.id + '\')" style="display:none">';
         }
-        if(ok>0){ renderServicesEditor(); updatePreview(); setMsg('✓ تم رفع '+ok+' صورة بنجاح على السيرفر','done'); }
-        e.target.value='';
+        h += '</div></div></div>';
+    });
+    c.innerHTML = h;
+}
+
+function toggleSvc(id) {
+    var h = document.getElementById('hdr_' + id), b = document.getElementById('body_' + id);
+    if (h) h.classList.toggle('open');
+    if (b) b.classList.toggle('open');
+}
+function doUpload(id) { var f = document.getElementById('fup_' + id); if (f) { f.value = ''; f.click(); } }
+function doPdfUpload(id) { var f = document.getElementById('pfup_' + id); if (f) { f.value = ''; f.click(); } }
+function setMsg(msg, type) { var m = document.getElementById('uploadMsg'); if (!m) return; m.textContent = msg; m.className = 'upload-msg ' + type; if (type !== 'working') setTimeout(function () { m.className = 'upload-msg'; }, 5000); }
+
+async function onImgFiles(e, svcId) {
+    var files = Array.from(e.target.files); if (!files.length) return;
+    var sd = servicesData[svcId]; if (!sd) return;
+    if (sd.images.length >= 10) { setMsg('الحد أقصى 10 صور', 'fail'); return; }
+    setMsg('جاري رفع ' + files.length + ' صورة...', 'working');
+    var ok = 0;
+    for (var i = 0; i < files.length; i++) {
+        try { var url = await uploadToSupabase(files[i], svcId); sd.images.push(url); ok++; saveToLocalStorage(); }
+        catch (err) { setMsg('فشل رفع صورة: ' + err, 'fail'); console.error(err); }
+    }
+    if (ok > 0) { renderServicesEditor(); updatePreview(); triggerAutoSave(); setMsg('تم رفع ' + ok + ' صورة بنجاح', 'done'); }
+    e.target.value = '';
+}
+
+async function delImg(svcId, idx, url) {
+    servicesData[svcId].images.splice(idx, 1);
+    deleteFromSupabase(url);
+    saveToLocalStorage(); renderServicesEditor(); updatePreview(); triggerAutoSave();
+    showToast('تم حذف الصورة');
+}
+
+async function onPdfFile(e, svcId) {
+    var file = e.target.files[0]; if (!file) return;
+    setMsg('جاري رفع PDF...', 'working');
+    try {
+        var url = await uploadToSupabase(file, svcId + '_pdf');
+        servicesData[svcId].pdf = url; servicesData[svcId].pdfName = file.name;
+        saveToLocalStorage(); renderServicesEditor(); updatePreview(); triggerAutoSave();
+        setMsg('تم رفع PDF', 'done');
+    } catch (err) { setMsg('فشل رفع PDF: ' + err, 'fail'); }
+    e.target.value = '';
+}
+
+async function delPdf(svcId, url) {
+    servicesData[svcId].pdf = null; servicesData[svcId].pdfName = '';
+    deleteFromSupabase(url);
+    saveToLocalStorage(); renderServicesEditor(); updatePreview(); triggerAutoSave();
+    showToast('تم حذف PDF');
+}
+
+/* =========================================================
+   تحميل الحالة
+   ========================================================= */
+function loadState() {
+    try {
+        var s = localStorage.getItem('gsi_state');
+        if (s) { var p = JSON.parse(s); SERVICES.forEach(function (svc) { if (p[svc.id]) servicesData[svc.id] = p[svc.id]; }); }
+    } catch (e) { }
+    try {
+        var sv = localStorage.getItem('businessCardData');
+        if (sv) { var d = JSON.parse(sv); setFormData(d); if (d.logoUrl) logoUrl = d.logoUrl; }
+    } catch (e) { }
+    try {
+        var pu = localStorage.getItem('page_url');
+        if (pu) document.getElementById('pageUrl').value = pu;
+    } catch (e) { }
+    renderServicesEditor(); updatePreview();
+}
+
+/* =========================================================
+   اللوجو
+   ========================================================= */
+async function handleLogoUpload(e) {
+    var file = e.target.files[0]; if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+        logoUrl = ev.target.result;
+        document.getElementById('logoPreviewThumb').src = logoUrl;
+        document.getElementById('logoPreviewThumb').style.display = 'block';
+        document.getElementById('logoPlaceholder').style.display = 'none';
+        updatePreview();
+    };
+    reader.readAsDataURL(file);
+    try {
+        var url = await uploadToSupabase(file, 'logos/' + getCardId());
+        logoUrl = url;
+        document.getElementById('logoPreviewThumb').src = logoUrl;
+        saveToLocalStorage(); triggerAutoSave();
+    } catch (err) {
+        console.error('Logo upload failed:', err);
+        saveToLocalStorage(); triggerAutoSave();
+    }
+}
+
+/* =========================================================
+   معرض الصور
+   ========================================================= */
+var gs = { svcId: '', images: [], cur: 0, pdf: null, pdfName: '', title: '' };
+
+function openGallery(svcId, idx) {
+    // استخدم البيانات المناسبة (محلية أو وضع العرض)
+    var sd = viewModeServicesData ? (viewModeServicesData[svcId] || { images: [], pdf: null }) : (servicesData[svcId] || { images: [], pdf: null });
+    if (!sd || !sd.images.length) { showToastErr('لا توجد صور'); return; }
+    var svc = SERVICES.find(function (s) { return s.id === svcId; });
+    gs = { svcId: svcId, images: sd.images, cur: idx || 0, pdf: sd.pdf, pdfName: sd.pdfName || '', title: svc ? svc.title : '' };
+    renderGal();
+    document.getElementById('galleryOverlay').style.display = 'flex';
+    setTimeout(function () { document.getElementById('galleryOverlay').classList.add('show'); }, 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+    document.getElementById('galleryOverlay').classList.remove('show');
+    setTimeout(function () { document.getElementById('galleryOverlay').style.display = 'none'; }, 300);
+    document.body.style.overflow = '';
+}
+
+function renderGal() {
+    var imgs = gs.images, idx = gs.cur;
+    document.getElementById('galleryTitle').textContent = gs.title;
+    document.getElementById('galleryImg').src = imgs[idx];
+    document.getElementById('galleryCounter').textContent = (idx + 1) + ' / ' + imgs.length;
+    var d = '';
+    for (var i = 0; i < Math.min(imgs.length, 10); i++) d += '<button class="gallery-dot' + (i === idx ? ' active' : '') + '" onclick="galGo(' + i + ')"></button>';
+    document.getElementById('galleryDots').innerHTML = d;
+    var t = '';
+    for (var i = 0; i < imgs.length; i++) t += '<div class="gallery-th-item' + (i === idx ? ' active' : '') + '" onclick="galGo(' + i + ')"><img src="' + imgs[i] + '" alt="" referrerpolicy="no-referrer"></div>';
+    document.getElementById('galleryThumbs').innerHTML = t;
+    var b = '';
+    if (gs.pdf) b += '<a href="' + gs.pdf + '" target="_blank" class="g-btn g-pdf"><i class="fas fa-file-pdf"></i> فتح/تحميل PDF</a>';
+    // الواتساب - من وضع العرض أو المحرر
+    var wn = '';
+    if (viewModeServicesData && viewModeServicesData._whatsapp) wn = cleanWhatsApp(viewModeServicesData._whatsapp);
+    else { var wEl = document.getElementById('whatsapp'); if (wEl) wn = cleanWhatsApp(wEl.value); }
+    if (wn) b += '<a class="g-btn g-wa" href="https://wa.me/' + wn + '" target="_blank"><i class="fab fa-whatsapp"></i> استفسار</a>';
+    document.getElementById('galleryBottom').innerHTML = b;
+    document.querySelector('.gallery-prev').style.display = imgs.length > 1 ? 'flex' : 'none';
+    document.querySelector('.gallery-next').style.display = imgs.length > 1 ? 'flex' : 'none';
+}
+
+function galleryNav(d) { gs.cur = (gs.cur + d + gs.images.length) % gs.images.length; renderGal(); }
+function galGo(i) { gs.cur = i; renderGal(); }
+
+// سوايب
+(function () {
+    var sx = 0, dg = false;
+    document.addEventListener('touchstart', function (e) {
+        var o = document.getElementById('galleryOverlay');
+        if (!o || o.style.display === 'none') return;
+        if (e.target.closest('.gallery-nav,.gallery-close,.gallery-th-item,.gallery-dot,.g-btn')) return;
+        sx = e.touches[0].clientX; dg = true;
+    }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+        if (!dg) return; dg = false;
+        var d = e.changedTouches[0].clientX - sx;
+        if (Math.abs(d) > 50) galleryNav(d > 0 ? -1 : 1);
+    }, { passive: true });
+})();
+
+document.addEventListener('keydown', function (e) {
+    var o = document.getElementById('galleryOverlay');
+    if (!o || o.style.display === 'none') return;
+    if (e.key === 'ArrowRight') galleryNav(-1);
+    else if (e.key === 'ArrowLeft') galleryNav(1);
+    else if (e.key === 'Escape') closeGallery();
+});
+
+/* =========================================================
+   بيانات النموذج
+   ========================================================= */
+function getFormData() {
+    return {
+        name: document.getElementById('companyName').value.trim(),
+        desc: document.getElementById('companyDesc').value.trim(),
+        whatsapp: document.getElementById('whatsapp').value.trim(),
+        phone1: document.getElementById('phone1').value.trim(),
+        phone2: document.getElementById('phone2').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        facebook: document.getElementById('facebook').value.trim(),
+        tiktok: document.getElementById('tiktok').value.trim()
+    };
+}
+
+function setFormData(d) {
+    if (!d) return;
+    ['companyName', 'companyDesc', 'whatsapp', 'phone1', 'phone2', 'email', 'facebook', 'tiktok'].forEach(function (f) {
+        if (d[f] !== undefined) document.getElementById(f).value = d[f];
+    });
+    if (d.logoUrl) {
+        logoUrl = d.logoUrl;
+        document.getElementById('logoPreviewThumb').src = logoUrl;
+        document.getElementById('logoPreviewThumb').style.display = 'block';
+        document.getElementById('logoPlaceholder').style.display = 'none';
+    }
+    updatePreview();
+}
+
+/* =========================================================
+   QR Code
+   ========================================================= */
+function makeQR(text, cid, sid, dc, ls) {
+    var ct = document.getElementById(cid), st = document.getElementById(sid);
+    dc = dc || '#061A12';
+    if (!ct) return false;
+    try {
+        var qr = qrcode(0, 'H'); qr.addData(text); qr.make();
+        var mc = qr.getModuleCount(), cs = Math.max(3, Math.floor(220 / mc)), mg = 14, sz = mc * cs + mg * 2;
+        var cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
+        var ctx = cv.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, sz, sz); ctx.fillStyle = dc;
+        for (var r = 0; r < mc; r++) for (var c = 0; c < mc; c++) if (qr.isDark(r, c)) ctx.fillRect(mg + c * cs, mg + r * cs, cs, cs);
+        if (ls) {
+            var img = new Image(); img.crossOrigin = 'Anonymous';
+            img.onload = function () {
+                var l = sz * .2, x = (sz - l) / 2, y = (sz - l) / 2;
+                ctx.save(); ctx.beginPath(); ctx.arc(x + l / 2, y + l / 2, l / 2 + 5, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill();
+                ctx.closePath(); ctx.beginPath(); ctx.arc(x + l / 2, y + l / 2, l / 2, 0, Math.PI * 2); ctx.closePath(); ctx.clip();
+                ctx.drawImage(img, x, y, l, l); ctx.restore();
+                ctx.beginPath(); ctx.arc(x + l / 2, y + l / 2, l / 2 + 2, 0, Math.PI * 2); ctx.strokeStyle = dc; ctx.lineWidth = 1.5; ctx.stroke();
+                finishQR();
+            };
+            img.onerror = function () { finishQR(); };
+            img.src = ls;
+        } else { finishQR(); }
+
+        function finishQR() {
+            try {
+                var du = cv.toDataURL('image/png'); ct.innerHTML = '';
+                var ie = document.createElement('img'); ie.src = du;
+                ie.style.cssText = 'width:220px;height:220px;border-radius:14px;image-rendering:pixelated';
+                ct.appendChild(ie); ct.className = 'qr-result';
+                if (st) st.innerHTML = '<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';
+            } catch (e2) { makeQR(text, cid, sid, dc, null); }
+        }
+        return true;
+    } catch (e) {
+        ct.innerHTML = '<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';
+        if (st) st.innerHTML = '<span class="qr-status err">بيانات كبيرة</span>';
+        return false;
+    }
+}
+
+function downloadQR(cid, fn) {
+    var c = document.getElementById(cid), img = c ? c.querySelector('img') : null;
+    if (!img || !img.src) { showToastErr('QR مش جاهز'); return; }
+    var a = document.createElement('a'); a.download = fn; a.href = img.src;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    showToast('تم تحميل QR');
+}
+
+// توليد كل أكواد QR
+function generateAllQR() {
+    var d = getFormData();
+    var ls = logoUrl || STATIC_LOGO;
+    var pu = document.getElementById('pageUrl').value.trim();
+
+    // عرض الرابط الثابت
+    var fixedDisplay = document.getElementById('fixedUrlDisplay');
+    if (pu && fixedDisplay) {
+        var sep = pu.indexOf('?') > -1 ? '&' : '?';
+        fixedDisplay.textContent = pu + sep + 'id=' + getCardId();
     }
 
-    async function delImg(svcId,idx,url){
-        servicesData[svcId].images.splice(idx,1);
-        deleteFromSupabase(url); // مسح من السيرفر برضه
-        saveState(); renderServicesEditor(); updatePreview(); showToast('تم حذف الصورة');
+    // QR البطاقة - رابط ثابت مع cardId
+    if (pu) {
+        var sep = pu.indexOf('?') > -1 ? '&' : '?';
+        var fullUrl = pu + sep + 'id=' + getCardId();
+        makeQR(fullUrl, 'qrPageResult', 'qrPageStatus', '#061A12', ls);
+    } else {
+        document.getElementById('qrPageResult').innerHTML = '<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold);font-size:12px">أدخلي رابط الصفحة أعلاه لتوليد QR ثابت</p></div>';
+        document.getElementById('qrPageStatus').innerHTML = '';
     }
 
-    async function onPdfFile(e,svcId){
-        var file=e.target.files[0];if(!file)return;
-        setMsg('جاري رفع PDF...','working');
-        try{
-            var url = await uploadToSupabase(file, svcId+'_pdf');
-            servicesData[svcId].pdf=url; servicesData[svcId].pdfName=file.name;
-            saveState(); renderServicesEditor(); updatePreview();
-            setMsg('✓ تم رفع PDF','done');
-        }catch(err){ setMsg('فشل رفع PDF: '+err,'fail'); }
-        e.target.value='';
+    // QR واتساب
+    var wn = cleanWhatsApp(d.whatsapp);
+    if (wn) makeQR('https://wa.me/' + wn, 'qrWaResult', 'qrWaStatus', '#075E54', ls);
+    else { document.getElementById('qrWaResult').innerHTML = '<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>'; document.getElementById('qrWaStatus').innerHTML = ''; }
+
+    // QR كونتاكت
+    makeQR(generateVCard(d), 'qrVcardResult', 'qrVcardStatus', '#061A12', ls);
+}
+
+function onPageUrlChange() {
+    var ls = logoUrl || STATIC_LOGO;
+    var pu = document.getElementById('pageUrl').value.trim();
+    localStorage.setItem('page_url', pu);
+
+    var fixedDisplay = document.getElementById('fixedUrlDisplay');
+    if (pu && fixedDisplay) {
+        var sep = pu.indexOf('?') > -1 ? '&' : '?';
+        fixedDisplay.textContent = pu + sep + 'id=' + getCardId();
+    } else if (fixedDisplay) {
+        fixedDisplay.textContent = '—';
     }
 
-    async function delPdf(svcId,url){
-        servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';
-        deleteFromSupabase(url);
-        saveState(); renderServicesEditor(); updatePreview(); showToast('تم حذف PDF');
+    if (pu) {
+        var sep = pu.indexOf('?') > -1 ? '&' : '?';
+        var fullUrl = pu + sep + 'id=' + getCardId();
+        makeQR(fullUrl, 'qrPageResult', 'qrPageStatus', '#061A12', ls);
+    } else {
+        document.getElementById('qrPageResult').innerHTML = '<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold);font-size:12px">أدخلي رابط الصفحة أعلاه لتوليد QR ثابت</p></div>';
+        document.getElementById('qrPageStatus').innerHTML = '';
+    }
+    triggerAutoSave();
+}
+
+function switchQRTab(tab) {
+    document.querySelectorAll('.qr-tab').forEach(function (t) { t.classList.remove('active'); });
+    document.querySelector('.qr-tab[data-tab="' + tab + '"]').classList.add('active');
+    document.getElementById('qrVcard').style.display = tab === 'vcard' ? '' : 'none';
+    document.getElementById('qrWhatsapp').style.display = tab === 'whatsapp' ? '' : 'none';
+    document.getElementById('qrPage').style.display = tab === 'page' ? '' : 'none';
+}
+
+/* =========================================================
+   VCard
+   ========================================================= */
+function generateVCard(d) {
+    var v = 'BEGIN:VCARD\nVERSION:3.0\nFN:' + (d.name || '') + '\nORG:' + (d.name || '') + '\n';
+    if (d.phone1) v += 'TEL;TYPE=WORK:' + cleanPhone(d.phone1) + '\n';
+    if (d.phone2) v += 'TEL;TYPE=WORK:' + cleanPhone(d.phone2) + '\n';
+    if (d.whatsapp) v += 'TEL;TYPE=CELL:' + cleanWhatsApp(d.whatsapp) + '\n';
+    if (d.email) v += 'EMAIL;TYPE=WORK:' + d.email + '\n';
+    if (d.facebook) v += 'URL:' + d.facebook + '\n';
+    if (d.tiktok) v += 'URL:' + d.tiktok + '\n';
+    if (d.desc) v += 'NOTE:' + d.desc + '\n';
+    return v + 'END:VCARD';
+}
+
+/* =========================================================
+   بناء HTML الخدمات
+   ========================================================= */
+function buildServicesHTML(svcs, mini, svcDataRef) {
+    if (!svcs || !svcs.length) return '';
+    var cls = mini ? 'svc-mini' : 'svc-card';
+    var h = '';
+    svcs.forEach(function (s) {
+        var sd = svcDataRef ? (svcDataRef[s.id] || { images: [], pdf: null, pdfName: '' }) : (servicesData[s.id] || { images: [], pdf: null, pdfName: '' });
+        var ic = sd.images.length, hp = !!sd.pdf;
+        h += '<div class="' + cls + '" onclick="openGallery(\'' + s.id + '\',0)"><div class="svc-cover">';
+        if (s.cover) h += '<img src="' + s.cover + '" alt="' + s.title + '" referrerpolicy="no-referrer">';
+        h += '<div class="svc-cover-grad"></div>';
+        if (!mini) h += '<div class="svc-cover-icon" style="background:' + s.color + '"><i class="fas ' + s.icon + '"></i></div>';
+        h += '</div><div class="svc-body"><div class="svc-title">' + s.title + '</div>';
+        if (!mini) {
+            h += '<div class="svc-desc">' + s.desc + '</div><div class="svc-badges">';
+            if (ic) h += '<span class="svc-badge svc-badge-imgs"><i class="fas fa-images"></i> ' + ic + '</span>';
+            if (hp) h += '<span class="svc-badge svc-badge-pdf"><i class="fas fa-file-pdf"></i> أسعار</span>';
+            if (!ic && !hp) h += '<span class="svc-badge" style="background:rgba(255,255,255,.05);color:var(--muted)"><i class="fas fa-arrow-left"></i> تصفح</span>';
+            h += '</div>';
+        }
+        h += '</div></div>';
+    });
+    return h;
+}
+
+/* =========================================================
+   تحديث المعاينة
+   ========================================================= */
+function updatePreview() {
+    var d = getFormData();
+    document.getElementById('previewName').textContent = d.name || 'المؤسسة العالمية للتوريدات';
+    document.getElementById('previewDesc').textContent = d.desc || 'شريكك الموثوق في التوريدات';
+    var ls = logoUrl || STATIC_LOGO;
+    var li = document.getElementById('previewLogoImg'), lic = document.getElementById('previewLogoIcon');
+    if (ls) { li.src = ls; li.style.display = 'block'; lic.style.display = 'none'; }
+    else { li.style.display = 'none'; lic.style.display = ''; }
+
+    var se = document.getElementById('previewSocials'); se.innerHTML = '';
+    [{ url: d.email, icon: 'fas fa-envelope', cls: 'soc-em', ie: true }, { url: d.facebook, icon: 'fab fa-facebook-f', cls: 'soc-fb', ie: false }, { url: d.tiktok, icon: 'fab fa-tiktok', cls: 'soc-tk', ie: false }].forEach(function (s) {
+        if (s.url) { var a = document.createElement('a'); a.href = s.ie ? 'mailto:' + s.url : s.url; a.target = s.ie ? '_self' : '_blank'; a.className = 'soc-icon ' + s.cls; a.innerHTML = '<i class="' + s.icon + '"></i>'; se.appendChild(a); }
+    });
+
+    var ce = document.getElementById('previewContact'); ce.innerHTML = '';
+    if (d.phone1) ce.innerHTML += '<p><i class="fas fa-phone text-blue-400 ml-1"></i> ' + d.phone1 + '</p>';
+    if (d.phone2) ce.innerHTML += '<p><i class="fas fa-phone text-blue-400 ml-1"></i> ' + d.phone2 + '</p>';
+    if (d.email) ce.innerHTML += '<p><i class="fas fa-envelope text-red-400 ml-1"></i> ' + d.email + '</p>';
+
+    document.getElementById('previewServices').innerHTML = buildServicesHTML(SERVICES, true);
+
+    var wb = document.getElementById('previewWaBtn'), wn = cleanWhatsApp(d.whatsapp);
+    if (wn) { wb.href = 'https://wa.me/' + wn; wb.style.display = 'flex'; }
+    else wb.style.display = 'none';
+}
+
+/* =========================================================
+   وضع العرض (لما حد يمسح QR)
+   ========================================================= */
+async function startViewMode(id) {
+    document.getElementById('editorMode').style.display = 'none';
+    document.getElementById('viewMode').style.display = 'flex';
+
+    var loading = document.getElementById('viewLoading');
+    var content = document.getElementById('viewContent');
+    loading.style.display = 'flex';
+    content.style.display = 'none';
+
+    // حاول نحمّل البيانات من Supabase
+    var data = await loadCardFromCloud(id);
+
+    if (!data) {
+        // مفيش بيانات على السيرفر - نعرض بيانات افتراضية
+        data = { name: 'المؤسسة العالمية للتوريدات', desc: 'شريكك الموثوق في التوريدات', whatsapp: '', phone1: '', phone2: '', email: '', facebook: '', tiktok: '', logoUrl: '', services: {} };
     }
 
-    /* ===== حفظ الحالة (URLs بس - حجمها صغير) في localStorage ===== */
-    function saveState(){
-        try{ localStorage.setItem('gsi_state', JSON.stringify(servicesData)); }catch(e){}
-    }
-    function loadState(){
-        try{
-            var s=localStorage.getItem('gsi_state');
-            if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}
-        }catch(e){}
-        renderServicesEditor(); updatePreview();
-    }
+    // نحفظ بيانات الخدمات لاستخدامها في المعرض
+    viewModeServicesData = data.services || {};
+    // نضيف رقم الواتساب لاستخدامه في المعرض
+    viewModeServicesData._whatsapp = data.whatsapp;
 
-    /* ===== معرض الصور ===== */
-    var gs={svcId:'',images:[],cur:0,pdf:null,pdfName:'',title:''};
-    function openGallery(svcId,idx){
-        var sd=servicesData[svcId];
-        if(!sd||!sd.images.length){showToastErr('لا توجد صور');return;}
-        var svc=SERVICES.find(function(s){return s.id===svcId;});
-        gs={svcId:svcId,images:sd.images,cur:idx||0,pdf:sd.pdf,pdfName:sd.pdfName,title:svc?svc.title:''};
-        renderGal();document.getElementById('galleryOverlay').style.display='flex';setTimeout(function(){document.getElementById('galleryOverlay').classList.add('show');},10);document.body.style.overflow='hidden';
-    }
-    function closeGallery(){document.getElementById('galleryOverlay').classList.remove('show');setTimeout(function(){document.getElementById('galleryOverlay').style.display='none';},300);document.body.style.overflow='';}
-    function renderGal(){var imgs=gs.images,idx=gs.cur;document.getElementById('galleryTitle').textContent=gs.title;document.getElementById('galleryImg').src=imgs[idx];document.getElementById('galleryCounter').textContent=(idx+1)+' / '+imgs.length;var d='';for(var i=0;i<Math.min(imgs.length,10);i++)d+='<button class="gallery-dot'+(i===idx?' active':'')+'" onclick="galGo('+i+')"></button>';document.getElementById('galleryDots').innerHTML=d;var t='';for(var i=0;i<imgs.length;i++)t+='<div class="gallery-th-item'+(i===idx?' active':'')+'" onclick="galGo('+i+')"><img src="'+imgs[i]+'" alt="" referrerpolicy="no-referrer"></div>';document.getElementById('galleryThumbs').innerHTML=t;var b='';if(gs.pdf)b+='<a href="'+gs.pdf+'" target="_blank" class="g-btn g-pdf"><i class="fas fa-file-pdf"></i> فتح/تحميل PDF</a>';var w=document.getElementById('whatsapp'),wn=w?cleanWhatsApp(w.value):'';if(wn)b+='<a class="g-btn g-wa" href="https://wa.me/'+wn+'" target="_blank"><i class="fab fa-whatsapp"></i> استفسار</a>';document.getElementById('galleryBottom').innerHTML=b;document.querySelector('.gallery-prev').style.display=imgs.length>1?'flex':'none';document.querySelector('.gallery-next').style.display=imgs.length>1?'flex':'none';}
-    function galleryNav(d){gs.cur=(gs.cur+d+gs.images.length)%gs.images.length;renderGal();}
-    function galGo(i){gs.cur=i;renderGal();}
-    (function(){var sx=0,dg=false;document.addEventListener('touchstart',function(e){var o=document.getElementById('galleryOverlay');if(!o||o.style.display==='none')return;if(e.target.closest('.gallery-nav,.gallery-close,.gallery-th-item,.gallery-dot,.g-btn'))return;sx=e.touches[0].clientX;dg=true;},{passive:true});document.addEventListener('touchend',function(e){if(!dg)return;dg=false;var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)galleryNav(d>0?-1:1);},{passive:true});})();
-    document.addEventListener('keydown',function(e){var o=document.getElementById('galleryOverlay');if(!o||o.style.display==='none')return;if(e.key==='ArrowRight')galleryNav(-1);else if(e.key==='ArrowLeft')galleryNav(1);else if(e.key==='Escape')closeGallery();});
+    // نعرض البيانات
+    document.getElementById('viewName').textContent = data.name || 'المؤسسة العالمية للتوريدات';
+    document.getElementById('viewDesc').textContent = data.desc || '';
+    document.getElementById('viewPromoBg').style.backgroundImage = 'url(' + STATIC_PROMO + ')';
 
-    function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),email:document.getElementById('email').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
-    function setFormData(d){if(!d)return;['companyName','companyDesc','whatsapp','phone1','phone2','email','facebook','tiktok'].forEach(function(f){if(d[f]!==undefined)document.getElementById(f).value=d[f];});if(d.logoBase64){logoBase64=d.logoBase64;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
-    function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){logoBase64=ev.target.result;document.getElementById('logoPreviewThumb').src=logoBase64;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};r.readAsDataURL(f);}
+    var viewLogo = document.getElementById('viewLogoImg');
+    viewLogo.src = data.logoUrl || STATIC_LOGO;
+    viewLogo.onerror = function () { this.parentElement.parentElement.style.display = 'none'; };
 
-    function makeQR(text,cid,sid,dc,ls){var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return;try{var qr=qrcode(0,'H');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cs=Math.max(3,Math.floor(220/mc)),mg=14,sz=mc*cs+mg*2;var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);if(ls){var img=new Image();img.crossOrigin='Anonymous';img.onload=function(){var l=sz*.2,x=(sz-l)/2,y=(sz-l)/2;ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.closePath();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,l,l);ctx.restore();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=1.5;ctx.stroke();done();};img.onerror=function(){done();};img.src=ls;}else done();function done(){try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}catch(e2){makeQR(text,cid,sid,dc,null);}}return true;}catch(e){ct.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle"></i><p>بيانات كبيرة</p></div>';if(st)st.innerHTML='<span class="qr-status err">بيانات كبيرة</span>';return false;}}
-    function downloadQR(cid,fn){var c=document.getElementById(cid),img=c?c.querySelector('img'):null;if(!img||!img.src){showToastErr('QR مش جاهز');return;}var a=document.createElement('a');a.download=fn;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
+    document.getElementById('viewServices').innerHTML =
+        '<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3>' +
+        '<div class="grid grid-cols-1 gap-3">' + buildServicesHTML(SERVICES, false, data.services) + '</div>';
 
-    function buildServicesHTML(svcs,mini){
-        if(!svcs||!svcs.length)return'';var cls=mini?'svc-mini':'svc-card';var h='';
-        svcs.forEach(function(s){var sd=servicesData[s.id]||{images:[],pdf:null,pdfName:''};var ic=sd.images.length,hp=!!sd.pdf;
-            h+='<div class="'+cls+'" onclick="openGallery(\''+s.id+'\',0)"><div class="svc-cover">';if(s.cover)h+='<img src="'+s.cover+'" alt="'+s.title+'" referrerpolicy="no-referrer">';h+='<div class="svc-cover-grad"></div>';if(!mini)h+='<div class="svc-cover-icon" style="background:'+s.color+'"><i class="fas '+s.icon+'"></i></div>';h+='</div><div class="svc-body"><div class="svc-title">'+s.title+'</div>';if(!mini){h+='<div class="svc-desc">'+s.desc+'</div><div class="svc-badges">';if(ic)h+='<span class="svc-badge svc-badge-imgs"><i class="fas fa-images"></i> '+ic+'</span>';if(hp)h+='<span class="svc-badge svc-badge-pdf"><i class="fas fa-file-pdf"></i> أسعار</span>';if(!ic&&!hp)h+='<span class="svc-badge" style="background:rgba(255,255,255,.05);color:var(--muted)"><i class="fas fa-arrow-left"></i> تصفح</span>';h+='</div>';}h+='</div></div>';});return h;
-    }
+    var vp = document.getElementById('viewPhones'); vp.innerHTML = '';
+    if (data.phone1) vp.innerHTML += '<a href="tel:' + cleanPhone(data.phone1) + '" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> ' + data.phone1 + '</a>';
+    if (data.phone2) vp.innerHTML += '<a href="tel:' + cleanPhone(data.phone2) + '" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> ' + data.phone2 + '</a>';
 
-    function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoBase64||STATIC_LOGO;var li=document.getElementById('previewLogoImg'),lic=document.getElementById('previewLogoIcon');if(ls){li.src=ls;li.style.display='block';lic.style.display='none';}else{li.style.display='none';lic.style.display='';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';document.getElementById('previewServices').innerHTML=buildServicesHTML(SERVICES,true);var wb=document.getElementById('previewWaBtn'),wn=cleanWhatsApp(d.whatsapp);if(wn){wb.href='https://wa.me/'+wn;wb.style.display='flex';}else wb.style.display='none';}
+    var wd = document.getElementById('viewWhatsApp'); wd.innerHTML = '';
+    var wn = cleanWhatsApp(data.whatsapp);
+    if (wn) wd.innerHTML = '<a href="https://wa.me/' + wn + '" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
 
-    function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\nFN:'+(d.name||'')+'\nORG:'+(d.name||'')+'\n';if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.email)v+='EMAIL;TYPE=WORK:'+d.email+'\n';if(d.facebook)v+='URL:'+d.facebook+'\n';if(d.tiktok)v+='URL:'+d.tiktok+'\n';if(d.desc)v+='NOTE:'+d.desc+'\n';return v+'END:VCARD';}
+    var vsc = document.getElementById('viewSocials'); vsc.innerHTML = '';
+    [{ url: data.email, icon: 'fas fa-envelope', cls: 'soc-em', ie: true }, { url: data.facebook, icon: 'fab fa-facebook-f', cls: 'soc-fb', ie: false }, { url: data.tiktok, icon: 'fab fa-tiktok', cls: 'soc-tk', ie: false }].forEach(function (s) {
+        if (s.url) { var a = document.createElement('a'); a.href = s.ie ? 'mailto:' + s.url : s.url; a.target = s.ie ? '_self' : '_blank'; a.className = 'soc-icon ' + s.cls; a.innerHTML = '<i class="' + s.icon + '"></i>'; vsc.appendChild(a); }
+    });
 
-    function saveAndGenerate(){
-        var d=getFormData();if(!d.name){showToastErr('أدخلي اسم الشركة');return;}
-        var wn=cleanWhatsApp(d.whatsapp);if(d.whatsapp&&wn.length<10){showToastErr('رقم واتساب مش صح');return;}
-        localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoBase64:logoBase64})));
-        document.getElementById('qrSection').style.display='block';document.getElementById('qrSection').classList.add('fade-up');
-        var ls=logoBase64||STATIC_LOGO,pu=document.getElementById('pageUrl').value.trim();
-        if(pu){var qd={n:d.name,d:d.desc,w:wn,p1:d.phone1,p2:d.phone2,e:d.email,f:d.facebook,t:d.tiktok};makeQR(pu+'?d='+safeEncode(JSON.stringify(qd)),'qrPageResult','qrPageStatus','#061A12',ls);}
-        else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold)">حطي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}
-        if(wn)makeQR('https://wa.me/'+wn,'qrWaResult','qrWaStatus','#075E54',ls);else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
-        makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);
-        showToast('تم الحفظ وتوليد QR ✓');
-    }
+    loading.style.display = 'none';
+    content.style.display = '';
+    content.classList.add('fade-up');
+}
 
-    function clearQR(){document.getElementById('qrSection').style.display='none';showToast('تم مسح QR - الصور لسه موجودة على السيرفر');}
+/* =========================================================
+   مسح الكل
+   ========================================================= */
+async function resetAll() {
+    if (!confirm('هتمسحي كل حاجة؟')) return;
+    document.querySelectorAll('.inp').forEach(function (i) { i.value = ''; });
+    logoUrl = '';
+    document.getElementById('logoPreviewThumb').style.display = 'none';
+    document.getElementById('logoPlaceholder').style.display = '';
 
-    async function resetAll(){
-        if(!confirm('هتمسحي كل حاجة؟'))return;
-        document.querySelectorAll('.inp').forEach(function(i){i.value='';});
-        logoBase64='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';
-        document.getElementById('qrSection').style.display='none';
-        /* مسح الصور من Supabase */
-        if(supabaseClient){
-            for(var i=0;i<SERVICES.length;i++){
-                var sd=servicesData[SERVICES[i].id];
-                if(sd){
-                    sd.images.forEach(function(u){deleteFromSupabase(u);});
-                    if(sd.pdf) deleteFromSupabase(sd.pdf);
-                }
+    if (supabaseClient) {
+        for (var i = 0; i < SERVICES.length; i++) {
+            var sd = servicesData[SERVICES[i].id];
+            if (sd) {
+                sd.images.forEach(function (u) { deleteFromSupabase(u); });
+                if (sd.pdf) deleteFromSupabase(sd.pdf);
             }
         }
-        SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});
-        localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_state');
-        renderServicesEditor();updatePreview();showToast('تم مسح كل حاجة');
+        // مسح ملف البطاقة
+        try { await supabaseClient.storage.from(BUCKET_NAME).remove(['cards/' + getCardId() + '.json']); } catch (e) { }
     }
 
-    function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
-    function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
-    function showToastErr(msg){var t=document.getElementById('toast');t.textContent='⚠ '+msg;t.className='toast-msg toast-err show';setTimeout(function(){t.className='toast-msg toast-err';},4000);}
+    SERVICES.forEach(function (svc) { servicesData[svc.id] = { images: [], pdf: null, pdfName: '' }; });
+    localStorage.removeItem('businessCardData');
+    localStorage.removeItem('gsi_state');
+    localStorage.removeItem('page_url');
+    // نولد cardId جديد
+    cardId = 'c' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    localStorage.setItem('card_id', cardId);
 
-    function showViewMode(data){document.getElementById('editorMode').style.display='none';document.getElementById('viewName').textContent=data.name||data.n||'المؤسسة العالمية للتوريدات';document.getElementById('viewDesc').textContent=data.desc||data.d||'';document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';document.getElementById('viewLogoImg').src=STATIC_LOGO;document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false)+'</div>';var vp=document.getElementById('viewPhones');vp.innerHTML='';var p1=data.phone1||data.p1,p2=data.phone2||data.p2;if(p1)vp.innerHTML+='<a href="tel:'+cleanPhone(p1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p1+'</a>';if(p2)vp.innerHTML+='<a href="tel:'+cleanPhone(p2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+p2+'</a>';var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp||data.w||'');if(wn)wd.innerHTML+='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';var vsc=document.getElementById('viewSocials');vsc.innerHTML='';[{url:data.email||data.e||'',icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook||data.f||'',icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok||data.t||'',icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});document.getElementById('viewMode').style.display='flex';}
+    renderServicesEditor(); updatePreview(); generateAllQR();
+    showToast('تم مسح كل حاجة');
+}
 
-    (function init(){
-        var up=new URLSearchParams(window.location.search),dp=up.get('d');
-        if(dp){try{var d=JSON.parse(safeDecode(dp));if(d&&(d.name||d.n)){pendingViewData=d;loadState();return;}}catch(e){}}
-        var sv=localStorage.getItem('businessCardData');
-        if(sv){try{setFormData(JSON.parse(sv));}catch(e){}}
-        loadState();
-    })();
-    </script>
+/* =========================================================
+   Toast
+   ========================================================= */
+function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast-msg toast-ok show'; setTimeout(function () { t.classList.remove('show'); }, 3000); }
+function showToastErr(msg) { var t = document.getElementById('toast'); t.textContent = '⚠ ' + msg; t.className = 'toast-msg toast-err show'; setTimeout(function () { t.className = 'toast-msg toast-err'; }, 4000); }
+
+/* =========================================================
+   التهيئة
+   ========================================================= */
+(function init() {
+    var up = new URLSearchParams(window.location.search);
+    var viewId = up.get('id');
+
+    if (viewId) {
+        // وضع العرض - لما حد يمسح QR
+        pendingViewId = viewId;
+        // الـ Splash هيتخفى بعدين واستدعي startViewMode
+    } else {
+        // الوضع العادي - المحرر
+        // الـ Splash هيتخفى ويعرض المحرر
+    }
+})();
+</script>
 </body>
 </html>
