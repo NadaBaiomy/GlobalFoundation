@@ -15,8 +15,6 @@
         :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366;--email:#EA4335}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-        /* ===== Splash ===== */
         #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .7s,visibility .7s}
         #splash.fade-out{opacity:0;visibility:hidden;pointer-events:none}
         .splash-rings{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
@@ -38,14 +36,10 @@
         @keyframes bf{to{width:100%}}
         .splash-particle{position:absolute;border-radius:50%;opacity:0;animation:sp var(--dur) ease-in-out infinite var(--delay)}
         @keyframes sp{0%{transform:translate(0,0) scale(0);opacity:0}20%{opacity:.7}80%{opacity:.7}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
-
-        /* ===== Blobs ===== */
         .bg-blob{position:fixed;border-radius:50%;filter:blur(120px);opacity:.08;pointer-events:none;z-index:0}
         .blob-1{width:500px;height:500px;background:var(--accent-light);top:-180px;right:-180px;animation:bb 22s ease-in-out infinite}
         .blob-2{width:400px;height:400px;background:var(--accent);bottom:-120px;left:-120px;animation:bb 18s ease-in-out infinite reverse}
         @keyframes bb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-40px) scale(1.1)}66%{transform:translate(-30px,30px) scale(.92)}}
-
-        /* ===== Common ===== */
         .glass{background:rgba(12,41,29,.7);backdrop-filter:blur(20px);border:1px solid var(--border)}
         .inp{background:rgba(6,26,18,.8);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:12px;font-family:'Cairo';font-size:14px;width:100%;transition:all .3s}
         .inp:focus{outline:none;border-color:var(--accent-light);box-shadow:0 0 0 3px var(--accent-glow)}
@@ -67,20 +61,14 @@
         @keyframes fu{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
         ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
         .green-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));border-radius:2px}
-
-        /* ===== Logo ===== */
         .logo-zone{width:120px;height:120px;border-radius:50%;border:3px dashed rgba(46,204,113,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;background:#fff;padding:6px}
         .logo-zone:hover{border-color:var(--accent-light);box-shadow:0 0 25px var(--accent-glow)}
         .logo-zone img{width:100%;height:100%;object-fit:contain;border-radius:50%}
         .logo-zone .overlay{position:absolute;inset:0;background:rgba(6,26,18,.65);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;border-radius:50%}
         .logo-zone:hover .overlay{opacity:1}
-
-        /* ===== Social Icons ===== */
         .soc-icon{width:50px;height:50px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;transition:all .3s;cursor:pointer;text-decoration:none;color:#fff}
         .soc-icon:hover{transform:translateY(-4px) scale(1.1)}
         .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-em{background:var(--email)}
-
-        /* ===== Phone Preview ===== */
         .phone-frame{width:300px;background:linear-gradient(160deg,#0F3325,#081A12);border-radius:30px;border:2.5px solid rgba(46,204,113,.15);padding:30px 18px 24px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px var(--accent-glow2)}
         .phone-frame::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:65px;height:4px;background:rgba(46,204,113,.2);border-radius:2px}
         .preview-logo-wrap{width:110px;height:110px;border-radius:50%;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 20px var(--accent-glow2);position:relative;border:3px solid var(--accent-light);padding:5px}
@@ -89,8 +77,6 @@
         .logo-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%);animation:sh 3s ease-in-out infinite}
         @keyframes sh{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
         .wa-btn{background:var(--whatsapp);color:#fff;font-weight:700;padding:14px 24px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:15px;transition:all .3s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:100%;justify-content:center}
-
-        /* ===== QR ===== */
         .qr-result{width:220px;height:220px;border-radius:14px;background:#fff;padding:12px;display:inline-flex;align-items:center;justify-content:center}
         .qr-result img{width:100%;height:100%;image-rendering:pixelated}
         .qr-err{width:220px;height:220px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center}
@@ -99,8 +85,6 @@
         .qr-status.ok{background:rgba(46,204,113,.1);color:var(--accent-light)}
         .qr-tab{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
         .qr-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border-color:transparent;box-shadow:0 4px 15px var(--accent-glow)}
-
-        /* ===== View Card ===== */
         .view-card{background:linear-gradient(160deg,var(--card2),var(--bg));border:1px solid var(--border);border-radius:28px;overflow:hidden}
         .promo-cover{position:relative;width:100%;height:260px;overflow:hidden}
         .promo-cover .bg{width:100%;height:100%;background-size:cover;background-position:center}
@@ -111,7 +95,7 @@
         .header-logo{width:50px;height:50px;border-radius:50%;background:#fff;padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--accent-light)}
         .header-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
 
-        /* ===== Service Cards (View Mode) ===== */
+        /* ===== Service Cards ===== */
         .svc-card{border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--border);transition:all .35s;background:var(--card);cursor:pointer}
         .svc-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.5),0 0 20px var(--accent-glow2);border-color:var(--accent-light)}
         .svc-cover{width:100%;height:200px;position:relative;overflow:hidden}
@@ -119,6 +103,7 @@
         .svc-card:hover .svc-cover img{transform:scale(1.05)}
         .svc-cover-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.85) 0%,rgba(6,26,18,.2) 50%,transparent 100%);z-index:1}
         .svc-cover-icon{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+        .svc-img-badge{position:absolute;bottom:10px;left:10px;z-index:3;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:4px 12px;border-radius:20px;font-size:11px;color:#fff;font-weight:700;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.1)}
         .svc-body{padding:14px 16px 16px;text-align:center;position:relative;z-index:2;margin-top:-30px}
         .svc-title{font-size:15px;font-weight:800;color:var(--text);text-shadow:0 2px 8px rgba(0,0,0,.5)}
         .svc-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px}
@@ -126,8 +111,6 @@
         .svc-badge{font-size:10px;padding:3px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
         .svc-badge-imgs{background:rgba(46,204,113,.1);color:var(--accent-light)}
         .svc-badge-pdf{background:rgba(212,168,67,.1);color:var(--gold)}
-
-        /* ===== Service Mini (Phone Preview) ===== */
         .svc-mini{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--card);cursor:pointer}
         .svc-mini .svc-cover{width:100%;height:60px;position:relative;overflow:hidden}
         .svc-mini .svc-cover img{width:100%;height:100%;object-fit:cover}
@@ -170,181 +153,136 @@
         .save-bar.saved{background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
         .save-bar.error{background:rgba(239,68,68,.08);color:#f87171;border:1px solid rgba(239,68,68,.15)}
 
-        /* =========================================================
-           ===== المعرض الجديد - تصميم بروفيشنال =====
-           ========================================================= */
-        .gal-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;background:rgba(3,10,6,.97);backdrop-filter:blur(30px);opacity:0;transition:opacity .4s ease}
+        /* =============================================================
+           المعرض الاحترافي الجديد - Professional Gallery
+           ============================================================= */
+        .gal-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;background:#000;opacity:0;transition:opacity .5s ease}
         .gal-overlay.show{display:flex;opacity:1}
 
-        /* الهيدر */
-        .gal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;z-index:10;flex-shrink:0}
-        .gal-header-info{display:flex;align-items:center;gap:12px}
-        .gal-header-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff}
-        .gal-header-title{font-size:16px;font-weight:800;color:#fff}
-        .gal-header-counter{font-size:13px;color:rgba(255,255,255,.5);font-weight:600}
-        .gal-close-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-        .gal-close-btn:hover{background:rgba(255,255,255,.15);transform:rotate(90deg)}
+        /* الخلفية الضبابية */
+        .gal-blur-bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(50px) brightness(.3);transform:scale(1.2);transition:background-image .8s ease;z-index:0}
 
-        /* شريط التقدم */
-        .gal-progress-wrap{padding:0 24px;flex-shrink:0}
-        .gal-progress-bar{height:2px;border-radius:1px;background:rgba(255,255,255,.08);overflow:hidden}
-        .gal-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-light));border-radius:1px;transition:width .4s ease}
+        /* الطبقة العلوية */
+        .gal-content{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;width:100vw}
+
+        /* الهيدر العائم */
+        .gal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;flex-shrink:0}
+        .gal-info{display:flex;align-items:center;gap:14px}
+        .gal-svc-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+        .gal-svc-name{font-size:17px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+        .gal-counter-pill{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);padding:8px 18px;border-radius:30px;font-size:14px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:1px}
+        .gal-close-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(12px)}
+        .gal-close-btn:hover{background:rgba(255,255,255,.2);transform:rotate(90deg) scale(1.1)}
 
         /* منطقة الصورة الرئيسية */
-        .gal-main{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;overflow:hidden}
-        .gal-img-container{position:relative;max-width:85vw;max-height:65vh;transition:transform .3s ease}
-        .gal-img-container img{max-width:85vw;max-height:65vh;border-radius:16px;object-fit:contain;transition:opacity .4s ease,transform .4s ease;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-        .gal-img-container img.gal-entering{opacity:0;transform:scale(.92)}
+        .gal-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;padding:0 80px}
+        .gal-img-wrap{position:relative;max-width:min(85vw,900px);max-height:65vh;transition:transform .3s}
+        .gal-img-wrap img{max-width:min(85vw,900px);max-height:65vh;border-radius:16px;object-fit:contain;box-shadow:0 25px 80px rgba(0,0,0,.6);transition:opacity .4s ease,transform .4s ease}
+        .gal-img-wrap img.gal-fade-out{opacity:0;transform:scale(.94)}
+        .gal-img-wrap img.gal-fade-in{opacity:0;transform:scale(1.04)}
+
+        /* عداد كبير شفاف في النص */
+        .gal-big-num{position:absolute;font-size:140px;font-weight:900;color:rgba(255,255,255,.03);pointer-events:none;line-height:1;right:-30px;bottom:-20px}
 
         /* أزرار التنقل */
-        .gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;z-index:10;backdrop-filter:blur(10px)}
-        .gal-nav:hover{background:rgba(46,204,113,.2);border-color:rgba(46,204,113,.4);transform:translateY(-50%) scale(1.1)}
-        .gal-nav:active{transform:translateY(-50%) scale(.95)}
-        .gal-prev{right:20px}.gal-next{left:20px}
+        .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(12px);z-index:5}
+        .gal-arrow:hover{background:rgba(46,204,113,.25);border-color:rgba(46,204,113,.4);color:#fff;transform:translateY(-50%) scale(1.1)}
+        .gal-arrow:active{transform:translateY(-50%) scale(.9)}
+        .gal-prev{right:16px}.gal-next{left:16px}
 
         /* شريط الصور المصغرة */
-        .gal-thumbs-strip{flex-shrink:0;padding:16px 24px 8px;display:flex;gap:8px;justify-content:center;overflow-x:auto;max-width:100%}
-        .gal-thumbs-strip::-webkit-scrollbar{height:3px}
-        .gal-thumbs-strip::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
-        .gal-th-item{width:56px;height:56px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:all .25s;opacity:.5}
-        .gal-th-item:hover{opacity:.8;border-color:rgba(255,255,255,.3)}
-        .gal-th-item.active{border-color:var(--accent-light);opacity:1;transform:scale(1.1);box-shadow:0 4px 15px var(--accent-glow)}
+        .gal-bottom{flex-shrink:0;padding:16px 28px 24px;display:flex;flex-direction:column;align-items:center;gap:14px}
+        .gal-thumbs{display:flex;gap:10px;justify-content:center;overflow-x:auto;max-width:100%;padding:4px}
+        .gal-thumbs::-webkit-scrollbar{height:0}
+        .gal-th-item{width:60px;height:60px;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:all .3s;opacity:.4}
+        .gal-th-item:hover{opacity:.7;border-color:rgba(255,255,255,.3)}
+        .gal-th-item.active{border-color:var(--accent-light);opacity:1;transform:scale(1.15);box-shadow:0 4px 20px rgba(46,204,113,.3)}
         .gal-th-item img{width:100%;height:100%;object-fit:cover}
 
-        /* الفوتر */
-        .gal-footer{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 24px 20px;flex-shrink:0;flex-wrap:wrap}
-        .gal-action-btn{padding:10px 22px;border-radius:12px;border:none;cursor:pointer;font-family:'Cairo';font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .25s}
-        .gal-action-btn:hover{transform:translateY(-2px)}
-        .gal-action-btn:active{transform:translateY(0)}
-        .gal-pdf-btn{background:linear-gradient(135deg,#D4A843,#B8942F);color:#000}
-        .gal-wa-btn{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff}
-        .gal-dl-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff}
+        /* أزرار الفوتر العائمة */
+        .gal-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+        .gal-act{padding:10px 22px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .25s;backdrop-filter:blur(12px)}
+        .gal-act:hover{transform:translateY(-2px)}
+        .gal-act:active{transform:translateY(0)}
+        .gal-act-pdf{background:linear-gradient(135deg,rgba(212,168,67,.9),rgba(184,148,47,.9));color:#000}
+        .gal-act-wa{background:linear-gradient(135deg,rgba(37,211,102,.9),rgba(18,140,126,.9));color:#fff}
+        .gal-act-dl{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff}
+        .gal-act-zoom{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
 
-        /* نقاط التمرير (للموبايل) */
-        .gal-dots{display:none;justify-content:center;gap:6px;padding:8px 0;flex-shrink:0}
-        .gal-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;padding:0;transition:all .3s}
-        .gal-dot.active{background:var(--accent-light);transform:scale(1.4)}
-
-        /* View Loading */
         .view-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px}
         .view-loading .spinner{width:40px;height:40px;border:3px solid rgba(46,204,113,.15);border-top-color:var(--accent-light);border-radius:50%;animation:spin 1s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
 
-        /* ===== Responsive ===== */
         @media(max-width:768px){
-            .phone-frame{width:270px}
-            .splash-title{font-size:20px}
-            .logo-zone{width:100px;height:100px}
-            .preview-logo-wrap{width:95px;height:95px}
-            .card-logo-circle{width:95px;height:95px}
-            .svc-card .svc-cover{height:160px}
-            .gal-nav{width:40px;height:40px;font-size:16px}
-            .gal-prev{right:8px}.gal-next{left:8px}
-            .gal-img-container img{max-width:92vw;max-height:55vh;border-radius:12px}
-            .gal-thumbs-strip{padding:12px 16px 6px}
-            .gal-header{padding:12px 16px}
-            .gal-dots{display:flex}
-            .gal-thumbs-strip{display:none}
+            .phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.svc-card .svc-cover{height:160px}
+            .gal-stage{padding:0 50px}.gal-arrow{width:42px;height:42px;font-size:16px}.gal-prev{right:6px}.gal-next{left:6px}
+            .gal-img-wrap,.gal-img-wrap img{max-width:92vw;max-height:55vh}
+            .gal-th-item{width:48px;height:48px;border-radius:10px}
+            .gal-big-num{font-size:80px;right:-10px;bottom:-10px}
+            .gal-top{padding:14px 16px}
         }
     </style>
 </head>
 <body class="font-cairo">
 
-<div id="splash" onclick="skipSplash()">
-    <div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div>
-    <div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div>
-    <div class="splash-title">المؤسسة العالمية للتوريدات</div>
-    <div class="splash-sub">شريكك الموثوق في التوريدات</div>
-    <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
-    <div class="splash-skip">اضغط لتخطي</div>
-</div>
-
-<div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div>
-<div id="toast" class="toast-msg toast-ok"></div>
+<div id="splash" onclick="skipSplash()"><div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div><div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div><div class="splash-title">المؤسسة العالمية للتوريدات</div><div class="splash-sub">شريكك الموثوق في التوريدات</div><div class="splash-bar-wrap"><div class="splash-bar"></div></div><div class="splash-skip">اضغط لتخطي</div></div>
+<div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="toast" class="toast-msg toast-ok"></div>
 
 <!-- ===== وضع التعديل ===== -->
 <div id="editorMode" style="display:none" class="relative z-10">
-    <header class="py-6 px-4 text-center fade-up">
-        <div class="flex items-center justify-center gap-4 mb-2">
-            <div class="header-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer"></div>
-            <h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1>
-        </div>
-        <div id="saveBar" class="save-bar saved mt-2 inline-flex"><i class="fas fa-check-circle"></i> <span id="saveText">جاهز</span></div>
-    </header>
-
+    <header class="py-6 px-4 text-center fade-up"><div class="flex items-center justify-center gap-4 mb-2"><div class="header-logo"><img src="https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190" alt="" referrerpolicy="no-referrer"></div><h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1></div><div id="saveBar" class="save-bar saved mt-2 inline-flex"><i class="fas fa-check-circle"></i> <span id="saveText">جاهز</span></div></header>
     <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
         <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
             <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2><div class="flex gap-5 items-start mb-4"><div><div class="logo-zone" onclick="document.getElementById('logoInput').click()"><div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div><img id="logoPreviewThumb" src="" style="display:none"><div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div></div><input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"></div><div class="flex-1 space-y-3"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="onFormChange()"></div></div></div></div>
-
             <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="onFormChange()"></div></div></div>
-
             <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="onFormChange()"></div></div></div>
-
             <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)"><h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2><p class="text-xs mb-3" style="color:var(--muted)">اضغطي الخدمة > افتحيها > (+) لرفع صور</p><div id="servicesEditor" class="space-y-3"></div><div id="uploadMsg" class="upload-msg"></div><div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-cloud ml-1"></i> الصور بتتحفظ على Supabase - مش بتتمسح أبداً</div></div>
-
-            <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة والحفظ</h2><div class="p-3 rounded-xl text-xs mb-4" style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);color:var(--accent-light)"><i class="fas fa-lightbulb ml-1"></i> خطوات التشغيل:<br>1) دخلي رابط الموقع<br>2) ضغطي "حفظ الآن" - لازم تظهر رسالة نجاح<br>3) ضغطي "اختبار" عشان تشوفي اللي الزائر هيشوفه<br>4) QR ثابت - لو ضفتي صور جديدة بس احفظي وهيظهرت تلقائي</div><div class="mb-4"><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app" oninput="onPageUrlChange()"></div><div class="mb-4 p-3 rounded-xl" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.12)"><div class="text-xs font-bold mb-1" style="color:var(--gold)"><i class="fas fa-link ml-1"></i> رابط البطاقة الثابت:</div><div id="fixedUrlDisplay" class="text-xs font-mono break-all" style="color:var(--text);direction:ltr">—</div></div><div class="flex flex-wrap gap-2"><button id="saveNowBtn" class="btn-green" onclick="saveNow()"><i class="fas fa-cloud-arrow-up"></i> حفظ الآن</button><button class="btn-gold" onclick="testView()"><i class="fas fa-external-link-alt"></i> اختبار</button><button class="btn-outline" onclick="copyFixedUrl()"><i class="fas fa-copy"></i> نسخ الرابط</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button></div><div id="lastSaveInfo" class="text-xs mt-3" style="color:var(--muted)"></div></div>
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة والحفظ</h2><div class="mb-4"><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app" oninput="onPageUrlChange()"></div><div class="mb-4 p-3 rounded-xl" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.12)"><div class="text-xs font-bold mb-1" style="color:var(--gold)"><i class="fas fa-link ml-1"></i> رابط البطاقة الثابت:</div><div id="fixedUrlDisplay" class="text-xs font-mono break-all" style="color:var(--text);direction:ltr">—</div></div><div class="flex flex-wrap gap-2"><button id="saveNowBtn" class="btn-green" onclick="saveNow()"><i class="fas fa-cloud-arrow-up"></i> حفظ الآن</button><button class="btn-gold" onclick="testView()"><i class="fas fa-external-link-alt"></i> اختبار</button><button class="btn-outline" onclick="copyFixedUrl()"><i class="fas fa-copy"></i> نسخ الرابط</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button></div><div id="lastSaveInfo" class="text-xs mt-3" style="color:var(--muted)"></div></div>
         </section>
-
         <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
             <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة</h2><div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><div id="previewServices" class="space-y-2"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div></div>
-
             <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2><div class="flex gap-2 mb-5 flex-wrap"><button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button><button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button><button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button></div><div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button></div></div>
         </aside>
     </main>
 </div>
 
 <!-- ===== وضع العرض ===== -->
-<div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none">
-    <div class="view-card w-full max-w-md">
-        <div id="viewLoading" class="view-loading"><div class="spinner"></div><p style="color:var(--muted)">جاري تحميل البيانات...</p></div>
-        <div id="viewContent" style="display:none">
-            <div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div>
-            <div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div>
-            <div class="p-8 text-center">
-                <h1 class="text-2xl font-black mb-1" id="viewName"></h1>
-                <p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p>
-                <div class="green-bar w-20 mx-auto mb-5"></div>
-                <div id="viewServices" class="mb-5"></div>
-                <div id="viewPhones" class="space-y-2 text-sm mb-5"></div>
-                <div id="viewWhatsApp" class="mb-5"></div>
-                <div id="viewSocials" class="flex justify-center gap-4"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card w-full max-w-md"><div id="viewLoading" class="view-loading"><div class="spinner"></div><p style="color:var(--muted)">جاري تحميل البيانات...</p></div><div id="viewContent" style="display:none"><div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div><div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.parentElement.parentElement.style.display='none'"></div></div><div class="p-8 text-center"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-5"></div><div id="viewServices" class="mb-5"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div></div></div></div>
 
-<!-- ===== المعرض الجديد ===== -->
+<!-- ===== المعرض الاحترافي ===== -->
 <div id="galOverlay" class="gal-overlay">
-    <div class="gal-header">
-        <div class="gal-header-info">
-            <div class="gal-header-icon" id="galIcon"><i class="fas fa-broom"></i></div>
-            <div>
-                <div class="gal-header-title" id="galTitle">الخدمة</div>
-                <div class="gal-header-counter" id="galCounter">1 / 5</div>
+    <div class="gal-blur-bg" id="galBlur"></div>
+    <div class="gal-content">
+        <div class="gal-top">
+            <div class="gal-info">
+                <div class="gal-svc-icon" id="galIcon"><i class="fas fa-broom"></i></div>
+                <div class="gal-svc-name" id="galTitle">الخدمة</div>
             </div>
+            <div class="gal-counter-pill" id="galCounter">1 / 5</div>
+            <button class="gal-close-btn" onclick="galClose()"><i class="fas fa-times"></i></button>
         </div>
-        <button class="gal-close-btn" onclick="galClose()"><i class="fas fa-times"></i></button>
+        <div class="gal-stage" id="galStage" onclick="galStageClick(event)">
+            <button class="gal-arrow gal-prev" onclick="galNav(-1)"><i class="fas fa-chevron-right"></i></button>
+            <div class="gal-img-wrap">
+                <img id="galImg" src="" alt="" referrerpolicy="no-referrer">
+                <div class="gal-big-num" id="galBigNum">1</div>
+            </div>
+            <button class="gal-arrow gal-next" onclick="galNav(1)"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="gal-bottom">
+            <div class="gal-thumbs" id="galThumbs"></div>
+            <div class="gal-actions" id="galActions"></div>
+        </div>
     </div>
-    <div class="gal-progress-wrap"><div class="gal-progress-bar"><div class="gal-progress-fill" id="galProgress"></div></div></div>
-    <div class="gal-main" id="galMain" onclick="galMainClick(event)">
-        <button class="gal-nav gal-prev" onclick="galNav(-1)"><i class="fas fa-chevron-right"></i></button>
-        <div class="gal-img-container"><img id="galImg" src="" alt="" referrerpolicy="no-referrer"></div>
-        <button class="gal-nav gal-next" onclick="galNav(1)"><i class="fas fa-chevron-left"></i></button>
-    </div>
-    <div class="gal-thumbs-strip" id="galThumbs"></div>
-    <div class="gal-dots" id="galDots"></div>
-    <div class="gal-footer" id="galFooter"></div>
 </div>
 
 <script>
-/* ========== إعدادات Supabase ========== */
 var SUPABASE_URL='https://sishklcxcqafaaacqwlb.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpc2hrbGN4Y3FhZmFhYWNxd2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzI5MjYsImV4cCI6MjA5NDcwODkyNn0.B6jDUvKxD5nBc_dapvqG6oTjEBWBY6TMc3umlzDyrvQ';
 var BUCKET_NAME='business-uploads';
 var supabaseClient=null;
-try{if(SUPABASE_URL.indexOf('xxxx')===-1)supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){console.error('Supabase init:',e);}
+try{if(SUPABASE_URL.indexOf('xxxx')===-1)supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
-/* ========== الخدمات ========== */
 var SERVICES=[
     {id:'svc0',title:'مستلزمات نظافه',desc:'مستلزمات نظافه',icon:'fa-broom',color:'#2ECC71',cover:'https://z-cdn-media.chatglm.cn/files/1e73ae9c-e26a-4eac-ad8a-952a57ab635d.jpg?auth_key=1879136683-5f6b69db885e4d6eaba44505680b44bb-0-9cf8563d520c541beec68cc384c98f07'},
     {id:'svc1',title:'مستلزمات مكتبيه',desc:'ومستلزمات مكتبية',icon:'fa-pen-ruler',color:'#3498DB',cover:'https://z-cdn-media.chatglm.cn/files/5647a95d-ce35-4503-8c87-719f401665fd.png?auth_key=1879137737-dc1987d2100c4cf6a985846eb38c5469-0-9de213a86ab5078e08ab7e05441edccd'},
@@ -355,7 +293,6 @@ var SERVICES=[
 var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190';
 var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
 
-/* ========== حالة التطبيق ========== */
 var cardId='',logoUrl='',servicesData={},saveTimer=null,lastSaveTime=null,viewSvcData=null;
 SERVICES.forEach(function(s){servicesData[s.id]={images:[],pdf:null,pdfName:''};});
 
@@ -364,238 +301,165 @@ function cleanPhone(n){if(!n)return'';return n.trim().replace(/[^0-9+]/g,'');}
 function getCardId(){if(cardId)return cardId;cardId=localStorage.getItem('card_id');if(!cardId){cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('card_id',cardId);}return cardId;}
 function getFixedUrl(){var pu=document.getElementById('pageUrl').value.trim();if(!pu)return'';var sep=pu.indexOf('?')>-1?'&':'?';return pu+sep+'id='+getCardId();}
 
-/* ========== Splash ========== */
 var splashGone=false,pendingViewId=null;
 function hideSplash(){if(splashGone)return;splashGone=true;var s=document.getElementById('splash');if(!s)return;s.classList.add('fade-out');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);if(pendingViewId)startViewMode(pendingViewId);else{document.getElementById('editorMode').style.display='';loadState();generateAllQR();}},700);}
 function skipSplash(){hideSplash();}
 (function(){var c=document.getElementById('splashParticles');if(!c)return;for(var i=0;i<20;i++){var p=document.createElement('div');p.className='splash-particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--dur',(3+Math.random()*4)+'s');p.style.setProperty('--delay',(Math.random()*3)+'s');p.style.setProperty('--tx',(Math.random()*80-40)+'px');p.style.setProperty('--ty',(Math.random()*80-40)+'px');var cl=['var(--accent-light)','var(--gold)','rgba(255,255,255,.6)'];p.style.background=cl[Math.floor(Math.random()*cl.length)];p.style.width=p.style.height=(2+Math.random()*3)+'px';c.appendChild(p);}})();
 setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},5000);
 
-/* ========== Supabase ========== */
 async function uploadToSupabase(file,folder){if(!supabaseClient)throw'Supabase مش متصل';var ext=file.name.split('.').pop();var fn=folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,5)+'.'+ext;var r=await supabaseClient.storage.from(BUCKET_NAME).upload(fn,file,{cacheControl:'3600',upsert:false});if(r.error)throw r.error.message||'فشل الرفع';var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(r.data.path);return u.data.publicUrl;}
-async function deleteFromSupabase(url){if(!supabaseClient||!url)return;try{var parts=url.split('/public/'+BUCKET_NAME+'/');if(parts.length<2)return;await supabaseClient.storage.from(BUCKET_NAME).remove([parts[1].split('?')[0]]);}catch(e){console.error(e);}}
+async function deleteFromSupabase(url){if(!supabaseClient||!url)return;try{var parts=url.split('/public/'+BUCKET_NAME+'/');if(parts.length<2)return;await supabaseClient.storage.from(BUCKET_NAME).remove([parts[1].split('?')[0]]);}catch(e){}}
 async function saveCardToCloud(){if(!supabaseClient)throw'Supabase مش متصل';var d=getFormData();var payload={name:d.name,desc:d.desc,whatsapp:d.whatsapp,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,logoUrl:logoUrl,services:{}};SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd)payload.services[svc.id]={images:sd.images.slice(),pdf:sd.pdf,pdfName:sd.pdfName};});var jsonStr=JSON.stringify(payload);var blob=new Blob([jsonStr],{type:'application/json'});var path='cards/'+getCardId()+'.json';try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});if(r.error)throw r.error.message||'فشل رفع البيانات';return true;}
-async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){console.error('Load error:',e);return null;}}
+async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
 
-/* ========== الحفظ ========== */
-function setSaveBar(type,msg){var el=document.getElementById('saveBar'),txt=document.getElementById('saveText');if(!el||!txt)return;el.className='save-bar '+type;var icon=el.querySelector('i');if(type==='saving'){txt.textContent=msg||'جاري الحفظ...';if(icon)icon.className='fas fa-spinner fa-spin';}else if(type==='saved'){txt.textContent=msg||'تم الحفظ';if(icon)icon.className='fas fa-check-circle';}else if(type==='error'){txt.textContent=msg||'خطأ في الحفظ';if(icon)icon.className='fas fa-exclamation-circle';}}
+function setSaveBar(type,msg){var el=document.getElementById('saveBar'),txt=document.getElementById('saveText');if(!el||!txt)return;el.className='save-bar '+type;var icon=el.querySelector('i');if(type==='saving'){txt.textContent=msg||'جاري الحفظ...';if(icon)icon.className='fas fa-spinner fa-spin';}else if(type==='saved'){txt.textContent=msg||'تم الحفظ';if(icon)icon.className='fas fa-check-circle';}else if(type==='error'){txt.textContent=msg||'خطأ';if(icon)icon.className='fas fa-exclamation-circle';}}
 function onFormChange(){updatePreview();triggerAutoSave();}
-function triggerAutoSave(){saveToLocalStorage();clearTimeout(saveTimer);setSaveBar('saving');saveTimer=setTimeout(async function(){try{await saveCardToCloud();setSaveBar('saved');lastSaveTime=new Date();updateLastSave();}catch(e){setSaveBar('error',e.toString().substring(0,60));}},3000);}
+function triggerAutoSave(){saveToLocalStorage();clearTimeout(saveTimer);setSaveBar('saving');saveTimer=setTimeout(async function(){try{await saveCardToCloud();setSaveBar('saved');lastSaveTime=new Date();updateLastSave();}catch(e){setSaveBar('error',e.toString().substring(0,50));}},3000);}
 function saveToLocalStorage(){try{var d=getFormData();localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoUrl:logoUrl})));localStorage.setItem('gsi_state',JSON.stringify(servicesData));}catch(e){}}
-async function saveNow(){var btn=document.getElementById('saveNowBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';setSaveBar('saving');saveToLocalStorage();try{await saveCardToCloud();lastSaveTime=new Date();updateLastSave();setSaveBar('saved');showToast('تم الحفظ بنجاح على السيرفر');}catch(e){setSaveBar('error','خطأ: '+e.toString().substring(0,50));showToastErr('فشل الحفظ: '+e.toString().substring(0,60));}btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';}
+async function saveNow(){var btn=document.getElementById('saveNowBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';setSaveBar('saving');saveToLocalStorage();try{await saveCardToCloud();lastSaveTime=new Date();updateLastSave();setSaveBar('saved');showToast('تم الحفظ بنجاح');}catch(e){setSaveBar('error','خطأ');showToastErr('فشل الحفظ: '+e.toString().substring(0,60));}btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';}
 function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
 function testView(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة الأول');return;}window.open(url,'_blank');}
-function copyFixedUrl(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة الأول');return;}navigator.clipboard.writeText(url).then(function(){showToast('تم نسخ الرابط');}).catch(function(){showToastErr('فشل النسخ');});}
+function copyFixedUrl(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة');return;}navigator.clipboard.writeText(url).then(function(){showToast('تم نسخ الرابط');});}
 
-/* ========== محرر الخدمات ========== */
 function renderServicesEditor(){var c=document.getElementById('servicesEditor');if(!c)return;var h='';SERVICES.forEach(function(svc){var sd=servicesData[svc.id]||{images:[],pdf:null,pdfName:''};var ic=sd.images.length,hp=!!sd.pdf;h+='<div class="svc-editor-card"><div class="svc-editor-header" id="hdr_'+svc.id+'" onclick="toggleSvc(\''+svc.id+'\')"><div class="svc-ico" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div style="flex:1"><span class="svc-h-title">'+svc.title+'</span><span class="svc-h-desc">'+svc.desc+'</span></div><span class="svc-h-badge">'+ic+' صور'+(hp?' + PDF':'')+'</span><i class="fas fa-chevron-down svc-h-arrow"></i></div>';h+='<div class="svc-editor-body" id="body_'+svc.id+'"><div class="svc-img-grid">';sd.images.forEach(function(url,i){h+='<div class="svc-img-thumb" onclick="event.stopPropagation();galOpen(\''+svc.id+'\','+i+')"><img src="'+url+'" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+',\''+url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button></div>';});if(ic<10)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';h+='</div><input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgFiles(event,\''+svc.id+'\')" style="display:none"><div class="svc-pdf-area">';if(hp){h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\',\''+sd.pdf.replace(/'/g,"\\'")+'\')"><i class="fas fa-trash"></i></button></div>';}else{h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfFile(event,\''+svc.id+'\')" style="display:none">';}h+='</div></div></div>';});c.innerHTML=h;}
 function toggleSvc(id){var h=document.getElementById('hdr_'+id),b=document.getElementById('body_'+id);if(h)h.classList.toggle('open');if(b)b.classList.toggle('open');}
 function doUpload(id){var f=document.getElementById('fup_'+id);if(f){f.value='';f.click();}}
 function doPdfUpload(id){var f=document.getElementById('pfup_'+id);if(f){f.value='';f.click();}}
 function setMsg(msg,type){var m=document.getElementById('uploadMsg');if(!m)return;m.textContent=msg;m.className='upload-msg '+type;if(type!=='working')setTimeout(function(){m.className='upload-msg';},5000);}
-async function onImgFiles(e,svcId){var files=Array.from(e.target.files);if(!files.length)return;var sd=servicesData[svcId];if(!sd)return;if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}setMsg('جاري رفع '+files.length+' صورة...','working');var ok=0;for(var i=0;i<files.length;i++){try{var url=await uploadToSupabase(files[i],svcId);sd.images.push(url);ok++;saveToLocalStorage();}catch(err){setMsg('فشل رفع صورة: '+err,'fail');}}if(ok>0){renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع '+ok+' صورة بنجاح','done');}e.target.value='';}
+async function onImgFiles(e,svcId){var files=Array.from(e.target.files);if(!files.length)return;var sd=servicesData[svcId];if(!sd)return;if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}setMsg('جاري رفع '+files.length+' صورة...','working');var ok=0;for(var i=0;i<files.length;i++){try{var url=await uploadToSupabase(files[i],svcId);sd.images.push(url);ok++;saveToLocalStorage();}catch(err){setMsg('فشل رفع صورة: '+err,'fail');}}if(ok>0){renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع '+ok+' صورة','done');}e.target.value='';}
 async function delImg(svcId,idx,url){servicesData[svcId].images.splice(idx,1);deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف الصورة');}
-async function onPdfFile(e,svcId){var file=e.target.files[0];if(!file)return;setMsg('جاري رفع PDF...','working');try{var url=await uploadToSupabase(file,svcId+'_pdf');servicesData[svcId].pdf=url;servicesData[svcId].pdfName=file.name;saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع PDF','done');}catch(err){setMsg('فشل رفع PDF: '+err,'fail');}e.target.value='';}
+async function onPdfFile(e,svcId){var file=e.target.files[0];if(!file)return;setMsg('جاري رفع PDF...','working');try{var url=await uploadToSupabase(file,svcId+'_pdf');servicesData[svcId].pdf=url;servicesData[svcId].pdfName=file.name;saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع PDF','done');}catch(err){setMsg('فشل رفع PDF','fail');}e.target.value='';}
 async function delPdf(svcId,url){servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف PDF');}
 function loadState(){try{var s=localStorage.getItem('gsi_state');if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}}catch(e){}try{var sv=localStorage.getItem('businessCardData');if(sv){var d=JSON.parse(sv);setFormData(d);if(d.logoUrl)logoUrl=d.logoUrl;}}catch(e){}try{var pu=localStorage.getItem('page_url');if(pu)document.getElementById('pageUrl').value=pu;}catch(e){}renderServicesEditor();updatePreview();}
 
-/* ========== اللوجو ========== */
 async function handleLogoUpload(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){logoUrl=ev.target.result;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};reader.readAsDataURL(file);try{var url=await uploadToSupabase(file,'logos/'+getCardId());logoUrl=url;document.getElementById('logoPreviewThumb').src=logoUrl;saveToLocalStorage();triggerAutoSave();}catch(err){saveToLocalStorage();triggerAutoSave();}}
 
-/* =========================================================
-   ===== المعرض الجديد - تصميم بروفيشنال =====
-   ========================================================= */
-var G={open:false,svcId:'',imgs:[],cur:0,pdf:null,pdfName:'',title:'',icon:'',color:'',whatsapp:''};
+/* ===== المعرض الاحترافي ===== */
+var G={open:false,svcId:'',imgs:[],cur:0,pdf:null,pdfName:'',title:'',icon:'',color:'',whatsapp:'',zoomed:false};
 
 function galOpen(svcId,idx){
     var sd=viewSvcData?(viewSvcData[svcId]||{images:[],pdf:null}):(servicesData[svcId]||{images:[],pdf:null});
     if(!sd||!sd.images.length){showToastErr('لا توجد صور بعد');return;}
     var svc=SERVICES.find(function(s){return s.id===svcId;});
-    var wn='';
-    if(viewSvcData&&viewSvcData._whatsapp)wn=cleanWhatsApp(viewSvcData._whatsapp);
-    else{var wEl=document.getElementById('whatsapp');if(wEl)wn=cleanWhatsApp(wEl.value);}
-
-    G={open:true,svcId:svcId,imgs:sd.images,cur:idx||0,pdf:sd.pdf||null,pdfName:sd.pdfName||'',title:svc?svc.title:'',icon:svc?svc.icon:'fa-images',color:svc?svc.color:'#2ECC71',whatsapp:wn};
-    galRender();
-
-    var ov=document.getElementById('galOverlay');
-    ov.style.display='flex';
-    // تأخير بسيط عشان الـ transition يشتغل
+    var wn='';if(viewSvcData&&viewSvcData._whatsapp)wn=cleanWhatsApp(viewSvcData._whatsapp);else{var wEl=document.getElementById('whatsapp');if(wEl)wn=cleanWhatsApp(wEl.value);}
+    G={open:true,svcId:svcId,imgs:sd.images,cur:idx||0,pdf:sd.pdf||null,pdfName:sd.pdfName||'',title:svc?svc.title:'',icon:svc?svc.icon:'fa-images',color:svc?svc.color:'#2ECC71',whatsapp:wn,zoomed:false};
+    galShow();
+    var ov=document.getElementById('galOverlay');ov.style.display='flex';
     requestAnimationFrame(function(){ov.classList.add('show');});
     document.body.style.overflow='hidden';
 }
 
-function galClose(){
-    document.getElementById('galOverlay').classList.remove('show');
-    setTimeout(function(){document.getElementById('galOverlay').style.display='none';},400);
-    document.body.style.overflow='';
-    G.open=false;
-}
+function galClose(){document.getElementById('galOverlay').classList.remove('show');setTimeout(function(){document.getElementById('galOverlay').style.display='none';},500);document.body.style.overflow='';G.open=false;}
 
 function galNav(dir){
     var next=(G.cur+dir+G.imgs.length)%G.imgs.length;
-    G.cur=next;
-    // تأثير الانتقال
     var img=document.getElementById('galImg');
-    img.classList.add('gal-entering');
+    img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');
     setTimeout(function(){
+        G.cur=next;G.zoomed=false;
         img.src=G.imgs[next];
-        img.onload=function(){img.classList.remove('gal-entering');};
-        // fallback لو الصورة محملة
-        setTimeout(function(){img.classList.remove('gal-entering');},100);
-    },150);
-    galRenderUI();
+        img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';
+        img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};
+        setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);
+        galUpdateUI();
+    },200);
 }
 
 function galGo(i){
     if(i===G.cur)return;
-    G.cur=i;
+    var dir=i>G.cur?1:-1;
     var img=document.getElementById('galImg');
-    img.classList.add('gal-entering');
-    setTimeout(function(){img.src=G.imgs[i];img.onload=function(){img.classList.remove('gal-entering');};setTimeout(function(){img.classList.remove('gal-entering');},100);},150);
-    galRenderUI();
+    img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');
+    setTimeout(function(){G.cur=i;G.zoomed=false;img.src=G.imgs[i];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);galUpdateUI();},200);
 }
 
-function galMainClick(e){
-    // لما يضغط على الصورة نفسها يكبرها
+function galStageClick(e){
     if(e.target.id==='galImg'){
+        G.zoomed=!G.zoomed;
         var img=document.getElementById('galImg');
-        if(img.style.maxWidth==='95vw'){
-            img.style.maxWidth='85vw';img.style.maxHeight='65vh';img.style.cursor='zoom-in';
-        }else{
-            img.style.maxWidth='95vw';img.style.maxHeight='85vh';img.style.cursor='zoom-out';
-        }
+        if(G.zoomed){img.style.maxWidth='95vw';img.style.maxHeight='88vh';img.style.cursor='zoom-out';}
+        else{img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';}
     }
 }
 
-function galRender(){
+function galShow(){
     var img=document.getElementById('galImg');
-    img.src=G.imgs[G.cur];
-    img.style.cursor='zoom-in';
-    img.style.maxWidth='85vw';img.style.maxHeight='65vh';
-    galRenderUI();
+    img.src=G.imgs[G.cur];img.style.cursor='zoom-in';img.style.maxWidth='';img.style.maxHeight='';
+    document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[G.cur]+')';
+    galUpdateUI();
 }
 
-function galRenderUI(){
+function galUpdateUI(){
     var n=G.imgs.length,idx=G.cur;
-
-    // أيقونة وعنوان الخدمة
-    var iconEl=document.getElementById('galIcon');
-    iconEl.style.background=G.color;
-    iconEl.innerHTML='<i class="fas '+G.icon+'"></i>';
+    document.getElementById('galIcon').style.background=G.color;
+    document.getElementById('galIcon').innerHTML='<i class="fas '+G.icon+'"></i>';
     document.getElementById('galTitle').textContent=G.title;
     document.getElementById('galCounter').textContent=(idx+1)+' / '+n;
+    document.getElementById('galBigNum').textContent=idx+1;
+    document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[idx]+')';
 
-    // شريط التقدم
-    var pct=n>1?((idx+1)/n*100):100;
-    document.getElementById('galProgress').style.width=pct+'%';
-
-    // الصور المصغرة
-    var thHtml='';
-    for(var i=0;i<n;i++){
-        thHtml+='<div class="gal-th-item'+(i===idx?' active':'')+'" onclick="galGo('+i+')"><img src="'+G.imgs[i]+'" alt="" referrerpolicy="no-referrer"></div>';
-    }
+    var thHtml='';for(var i=0;i<n;i++){thHtml+='<div class="gal-th-item'+(i===idx?' active':'')+'" onclick="galGo('+i+')"><img src="'+G.imgs[i]+'" alt="" referrerpolicy="no-referrer"></div>';}
     document.getElementById('galThumbs').innerHTML=thHtml;
 
-    // النقاط (موبايل)
-    var dotsHtml='';
-    for(var i=0;i<n;i++){
-        dotsHtml+='<button class="gal-dot'+(i===idx?' active':'')+'" onclick="galGo('+i+')"></button>';
-    }
-    document.getElementById('galDots').innerHTML=dotsHtml;
-
-    // أزرار الفوتر
     var fHtml='';
-    if(G.pdf)fHtml+='<a href="'+G.pdf+'" target="_blank" class="gal-action-btn gal-pdf-btn"><i class="fas fa-file-pdf"></i> تحميل الأسعار</a>';
-    if(G.whatsapp)fHtml+='<a href="https://wa.me/'+G.whatsapp+'" target="_blank" class="gal-action-btn gal-wa-btn"><i class="fab fa-whatsapp"></i> استفسار واتساب</a>';
-    fHtml+='<button class="gal-action-btn gal-dl-btn" onclick="galDownload()"><i class="fas fa-download"></i> حفظ الصورة</button>';
-    document.getElementById('galFooter').innerHTML=fHtml;
+    if(G.pdf)fHtml+='<a href="'+G.pdf+'" target="_blank" class="gal-act gal-act-pdf"><i class="fas fa-file-pdf"></i> الأسعار</a>';
+    if(G.whatsapp)fHtml+='<a href="https://wa.me/'+G.whatsapp+'" target="_blank" class="gal-act gal-act-wa"><i class="fab fa-whatsapp"></i> واتساب</a>';
+    fHtml+='<button class="gal-act gal-act-dl" onclick="galDownload()"><i class="fas fa-download"></i> حفظ</button>';
+    fHtml+='<button class="gal-act gal-act-zoom" onclick="galToggleZoom()"><i class="fas fa-search-plus"></i></button>';
+    document.getElementById('galActions').innerHTML=fHtml;
 
-    // إظهار/إخفاء أزرار التنقل
     document.querySelector('.gal-prev').style.display=n>1?'flex':'none';
     document.querySelector('.gal-next').style.display=n>1?'flex':'none';
 }
 
-function galDownload(){
-    var url=G.imgs[G.cur];if(!url)return;
-    var a=document.createElement('a');a.href=url;a.target='_blank';
-    a.download='image_'+(G.cur+1)+'.jpg';
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
+function galToggleZoom(){
+    G.zoomed=!G.zoomed;var img=document.getElementById('galImg');
+    if(G.zoomed){img.style.maxWidth='95vw';img.style.maxHeight='88vh';img.style.cursor='zoom-out';}
+    else{img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';}
 }
 
-// سوايب على الموبايل
-(function(){
-    var sx=0,sy=0,dg=false;
-    document.addEventListener('touchstart',function(e){
-        if(!G.open)return;
-        var ov=document.getElementById('galOverlay');
-        if(ov.style.display==='none')return;
-        if(e.target.closest('.gal-nav,.gal-close-btn,.gal-th-item,.gal-dot,.gal-action-btn'))return;
-        sx=e.touches[0].clientX;sy=e.touches[0].clientY;dg=true;
-    },{passive:true});
-    document.addEventListener('touchend',function(e){
-        if(!dg)return;dg=false;
-        var dx=e.changedTouches[0].clientX-sx;
-        var dy=e.changedTouches[0].clientY-sy;
-        if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){
-            galNav(dx>0?-1:1);
-        }
-    },{passive:true});
-})();
+function galDownload(){var url=G.imgs[G.cur];if(!url)return;var a=document.createElement('a');a.href=url;a.target='_blank';a.download='image_'+(G.cur+1)+'.jpg';document.body.appendChild(a);a.click();document.body.removeChild(a);}
 
-// كيبورد
-document.addEventListener('keydown',function(e){
-    if(!G.open)return;
-    if(e.key==='ArrowRight')galNav(-1);
-    else if(e.key==='ArrowLeft')galNav(1);
-    else if(e.key==='Escape')galClose();
-});
+(function(){var sx=0,sy=0;document.addEventListener('touchstart',function(e){if(!G.open)return;var ov=document.getElementById('galOverlay');if(ov.style.display==='none')return;if(e.target.closest('.gal-arrow,.gal-close-btn,.gal-th-item,.gal-act'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});document.addEventListener('touchend',function(e){if(!G.open)return;var dx=e.changedTouches[0].clientX-sx;var dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50)galNav(dx>0?-1:1);},{passive:true});})();
+document.addEventListener('keydown',function(e){if(!G.open)return;if(e.key==='ArrowRight')galNav(-1);else if(e.key==='ArrowLeft')galNav(1);else if(e.key==='Escape')galClose();});
 
-/* ========== النموذج ========== */
 function getFormData(){return{name:document.getElementById('companyName').value.trim(),desc:document.getElementById('companyDesc').value.trim(),whatsapp:document.getElementById('whatsapp').value.trim(),phone1:document.getElementById('phone1').value.trim(),phone2:document.getElementById('phone2').value.trim(),email:document.getElementById('email').value.trim(),facebook:document.getElementById('facebook').value.trim(),tiktok:document.getElementById('tiktok').value.trim()};}
 function setFormData(d){if(!d)return;['companyName','companyDesc','whatsapp','phone1','phone2','email','facebook','tiktok'].forEach(function(f){if(d[f]!==undefined)document.getElementById(f).value=d[f];});if(d.logoUrl){logoUrl=d.logoUrl;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
-/* ========== QR ========== */
 function makeQR(text,cid,sid,dc,ls){var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return false;try{var qr=qrcode(0,'H');qr.addData(text);qr.make();var mc=qr.getModuleCount(),cs=Math.max(3,Math.floor(220/mc)),mg=14,sz=mc*cs+mg*2;var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);if(ls){var img=new Image();img.crossOrigin='Anonymous';img.onload=function(){var l=sz*.2,x=(sz-l)/2,y=(sz-l)/2;ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.closePath();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,l,l);ctx.restore();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=1.5;ctx.stroke();done();};img.onerror=function(){done();};img.src=ls;}else{done();}function done(){try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}catch(e2){makeQR(text,cid,sid,dc,null);}}return true;}catch(e){ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';if(st)st.innerHTML='';return false;}}
 function downloadQR(cid,fn){var c=document.getElementById(cid),img=c?c.querySelector('img'):null;if(!img||!img.src){showToastErr('QR مش جاهز');return;}var a=document.createElement('a');a.download=fn;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
 
-function generateAllQR(){var d=getFormData(),ls=logoUrl||STATIC_LOGO,pu=document.getElementById('pageUrl').value.trim();var fd=document.getElementById('fixedUrlDisplay');if(pu&&fd)fd.textContent=getFixedUrl();else if(fd)fd.textContent='—';if(pu){makeQR(getFixedUrl(),'qrPageResult','qrPageStatus','#061A12',ls);}else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold);font-size:12px">أدخلي رابط الصفحة لتوليد QR ثابت</p></div>';document.getElementById('qrPageStatus').innerHTML='';}var wn=cleanWhatsApp(d.whatsapp);if(wn)makeQR('https://wa.me/'+wn,'qrWaResult','qrWaStatus','#075E54',ls);else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);}
+function generateAllQR(){var d=getFormData(),ls=logoUrl||STATIC_LOGO,pu=document.getElementById('pageUrl').value.trim();var fd=document.getElementById('fixedUrlDisplay');if(pu&&fd)fd.textContent=getFixedUrl();else if(fd)fd.textContent='—';if(pu){makeQR(getFixedUrl(),'qrPageResult','qrPageStatus','#061A12',ls);}else{document.getElementById('qrPageResult').innerHTML='<div class="qr-err" style="background:rgba(212,168,67,.08)"><i class="fas fa-link" style="color:var(--gold)"></i><p style="color:var(--gold);font-size:12px">أدخلي رابط الصفحة</p></div>';document.getElementById('qrPageStatus').innerHTML='';}var wn=cleanWhatsApp(d.whatsapp);if(wn)makeQR('https://wa.me/'+wn,'qrWaResult','qrWaStatus','#075E54',ls);else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);}
 function onPageUrlChange(){localStorage.setItem('page_url',document.getElementById('pageUrl').value.trim());generateAllQR();triggerAutoSave();}
 function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
 function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\nFN:'+(d.name||'')+'\nORG:'+(d.name||'')+'\n';if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.email)v+='EMAIL;TYPE=WORK:'+d.email+'\n';if(d.facebook)v+='URL:'+d.facebook+'\n';if(d.tiktok)v+='URL:'+d.tiktok+'\n';if(d.desc)v+='NOTE:'+d.desc+'\n';return v+'END:VCARD';}
 
-/* ========== بناء HTML الخدمات ========== */
+/* ===== بناء HTML الخدمات - الغلاف الأصلي ===== */
 function buildServicesHTML(svcs,mini,sdRef){
     if(!svcs||!svcs.length)return'';var cls=mini?'svc-mini':'svc-card';var h='';
     svcs.forEach(function(s){
         var sd=sdRef?(sdRef[s.id]||{images:[],pdf:null,pdfName:''}):(servicesData[s.id]||{images:[],pdf:null,pdfName:''});var ic=sd.images.length,hp=!!sd.pdf;
         h+='<div class="'+cls+'" onclick="galOpen(\''+s.id+'\',0)"><div class="svc-cover">';
-        // لو فيه صور نعرض أول صورة بدل الكوفر الافتراضي
-        var coverImg=ic>0?sd.images[0]:s.cover;
-        if(coverImg)h+='<img src="'+coverImg+'" alt="'+s.title+'" referrerpolicy="no-referrer">';
+        // الغلاف الأصلي دايماً
+        if(s.cover)h+='<img src="'+s.cover+'" alt="'+s.title+'" referrerpolicy="no-referrer">';
         h+='<div class="svc-cover-grad"></div>';if(!mini)h+='<div class="svc-cover-icon" style="background:'+s.color+'"><i class="fas '+s.icon+'"></i></div>';
-        // عداد الصور على الكوفر
-        if(!mini&&ic>0)h+='<div style="position:absolute;bottom:10px;left:10px;z-index:3;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);padding:4px 10px;border-radius:8px;font-size:11px;color:#fff;font-weight:700;display:flex;align-items:center;gap:4px"><i class="fas fa-images" style="font-size:10px"></i> '+ic+'</div>';
+        // عداد الصور على الغلاف
+        if(!mini&&ic>0)h+='<div class="svc-img-badge"><i class="fas fa-images" style="font-size:10px"></i> '+ic+'</div>';
         h+='</div><div class="svc-body"><div class="svc-title">'+s.title+'</div>';
         if(!mini){h+='<div class="svc-desc">'+s.desc+'</div><div class="svc-badges">';if(ic)h+='<span class="svc-badge svc-badge-imgs"><i class="fas fa-images"></i> '+ic+'</span>';if(hp)h+='<span class="svc-badge svc-badge-pdf"><i class="fas fa-file-pdf"></i> أسعار</span>';if(!ic&&!hp)h+='<span class="svc-badge" style="background:rgba(255,255,255,.05);color:var(--muted)"><i class="fas fa-arrow-left"></i> تصفح</span>';h+='</div>';}
         h+='</div></div>';
     });return h;
 }
 
-/* ========== تحديث المعاينة ========== */
 function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoUrl||STATIC_LOGO;var li=document.getElementById('previewLogoImg'),lic=document.getElementById('previewLogoIcon');if(ls){li.src=ls;li.style.display='block';lic.style.display='none';}else{li.style.display='none';lic.style.display='';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';document.getElementById('previewServices').innerHTML=buildServicesHTML(SERVICES,true);var wb=document.getElementById('previewWaBtn'),wn=cleanWhatsApp(d.whatsapp);if(wn){wb.href='https://wa.me/'+wn;wb.style.display='flex';}else wb.style.display='none';}
 
-/* ========== وضع العرض ========== */
 async function startViewMode(id){document.getElementById('editorMode').style.display='none';document.getElementById('viewMode').style.display='flex';document.getElementById('viewLoading').style.display='flex';document.getElementById('viewContent').style.display='none';var data=await loadCardFromCloud(id);if(!data){data={name:'المؤسسة العالمية للتوريدات',desc:'شريكك الموثوق في التوريدات',whatsapp:'',phone1:'',phone2:'',email:'',facebook:'',tiktok:'',logoUrl:'',services:{}};}viewSvcData=data.services||{};viewSvcData._whatsapp=data.whatsapp;document.getElementById('viewName').textContent=data.name||'المؤسسة العالمية للتوريدات';document.getElementById('viewDesc').textContent=data.desc||'';document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';var vl=document.getElementById('viewLogoImg');vl.src=data.logoUrl||STATIC_LOGO;vl.onerror=function(){this.parentElement.parentElement.style.display='none';};document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';var vp=document.getElementById('viewPhones');vp.innerHTML='';if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp);if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';var vsc=document.getElementById('viewSocials');vsc.innerHTML='';[{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});document.getElementById('viewLoading').style.display='none';document.getElementById('viewContent').style.display='';document.getElementById('viewContent').classList.add('fade-up');}
 
-/* ========== مسح الكل ========== */
 async function resetAll(){if(!confirm('هتمسحي كل حاجة؟'))return;document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoUrl='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';if(supabaseClient){for(var i=0;i<SERVICES.length;i++){var sd=servicesData[SERVICES[i].id];if(sd){sd.images.forEach(function(u){deleteFromSupabase(u);});if(sd.pdf)deleteFromSupabase(sd.pdf);}}try{await supabaseClient.storage.from(BUCKET_NAME).remove(['cards/'+getCardId()+'.json']);}catch(e){}}SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_state');localStorage.removeItem('page_url');cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('card_id',cardId);renderServicesEditor();updatePreview();generateAllQR();showToast('تم مسح كل حاجة');}
 
-/* ========== Toast ========== */
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
 function showToastErr(msg){var t=document.getElementById('toast');t.textContent='⚠ '+msg;t.className='toast-msg toast-err show';setTimeout(function(){t.className='toast-msg toast-err';},5000);}
 
-/* ========== التهيئة ========== */
 (function init(){var up=new URLSearchParams(window.location.search);var viewId=up.get('id');if(viewId){pendingViewId=viewId;}})();
 </script>
 </body>
