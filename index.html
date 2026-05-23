@@ -427,42 +427,113 @@ function getFormData(){return{name:document.getElementById('companyName').value.
 function setFormData(d){if(!d)return;['companyName','companyDesc','whatsapp','phone1','phone2','email','facebook','tiktok'].forEach(function(f){if(d[f]!==undefined)document.getElementById(f).value=d[f];});if(d.logoUrl){logoUrl=d.logoUrl;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
 function makeQR(text,cid,sid,dc,ls){
-    var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return false;
+    var ct=document.getElementById(cid),st=document.getElementById(sid);
+    dc=dc||'#061A12';if(!ct)return false;
     try{
         var qr=qrcode(0,'H');qr.addData(text);qr.make();
-        var mc=qr.getModuleCount(),cs=Math.max(3,Math.floor(220/mc)),mg=14,sz=mc*cs+mg*2;
+        var mc=qr.getModuleCount();
+        
+        // حجم عالي الجودة 800px بدل 220px
+        var HI_RES=800;
+        var cs=Math.max(3,Math.floor(HI_RES/mc));
+        var mg=Math.floor(HI_RES*0.06); // margin 6%
+        var sz=mc*cs+mg*2;
+        
         var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;
-        var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;
-        for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);
+        var ctx=cv.getContext('2d');
+        
+        // خلفية بيضا
+        ctx.fillStyle='#ffffff';
+        ctx.fillRect(0,0,sz,sz);
+        
+        // رسم الـ QR modules
+        ctx.fillStyle=dc;
+        for(var r=0;r<mc;r++){
+            for(var c=0;c<mc;c++){
+                if(qr.isDark(r,c)){
+                    ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);
+                }
+            }
+        }
+        
         if(ls){
             var img=new Image();
-            // base64 مش لازم crossOrigin
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
-                // دايرة بيضا تحت اللوجو
+                // اللوجو 28% من حجم QR عشان يبان واضح
+                var logoSz=sz*0.28;
+                var lx=(sz-logoSz)/2;
+                var ly=(sz-logoSz)/2;
+                var centerX=lx+logoSz/2;
+                var centerY=ly+logoSz/2;
+                var radius=logoSz/2;
+                
+                // مسح المنطقة اللي ورا اللوجو (نلونها أبيض)
                 ctx.save();
-                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+6,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius+cs*2,0,Math.PI*2);
+                ctx.fillStyle='#ffffff';
+                ctx.fill();
                 ctx.restore();
-                // اللوجو نفسه
+                
+                // دايرة بيضا كبيرة تحت اللوجو (padding)
                 ctx.save();
-                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();
-                ctx.drawImage(img,x,y,l,l);
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius+cs,0,Math.PI*2);
+                ctx.fillStyle='#ffffff';
+                ctx.fill();
                 ctx.restore();
-                // حدود خضرا حول اللوجو
-                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+3,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=2.5;ctx.stroke();
+                
+                // حاجة حلوة: shadow خفيف حول اللوجو
+                ctx.save();
+                ctx.shadowColor='rgba(0,0,0,0.15)';
+                ctx.shadowBlur=cs*3;
+                ctx.shadowOffsetX=0;
+                ctx.shadowOffsetY=cs;
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);
+                ctx.fillStyle='#ffffff';
+                ctx.fill();
+                ctx.restore();
+                
+                // رسم اللوجو نفسه (clip دايره)
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius,0,Math.PI*2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(img,lx,ly,logoSz,logoSz);
+                ctx.restore();
+                
+                // حدود سميكة حول اللوجو
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);
+                ctx.strokeStyle='#ffffff';
+                ctx.lineWidth=cs*1.5;
+                ctx.stroke();
+                
+                // حدود ملونة رفيعة
+                ctx.beginPath();
+                ctx.arc(centerX,centerY,radius+cs*1.5,0,Math.PI*2);
+                ctx.strokeStyle=dc;
+                ctx.lineWidth=cs*0.8;
+                ctx.stroke();
+                
                 done();
             };
             img.onerror=function(){
-                console.warn('QR logo failed, trying STATIC_LOGO');
-                // لو اللوجو فشل، نجرب الثابت
+                // تجربة اللوجو الثابت
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
-                        ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+6,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
-                        ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img2,x,y,l,l);ctx.restore();
-                        ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+3,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=2.5;ctx.stroke();
+                        var logoSz=sz*0.28;var lx=(sz-logoSz)/2;var ly=(sz-logoSz)/2;
+                        var centerX=lx+logoSz/2;var centerY=ly+logoSz/2;var radius=logoSz/2;
+                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*2,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius+cs,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();ctx.shadowColor='rgba(0,0,0,0.15)';ctx.shadowBlur=cs*3;ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img2,lx,ly,logoSz,logoSz);ctx.restore();
+                        ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);ctx.strokeStyle='#ffffff';ctx.lineWidth=cs*1.5;ctx.stroke();
+                        ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*1.5,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=cs*0.8;ctx.stroke();
                         done();
                     };
                     img2.onerror=function(){done();};
@@ -471,16 +542,34 @@ function makeQR(text,cid,sid,dc,ls){
             };
             img.src=ls;
         }else{done();}
+        
         function done(){
-            try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}
-            catch(e2){makeQR(text,cid,sid,dc,null);}
+            try{
+                var du=cv.toDataURL('image/png');
+                ct.innerHTML='';
+                var ie=document.createElement('img');
+                ie.src=du;
+                // عرض 220 بس الجودة عالية
+                ie.style.cssText='width:220px;height:220px;border-radius:14px';
+                ct.appendChild(ie);
+                ct.className='qr-result';
+                if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';
+            }catch(e2){makeQR(text,cid,sid,dc,null);}
         }
         return true;
     }catch(e){
         ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';if(st)st.innerHTML='';return false;
     }
-}function downloadQR(cid,fn){var c=document.getElementById(cid),img=c?c.querySelector('img'):null;if(!img||!img.src){showToastErr('QR مش جاهز');return;}var a=document.createElement('a');a.download=fn;a.href=img.src;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('تم تحميل QR');}
-
+}
+function downloadQR(cid,fn){
+    var c=document.getElementById(cid),img=c?c.querySelector('img'):null;
+    if(!img||!img.src){showToastErr('QR مش جاهز');return;}
+    var a=document.createElement('a');
+    a.download=fn;
+    a.href=img.src; // الصورة الأصلية عالية الجودة
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    showToast('تم تحميل QR بجودة عالية');
+}
 function generateAllQR(){
     var d=getFormData();
     // للـ QR: نستخدم رابط Supabase لو موجود، غير كده الثابت
