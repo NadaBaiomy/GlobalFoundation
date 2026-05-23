@@ -290,8 +290,7 @@ var SERVICES=[
     {id:'svc3',title:'التعبئه والتغليف',desc:'أكواب وأطباق ومستلزمات تغليف',icon:'fa-box-open',color:'#9B59B6',cover:'https://z-cdn-media.chatglm.cn/files/ecae6afe-cba3-4aa6-b1a7-e4e46497c6cc.png?auth_key=1879136993-6f93ea84dc6742258300573fdb09aca5-0-84a0b67115f4cc5a2647c68d251fa58a'},
     {id:'svc4',title:'مستلزمات من تصنيعنا',desc:'منتجات تنظيف بتصنيعنا الخاص',icon:'fa-industry',color:'#1ABC9C',cover:'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2'}
 ];
-var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/a29adf1c-f3bc-4a41-94bf-1d977db0fecc.jpeg?auth_key=1878957431-dcef115aa7b840dbb63973b204e10df4-0-deb8c1ffc132b173f0f7dd2b58ee1190';
-var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
+var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/1e251902-7d07-4e9e-a21d-ab488e08cdd9.png?auth_key=1879568326-85865964e3a64834921f078a3a324d23-0-5be7d256d0c370d77334ab69ff2aac10';var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
 
 var cardId='',logoUrl='',servicesData={},saveTimer=null,lastSaveTime=null,viewSvcData=null;
 SERVICES.forEach(function(s){servicesData[s.id]={images:[],pdf:null,pdfName:''};});
@@ -433,10 +432,10 @@ function makeQR(text,cid,sid,dc,ls){
         var qr=qrcode(0,'H');qr.addData(text);qr.make();
         var mc=qr.getModuleCount();
         
-        // حجم عالي الجودة 800px بدل 220px
-        var HI_RES=800;
-        var cs=Math.max(3,Math.floor(HI_RES/mc));
-        var mg=Math.floor(HI_RES*0.06); // margin 6%
+        // حجم عالي الجودة
+        var HI=800;
+        var cs=Math.max(3,Math.floor(HI/mc));
+        var mg=Math.floor(HI*0.06);
         var sz=mc*cs+mg*2;
         
         var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;
@@ -446,7 +445,7 @@ function makeQR(text,cid,sid,dc,ls){
         ctx.fillStyle='#ffffff';
         ctx.fillRect(0,0,sz,sz);
         
-        // رسم الـ QR modules
+        // رسم QR modules
         ctx.fillStyle=dc;
         for(var r=0;r<mc;r++){
             for(var c=0;c<mc;c++){
@@ -460,80 +459,76 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                // اللوجو 28% من حجم QR عشان يبان واضح
-                var logoSz=sz*0.28;
-                var lx=(sz-logoSz)/2;
-                var ly=(sz-logoSz)/2;
-                var centerX=lx+logoSz/2;
-                var centerY=ly+logoSz/2;
-                var radius=logoSz/2;
+                // حجم اللوجو 30% من QR
+                var logoW=sz*0.30;
+                // نسبة العرض للارتفاع من الصورة الأصلية
+                var imgRatio=img.naturalHeight/img.naturalWidth;
+                var logoH=logoW*imgRatio;
+                // لو الارتفاع أكبر من 38% نقلص
+                if(logoH>sz*0.38){logoH=sz*0.38;logoW=logoH/imgRatio;}
+                // حدود قصوى
+                if(logoW>sz*0.35)logoW=sz*0.35;
+                if(logoH>sz*0.40)logoH=sz*0.40;
                 
-                // مسح المنطقة اللي ورا اللوجو (نلونها أبيض)
+                var lx=(sz-logoW)/2;
+                var ly=(sz-logoH)/2;
+                var pad=cs*2; // padding حول اللوجو
+                var cornerR=cs*3; // استدارة الزوايا
+                
+                // مسح المنطقة خلف اللوجو (بيضا)
                 ctx.save();
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius+cs*2,0,Math.PI*2);
+                roundRect(ctx,lx-pad,ly-pad,logoW+pad*2,logoH+pad*2,cornerR);
                 ctx.fillStyle='#ffffff';
                 ctx.fill();
                 ctx.restore();
                 
-                // دايرة بيضا كبيرة تحت اللوجو (padding)
+                // shadow خفيف
                 ctx.save();
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius+cs,0,Math.PI*2);
+                ctx.shadowColor='rgba(0,0,0,0.12)';
+                ctx.shadowBlur=cs*4;
+                ctx.shadowOffsetY=cs*1.5;
+                roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);
                 ctx.fillStyle='#ffffff';
                 ctx.fill();
                 ctx.restore();
                 
-                // حاجة حلوة: shadow خفيف حول اللوجو
+                // طبقة بيضا تانية نضيفة فوق الشادو
                 ctx.save();
-                ctx.shadowColor='rgba(0,0,0,0.15)';
-                ctx.shadowBlur=cs*3;
-                ctx.shadowOffsetX=0;
-                ctx.shadowOffsetY=cs;
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);
+                roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);
                 ctx.fillStyle='#ffffff';
                 ctx.fill();
                 ctx.restore();
                 
-                // رسم اللوجو نفسه (clip دايره)
+                // رسم اللوجو نفسه - بدون clip عشان يبان كامل بالشريط
+                ctx.drawImage(img,lx,ly,logoW,logoH);
+                
+                // حدود ملونة رفيعة حول المنطقة البيضا
                 ctx.save();
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius,0,Math.PI*2);
-                ctx.closePath();
-                ctx.clip();
-                ctx.drawImage(img,lx,ly,logoSz,logoSz);
-                ctx.restore();
-                
-                // حدود سميكة حول اللوجو
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);
-                ctx.strokeStyle='#ffffff';
-                ctx.lineWidth=cs*1.5;
-                ctx.stroke();
-                
-                // حدود ملونة رفيعة
-                ctx.beginPath();
-                ctx.arc(centerX,centerY,radius+cs*1.5,0,Math.PI*2);
+                roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);
                 ctx.strokeStyle=dc;
-                ctx.lineWidth=cs*0.8;
+                ctx.lineWidth=cs*0.7;
                 ctx.stroke();
+                ctx.restore();
                 
                 done();
             };
             img.onerror=function(){
-                // تجربة اللوجو الثابت
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var logoSz=sz*0.28;var lx=(sz-logoSz)/2;var ly=(sz-logoSz)/2;
-                        var centerX=lx+logoSz/2;var centerY=ly+logoSz/2;var radius=logoSz/2;
-                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*2,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
-                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius+cs,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
-                        ctx.save();ctx.shadowColor='rgba(0,0,0,0.15)';ctx.shadowBlur=cs*3;ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
-                        ctx.save();ctx.beginPath();ctx.arc(centerX,centerY,radius,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img2,lx,ly,logoSz,logoSz);ctx.restore();
-                        ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*0.5,0,Math.PI*2);ctx.strokeStyle='#ffffff';ctx.lineWidth=cs*1.5;ctx.stroke();
-                        ctx.beginPath();ctx.arc(centerX,centerY,radius+cs*1.5,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=cs*0.8;ctx.stroke();
+                        var logoW=sz*0.30;
+                        var imgRatio=img2.naturalHeight/img2.naturalWidth;
+                        var logoH=logoW*imgRatio;
+                        if(logoH>sz*0.38){logoH=sz*0.38;logoW=logoH/imgRatio;}
+                        if(logoW>sz*0.35)logoW=sz*0.35;
+                        if(logoH>sz*0.40)logoH=sz*0.40;
+                        var lx=(sz-logoW)/2;var ly=(sz-logoH)/2;
+                        var pad=cs*2;var cornerR=cs*3;
+                        ctx.save();roundRect(ctx,lx-pad,ly-pad,logoW+pad*2,logoH+pad*2,cornerR);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();ctx.shadowColor='rgba(0,0,0,0.12)';ctx.shadowBlur=cs*4;ctx.shadowOffsetY=cs*1.5;roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.drawImage(img2,lx,ly,logoW,logoH);
+                        ctx.save();roundRect(ctx,lx-pad*0.5,ly-pad*0.5,logoW+pad,logoH+pad,cornerR*0.8);ctx.strokeStyle=dc;ctx.lineWidth=cs*0.7;ctx.stroke();ctx.restore();
                         done();
                     };
                     img2.onerror=function(){done();};
@@ -549,7 +544,6 @@ function makeQR(text,cid,sid,dc,ls){
                 ct.innerHTML='';
                 var ie=document.createElement('img');
                 ie.src=du;
-                // عرض 220 بس الجودة عالية
                 ie.style.cssText='width:220px;height:220px;border-radius:14px';
                 ct.appendChild(ie);
                 ct.className='qr-result';
@@ -560,6 +554,22 @@ function makeQR(text,cid,sid,dc,ls){
     }catch(e){
         ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';if(st)st.innerHTML='';return false;
     }
+}
+
+// دالة مساعدة لرسم مستطيل بزوايا مستديرة
+function roundRect(ctx,x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
 }
 function downloadQR(cid,fn){
     var c=document.getElementById(cid),img=c?c.querySelector('img'):null;
