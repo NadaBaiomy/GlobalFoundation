@@ -295,8 +295,8 @@ var SERVICES=[
     {id:'svc4',title:'مستلزمات من تصنيعنا',desc:'شاور- كلوروكس- معطر ارضيات- ديتول- جلانس- منظف ارضيات- صابون متعدد الاغراض وجميع المنتجات من تصنيعنا',icon:'fa-industry',color:'#1ABC9C',cover:'https://z-cdn-media.chatglm.cn/files/4162c24b-3d91-4b55-b2aa-086de8f9a230.png?auth_key=1879136993-034bd154376e4a309a9aebf73aff4ec8-0-ea2abbafcf5d99d07eafa893007146f2'},
     {id:'svc5',title:'شركاؤنا في النجاح',desc:'شركاء التميز والنجاح',icon:'fa-handshake',color:'#D4A843',cover:'https://z-cdn-media.chatglm.cn/files/39141d85-bca2-434c-a97a-3ef34be11a09.png?auth_key=1880777850-39ac30b08a1f416fbfaca2d95c05ea4a-0-08e52191671cbdbe1385c6c7ca32e031'},
 ];
-var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/1e251902-7d07-4e9e-a21d-ab488e08cdd9.png?auth_key=1879568326-85865964e3a64834921f078a3a324d23-0-5be7d256d0c370d77334ab69ff2aac10';var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
-
+var STATIC_LOGO='https://z-cdn-media.chatglm.cn/files/1e251902-7d07-4e9e-a21d-ab488e08cdd9.png?auth_key=1879568326-85865964e3a64834921f078a3a324d23-0-5be7d256d0c370d77334ab69ff2aac10';
+    
 var cardId='',logoUrl='',servicesData={},saveTimer=null,lastSaveTime=null,viewSvcData=null;
 SERVICES.forEach(function(s){servicesData[s.id]={images:[],pdf:null,pdfName:''};});
 
@@ -313,15 +313,51 @@ setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},
 
 async function uploadToSupabase(file,folder){if(!supabaseClient)throw'Supabase مش متصل';var ext=file.name.split('.').pop();var fn=folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,5)+'.'+ext;var r=await supabaseClient.storage.from(BUCKET_NAME).upload(fn,file,{cacheControl:'3600',upsert:false});if(r.error)throw r.error.message||'فشل الرفع';var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(r.data.path);return u.data.publicUrl;}
 async function deleteFromSupabase(url){if(!supabaseClient||!url)return;try{var parts=url.split('/public/'+BUCKET_NAME+'/');if(parts.length<2)return;await supabaseClient.storage.from(BUCKET_NAME).remove([parts[1].split('?')[0]]);}catch(e){}}
-async function saveCardToCloud(){if(!supabaseClient)throw'Supabase مش متصل';var d=getFormData();var payload={name:d.name,desc:d.desc,whatsapp:d.whatsapp,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,logoUrl:logoUrl,services:{}};SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd)payload.services[svc.id]={images:sd.images.slice(),pdf:sd.pdf,pdfName:sd.pdfName};});var jsonStr=JSON.stringify(payload);var blob=new Blob([jsonStr],{type:'application/json'});var path='cards/'+getCardId()+'.json';try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});if(r.error)throw r.error.message||'فشل رفع البيانات';return true;}
-async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
+async function saveCardToCloud(){
+    if(!supabaseClient)throw'Supabase مش متصل';
+    var d=getFormData();
+    var payload={name:d.name,desc:d.desc,whatsapp:d.whatsapp,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,logoUrl:logoUrl,services:{}};
+    SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd)payload.services[svc.id]={images:sd.images.slice(),pdf:sd.pdf,pdfName:sd.pdfName};});
+    var jsonStr=JSON.stringify(payload);
+    var blob=new Blob([jsonStr],{type:'application/json'});
+    var path='cards/'+getCardId()+'.json';
+    // محاولة حذف القديم
+    try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}
+    // رفع الجديد
+    var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});
+    if(r.error){
+        console.error('Upload error:',r.error);
+        throw r.error.message||'فشل رفع البيانات';
+    }
+    return true;
+}
+    
+    async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
 
 function setSaveBar(type,msg){var el=document.getElementById('saveBar'),txt=document.getElementById('saveText');if(!el||!txt)return;el.className='save-bar '+type;var icon=el.querySelector('i');if(type==='saving'){txt.textContent=msg||'جاري الحفظ...';if(icon)icon.className='fas fa-spinner fa-spin';}else if(type==='saved'){txt.textContent=msg||'تم الحفظ';if(icon)icon.className='fas fa-check-circle';}else if(type==='error'){txt.textContent=msg||'خطأ';if(icon)icon.className='fas fa-exclamation-circle';}}
 function onFormChange(){updatePreview();triggerAutoSave();}
 function triggerAutoSave(){saveToLocalStorage();clearTimeout(saveTimer);setSaveBar('saving');saveTimer=setTimeout(async function(){try{await saveCardToCloud();setSaveBar('saved');lastSaveTime=new Date();updateLastSave();}catch(e){setSaveBar('error',e.toString().substring(0,50));}},3000);}
 function saveToLocalStorage(){try{var d=getFormData();localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoUrl:logoUrl})));localStorage.setItem('gsi_state',JSON.stringify(servicesData));}catch(e){}}
-async function saveNow(){var btn=document.getElementById('saveNowBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';setSaveBar('saving');saveToLocalStorage();try{await saveCardToCloud();lastSaveTime=new Date();updateLastSave();setSaveBar('saved');showToast('تم الحفظ بنجاح');}catch(e){setSaveBar('error','خطأ');showToastErr('فشل الحفظ: '+e.toString().substring(0,60));}btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';}
-function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
+async function saveNow(){
+    var btn=document.getElementById('saveNowBtn');
+    btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+    setSaveBar('saving');
+    saveToLocalStorage();
+    try{
+        await saveCardToCloud();
+        lastSaveTime=new Date();updateLastSave();
+        setSaveBar('saved');
+        showToast('تم الحفظ بنجاح على السيرفر');
+    }catch(e){
+        // حتى لو فشل السحابي، المحلي شغال
+        setSaveBar('saved','تم الحفظ محلياً');
+        showToast('تم الحفظ محلياً - السيرفر مش متصل حالياً');
+        console.error('Cloud save failed:',e);
+    }
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';
+}
+    
+    function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
 function testView(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة الأول');return;}window.open(url,'_blank');}
 function copyFixedUrl(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة');return;}navigator.clipboard.writeText(url).then(function(){showToast('تم نسخ الرابط');});}
 
