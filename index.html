@@ -288,7 +288,7 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
 <script>
 var SUPABASE_URL='https://sishklcxcqafaaacqwlb.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpc2hrbGN4Y3FhZmFhYWNxd2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzI5MjYsImV4cCI6MjA5NDcwODkyNn0.B6jDUvKxD5nBc_dapvqG6oTjEBWBY6TMc3umlzDyrvQ';
-var BUCKET_NAME='business-uploads';
+var BUCKET_NAME='photos';
 var supabaseClient=null;
 try{if(SUPABASE_URL.indexOf('xxxx')===-1)supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
@@ -352,12 +352,11 @@ async function saveNow(){
         await saveCardToCloud();
         lastSaveTime=new Date();updateLastSave();
         setSaveBar('saved');
-        showToast('تم الحفظ بنجاح على السيرفر');
+        showToast('تم الحفظ بنجاح');
     }catch(e){
-        // حتى لو فشل السحابي، المحلي شغال
-        setSaveBar('saved','تم الحفظ محلياً');
-        showToast('تم الحفظ محلياً - السيرفر مش متصل حالياً');
-        console.error('Cloud save failed:',e);
+        setSaveBar('saved','حفظ محلي');
+        showToast('تم الحفظ محلياً');
+        console.error('Cloud error:',e);
     }
     btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';
 }
@@ -658,8 +657,42 @@ function buildServicesHTML(svcs,mini,sdRef){
 
 function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoUrl||STATIC_LOGO;var li=document.getElementById('previewLogoImg'),lic=document.getElementById('previewLogoIcon');if(ls){li.src=ls;li.style.display='block';lic.style.display='none';}else{li.style.display='none';lic.style.display='';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';document.getElementById('previewServices').innerHTML=buildServicesHTML(SERVICES,true);var wb=document.getElementById('previewWaBtn'),wn=cleanWhatsApp(d.whatsapp);if(wn){wb.href='https://wa.me/'+wn;wb.style.display='flex';}else wb.style.display='none';}
 
-async function startViewMode(id){document.getElementById('editorMode').style.display='none';document.getElementById('viewMode').style.display='flex';document.getElementById('viewLoading').style.display='flex';document.getElementById('viewContent').style.display='none';var data=await loadCardFromCloud(id);if(!data){data={name:'المؤسسة العالمية للتوريدات',desc:'شريكك الموثوق في التوريدات',whatsapp:'',phone1:'',phone2:'',email:'',facebook:'',tiktok:'',logoUrl:'',services:{}};}viewSvcData=data.services||{};viewSvcData._whatsapp=data.whatsapp;document.getElementById('viewName').textContent=data.name||'المؤسسة العالمية للتوريدات';document.getElementById('viewDesc').textContent=data.desc||'';document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';var vl=document.getElementById('viewLogoImg');vl.src=data.logoUrl||STATIC_LOGO;vl.onerror=function(){this.src='https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg';};document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';var vp=document.getElementById('viewPhones');vp.innerHTML='';if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp);if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';var vsc=document.getElementById('viewSocials');vsc.innerHTML='';[{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});document.getElementById('viewLoading').style.display='none';document.getElementById('viewContent').style.display='';document.getElementById('viewContent').classList.add('fade-up');}
-
+async function startViewMode(id){
+    document.getElementById('editorMode').style.display='none';
+    document.getElementById('viewMode').style.display='flex';
+    document.getElementById('viewLoading').style.display='flex';
+    document.getElementById('viewContent').style.display='none';
+    
+    var data=null;
+    try{
+        data=await Promise.race([
+            loadCardFromCloud(id),
+            new Promise(function(_,reject){setTimeout(function(){reject('timeout');},8000);})
+        ]);
+    }catch(e){console.error('Load error:',e);}
+    
+    if(!data){
+        data={name:'المؤسسة العالمية للتوريدات',desc:'شريكك الموثوق في التوريدات',whatsapp:'',phone1:'',phone2:'',email:'',facebook:'',tiktok:'',logoUrl:'',services:{}};
+    }
+    
+    viewSvcData=data.services||{};viewSvcData._whatsapp=data.whatsapp;
+    document.getElementById('viewName').textContent=data.name||'المؤسسة العالمية للتوريدات';
+    document.getElementById('viewDesc').textContent=data.desc||'';
+    document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
+    var vl=document.getElementById('viewLogoImg');
+    vl.src=data.logoUrl||STATIC_LOGO;
+    vl.onerror=function(){this.src=STATIC_LOGO;};
+    document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';
+    var vp=document.getElementById('viewPhones');vp.innerHTML='';
+    if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
+    if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';
+    var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp);if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
+    var vsc=document.getElementById('viewSocials');vsc.innerHTML='';
+    [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});
+    document.getElementById('viewLoading').style.display='none';
+    document.getElementById('viewContent').style.display='';
+    document.getElementById('viewContent').classList.add('fade-up');
+}
 async function resetAll(){if(!confirm('هتمسحي كل حاجة؟'))return;document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoUrl='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';if(supabaseClient){for(var i=0;i<SERVICES.length;i++){var sd=servicesData[SERVICES[i].id];if(sd){sd.images.forEach(function(u){deleteFromSupabase(u);});if(sd.pdf)deleteFromSupabase(sd.pdf);}}try{await supabaseClient.storage.from(BUCKET_NAME).remove(['cards/'+getCardId()+'.json']);}catch(e){}}SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_state');localStorage.removeItem('page_url');cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('card_id',cardId);renderServicesEditor();updatePreview();generateAllQR();showToast('تم مسح كل حاجة');}
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
