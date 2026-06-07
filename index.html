@@ -471,65 +471,51 @@ function getFormData(){return{name:document.getElementById('companyName').value.
 function setFormData(d){if(!d)return;['companyName','companyDesc','whatsapp','phone1','phone2','email','facebook','tiktok'].forEach(function(f){if(d[f]!==undefined)document.getElementById(f).value=d[f];});if(d.logoUrl){logoUrl=d.logoUrl;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}updatePreview();}
 
 function makeQR(text,cid,sid,dc,ls){
-    var ct=document.getElementById(cid),st=document.getElementById(sid);
-    dc=dc||'#061A12';if(!ct)return false;
+    var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return false;
     try{
         var qr=qrcode(0,'H');qr.addData(text);qr.make();
-        var mc=qr.getModuleCount();
-        var HI=900;
-        var cs=Math.max(3,Math.floor(HI/mc));
-        var mg=Math.floor(HI*0.05);
-        var sz=mc*cs+mg*2;
-        
+        var mc=qr.getModuleCount(),cs=Math.max(4,Math.floor(320/mc)),mg=24,sz=mc*cs+mg*2;
         var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;
-        var ctx=cv.getContext('2d');
-        
-        ctx.fillStyle='#ffffff';
-        ctx.fillRect(0,0,sz,sz);
-        
-        ctx.fillStyle=dc;
-        for(var r=0;r<mc;r++){
-            for(var c=0;c<mc;c++){
-                if(qr.isDark(r,c)){
-                    ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);
-                }
-            }
-        }
-        
+        var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;
+        for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);
         if(ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                drawLogo(ctx,img,sz,cs,dc);
+                var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
+                ctx.save();
+                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+8,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();
+                ctx.restore();
+                ctx.save();
+                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();
+                ctx.drawImage(img,x,y,l,l);
+                ctx.restore();
+                ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=2.5;ctx.stroke();
                 done();
             };
             img.onerror=function(){
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
-                    img2.onload=function(){drawLogo(ctx,img2,sz,cs,dc);done();};
+                    img2.onload=function(){
+                        var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
+                        ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+8,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+                        ctx.save();ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img2,x,y,l,l);ctx.restore();
+                        ctx.beginPath();ctx.arc(x+l/2,y+l/2,l/2+2,0,Math.PI*2);ctx.strokeStyle=dc;ctx.lineWidth=2.5;ctx.stroke();
+                        done();
+                    };
                     img2.onerror=function(){done();};
                     img2.src=STATIC_LOGO;
                 }else{done();}
             };
             img.src=ls;
         }else{done();}
-        
         function done(){
-            try{
-                var du=cv.toDataURL('image/png');
-                ct.innerHTML='';
-                var ie=document.createElement('img');
-                ie.src=du;
-                ie.style.cssText='width:220px;height:220px;border-radius:14px';
-                ct.appendChild(ie);
-                ct.className='qr-result';
-                if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';
-            }catch(e2){makeQR(text,cid,sid,dc,null);}
+            try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:pixelated';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}
+            catch(e2){makeQR(text,cid,sid,dc,null);}
         }
         return true;
     }catch(e){
-        ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';
-        if(st)st.innerHTML='';return false;
+        ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';if(st)st.innerHTML='';return false;
     }
 }
 
