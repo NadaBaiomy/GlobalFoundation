@@ -482,9 +482,9 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
-                // خلفية بيضا مربعة تحت اللوجو
-                var pad = 10;
+                var l=sz*.28,x=(sz-l)/2,y=(sz-l)/2; // حجم اللوجو كبير 28%
+                // إطار أبيض رفيع جداً حوالي اللوجو
+                var pad = 4; 
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(x-pad, y-pad, l+pad*2, l+pad*2);
                 // رسم اللوجو مربع زي ما هو
@@ -495,8 +495,8 @@ function makeQR(text,cid,sid,dc,ls){
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var l=sz*.22,x=(sz-l)/2,y=(sz-l)/2;
-                        var pad = 10;
+                        var l=sz*.28,x=(sz-l)/2,y=(sz-l)/2;
+                        var pad = 4;
                         ctx.fillStyle = '#ffffff';
                         ctx.fillRect(x-pad, y-pad, l+pad*2, l+pad*2);
                         ctx.drawImage(img2, x, y, l, l);
