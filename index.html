@@ -482,19 +482,19 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.27,x=(sz-l)/2,y=(sz-l)/2; // اللوجو حجمه 27% كبير
-                var pad = 8; // مساحة بيضا حواليه
+                var l=sz*.25,x=(sz-l)/2,y=(sz-l)/2; // حجم اللوجو 25% من حجم الكيو آر
+                var pad = 8;  // المسافة البيضا بين اللوجو والإطار الأسود
+                var bdr = 3;  // سمك الإطار الأسود
                 
-                // 1. رسم المستطيل الأبيض تحت اللوجو
+                // 1. رسم المستطيل الأسود (ده هو الإطار اللي إنتي عايزاه نضيف)
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
+                
+                // 2. رسم المستطيل الأبيض جوه الأسود (عشان يعمل الحتة البيضا النضيفة)
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x-pad, y-pad, l+pad*2, l+pad*2);
+                ctx.fillRect(x - pad, y - pad, l + (pad*2), l + (pad*2));
                 
-                // 2. رسم الإطار الأسود المربع حول الأبيض (ده اللي كان ناقص)
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 3; // سمك الإطار الأسود
-                ctx.strokeRect(x-pad, y-pad, l+pad*2, l+pad*2);
-                
-                // 3. رسم اللوجو نفسه مربع زي ما هو
+                // 3. رسم اللوجو مربع زي ما هو جوه الأبيض
                 ctx.drawImage(img, x, y, l, l);
                 done();
             };
@@ -502,13 +502,13 @@ function makeQR(text,cid,sid,dc,ls){
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var l=sz*.27,x=(sz-l)/2,y=(sz-l)/2;
+                        var l=sz*.25,x=(sz-l)/2,y=(sz-l)/2;
                         var pad = 8;
+                        var bdr = 3;
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
                         ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(x-pad, y-pad, l+pad*2, l+pad*2);
-                        ctx.strokeStyle = '#000000';
-                        ctx.lineWidth = 3;
-                        ctx.strokeRect(x-pad, y-pad, l+pad*2, l+pad*2);
+                        ctx.fillRect(x - pad, y - pad, l + (pad*2), l + (pad*2));
                         ctx.drawImage(img2, x, y, l, l);
                         done();
                     };
