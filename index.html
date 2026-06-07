@@ -482,24 +482,27 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.24,x=(sz-l)/2,y=(sz-l)/2; // حجم اللوجو 24% معتدل
-                var pad = 8;      // المسافة البيضا جوه الإطار الأسود
-                var bdr = 2.5;    // سمك الإطار الأسود (رفيع جداً)
-                var outerPad = 4; // المسافة البيضا بره الإطار الأسود (فاصل بين النقط والحد)
+                var l=sz*.26; // حجم اللوجو نفسه
+                var x=(sz-l)/2;
+                var y=(sz-l)/2;
                 
-                // 1. مساحة بيضا بره الإطار الأسود (عشان تفصل النقط عن الحد زي الصورة)
+                var whiteGap = 5;   // المسافة البيضا بين اللوجو والحد الأسود (الخلفية البيضا)
+                var blackLine = 1.5; // سمك الحد الأسود (رفيع جداً)
+                var outerGap = 3;   // المسافة البيضا بره الحد الأسود
+
+                // 1. مساحة بيضا بره الحد الأسود (تفصل النقط عن الحد)
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x - pad - bdr - outerPad, y - pad - bdr - outerPad, l + (pad*2) + (bdr*2) + (outerPad*2), l + (pad*2) + (bdr*2) + (outerPad*2));
+                ctx.fillRect(x - whiteGap - blackLine - outerGap, y - whiteGap - blackLine - outerGap, l + (whiteGap*2) + (blackLine*2) + (outerGap*2), l + (whiteGap*2) + (blackLine*2) + (outerGap*2));
                 
-                // 2. الإطار الأسود الرفيع
+                // 2. الحد الأسود الرفيع جداً
                 ctx.fillStyle = '#000000';
-                ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
+                ctx.fillRect(x - whiteGap - blackLine, y - whiteGap - blackLine, l + (whiteGap*2) + (blackLine*2), l + (whiteGap*2) + (blackLine*2));
                 
-                // 3. الخلفية البيضا جوه الأسود
+                // 3. الخلفية البيضا اللي ورا اللوجو (أكبر من اللوجو بـ 5 بكسل كل جهة)
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x - pad, y - pad, l + (pad*2), l + (pad*2));
+                ctx.fillRect(x - whiteGap, y - whiteGap, l + (whiteGap*2), l + (whiteGap*2));
                 
-                // 4. رسم اللوجو واضح
+                // 4. رسم اللوجو
                 ctx.drawImage(img, x, y, l, l);
                 done();
             };
@@ -507,14 +510,14 @@ function makeQR(text,cid,sid,dc,ls){
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var l=sz*.24,x=(sz-l)/2,y=(sz-l)/2;
-                        var pad = 8, bdr = 2.5, outerPad = 4;
+                        var l=sz*.26;var x=(sz-l)/2;var y=(sz-l)/2;
+                        var whiteGap = 5; var blackLine = 1.5; var outerGap = 3;
                         ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(x - pad - bdr - outerPad, y - pad - bdr - outerPad, l + (pad*2) + (bdr*2) + (outerPad*2), l + (pad*2) + (bdr*2) + (outerPad*2));
+                        ctx.fillRect(x - whiteGap - blackLine - outerGap, y - whiteGap - blackLine - outerGap, l + (whiteGap*2) + (blackLine*2) + (outerGap*2), l + (whiteGap*2) + (blackLine*2) + (outerGap*2));
                         ctx.fillStyle = '#000000';
-                        ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
+                        ctx.fillRect(x - whiteGap - blackLine, y - whiteGap - blackLine, l + (whiteGap*2) + (blackLine*2), l + (whiteGap*2) + (blackLine*2));
                         ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(x - pad, y - pad, l + (pad*2), l + (pad*2));
+                        ctx.fillRect(x - whiteGap, y - whiteGap, l + (whiteGap*2), l + (whiteGap*2));
                         ctx.drawImage(img2, x, y, l, l);
                         done();
                     };
