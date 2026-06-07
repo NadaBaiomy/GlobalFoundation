@@ -474,7 +474,7 @@ function makeQR(text,cid,sid,dc,ls){
     var ct=document.getElementById(cid),st=document.getElementById(sid);dc=dc||'#061A12';if(!ct)return false;
     try{
         var qr=qrcode(0,'H');qr.addData(text);qr.make();
-        var mc=qr.getModuleCount(),cs=Math.max(4,Math.floor(800/mc)),mg=24,sz=mc*cs+mg*2; // 800 بدل 320 لدقة أعلى (HD)
+        var mc=qr.getModuleCount(),cs=Math.max(4,Math.floor(800/mc)),mg=24,sz=mc*cs+mg*2;
         var cv=document.createElement('canvas');cv.width=sz;cv.height=sz;
         var ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sz,sz);ctx.fillStyle=dc;
         for(var r=0;r<mc;r++)for(var c=0;c<mc;c++)if(qr.isDark(r,c))ctx.fillRect(mg+c*cs,mg+r*cs,cs,cs);
@@ -482,19 +482,24 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.32,x=(sz-l)/2,y=(sz-l)/2; // حجم اللوجو بقى 32% وكبير
-                var pad = 10;  
-                var bdr = 4;   
+                var l=sz*.24,x=(sz-l)/2,y=(sz-l)/2; // حجم اللوجو 24% معتدل
+                var pad = 8;      // المسافة البيضا جوه الإطار الأسود
+                var bdr = 2.5;    // سمك الإطار الأسود (رفيع جداً)
+                var outerPad = 4; // المسافة البيضا بره الإطار الأسود (فاصل بين النقط والحد)
                 
-                // 1. الإطار الأسود النضيف
+                // 1. مساحة بيضا بره الإطار الأسود (عشان تفصل النقط عن الحد زي الصورة)
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(x - pad - bdr - outerPad, y - pad - bdr - outerPad, l + (pad*2) + (bdr*2) + (outerPad*2), l + (pad*2) + (bdr*2) + (outerPad*2));
+                
+                // 2. الإطار الأسود الرفيع
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
                 
-                // 2. الخلفية البيضا
+                // 3. الخلفية البيضا جوه الأسود
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(x - pad, y - pad, l + (pad*2), l + (pad*2));
                 
-                // 3. رسم اللوجو بوضوح
+                // 4. رسم اللوجو واضح
                 ctx.drawImage(img, x, y, l, l);
                 done();
             };
@@ -502,9 +507,10 @@ function makeQR(text,cid,sid,dc,ls){
                 if(ls!==STATIC_LOGO){
                     var img2=new Image();img2.crossOrigin='Anonymous';
                     img2.onload=function(){
-                        var l=sz*.32,x=(sz-l)/2,y=(sz-l)/2;
-                        var pad = 10;
-                        var bdr = 4;
+                        var l=sz*.24,x=(sz-l)/2,y=(sz-l)/2;
+                        var pad = 8, bdr = 2.5, outerPad = 4;
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(x - pad - bdr - outerPad, y - pad - bdr - outerPad, l + (pad*2) + (bdr*2) + (outerPad*2), l + (pad*2) + (bdr*2) + (outerPad*2));
                         ctx.fillStyle = '#000000';
                         ctx.fillRect(x - pad - bdr, y - pad - bdr, l + (pad*2) + (bdr*2), l + (pad*2) + (bdr*2));
                         ctx.fillStyle = '#ffffff';
@@ -519,7 +525,6 @@ function makeQR(text,cid,sid,dc,ls){
             img.src=ls;
         }else{done();}
         function done(){
-            // image-rendering: auto عشان اللوجو يبان ناعم ومببوظش
             try{var du=cv.toDataURL('image/png');ct.innerHTML='';var ie=document.createElement('img');ie.src=du;ie.style.cssText='width:220px;height:220px;border-radius:14px;image-rendering:auto';ct.appendChild(ie);ct.className='qr-result';if(st)st.innerHTML='<span class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> تم</span>';}
             catch(e2){makeQR(text,cid,sid,dc,null);}
         }
