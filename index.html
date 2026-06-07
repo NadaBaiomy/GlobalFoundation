@@ -659,32 +659,46 @@ async function startViewMode(id){
     document.getElementById('viewLoading').style.display='flex';
     document.getElementById('viewContent').style.display='none';
     
-    var data=null;
-    try{
-        data=await Promise.race([
-            loadCardFromCloud(id),
-            new Promise(function(_,reject){setTimeout(function(){reject('timeout');},8000);})
-        ]);
-    }catch(e){console.error('Load error:',e);}
-    
+    var data = null;
+    try {
+        // لو السيرفر تأخر أكتر من 5 ثواني، يبطل يدور
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 5000));
+        data = await Promise.race([loadCardFromCloud(id), timeoutPromise]);
+    } catch(e) {
+        console.error(e);
+    }
+
+    // لو ملقاش البيانات، يعرض البيانات الأساسية
     if(!data){
         data={name:'المؤسسة العالمية للتوريدات',desc:'شريكك الموثوق في التوريدات',whatsapp:'',phone1:'',phone2:'',email:'',facebook:'',tiktok:'',logoUrl:'',services:{}};
     }
     
-    viewSvcData=data.services||{};viewSvcData._whatsapp=data.whatsapp;
-    document.getElementById('viewName').textContent=data.name||'المؤسسة العالمية للتوريدات';
-    document.getElementById('viewDesc').textContent=data.desc||'';
-    document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
-    var vl=document.getElementById('viewLogoImg');
-    vl.src=data.logoUrl||STATIC_LOGO;
-    vl.onerror=function(){this.src=STATIC_LOGO;};
-    document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';
-    var vp=document.getElementById('viewPhones');vp.innerHTML='';
-    if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
-    if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';
-    var wd=document.getElementById('viewWhatsApp');wd.innerHTML='';var wn=cleanWhatsApp(data.whatsapp);if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
-    var vsc=document.getElementById('viewSocials');vsc.innerHTML='';
-    [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});
+    try {
+        viewSvcData=data.services||{};
+        viewSvcData._whatsapp=data.whatsapp;
+        document.getElementById('viewName').textContent=data.name||'المؤسسة العالمية للتوريدات';
+        document.getElementById('viewDesc').textContent=data.desc||'';
+        document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
+        var vl=document.getElementById('viewLogoImg');
+        vl.src=data.logoUrl||STATIC_LOGO;
+        vl.onerror=function(){this.parentElement.parentElement.style.display='none';};
+        document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';
+        var vp=document.getElementById('viewPhones');
+        vp.innerHTML='';
+        if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
+        if(data.phone2)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone2)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone2+'</a>';
+        var wd=document.getElementById('viewWhatsApp');
+        wd.innerHTML='';
+        var wn=cleanWhatsApp(data.whatsapp);
+        if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
+        var vsc=document.getElementById('viewSocials');
+        vsc.innerHTML='';
+        [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});
+    } catch(e) {
+        console.error("Error rendering card:", e);
+    }
+
+    // إزالة شاشة التحميل وإظهار الكارت
     document.getElementById('viewLoading').style.display='none';
     document.getElementById('viewContent').style.display='';
     document.getElementById('viewContent').classList.add('fade-up');
