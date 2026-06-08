@@ -303,13 +303,17 @@ var SERVICES=[
 var STATIC_LOGO='https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg';
 var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
     
-    
+// دوال آمنة للمتصفحات اللي بتقفل localStorage (زي داخل تطبيق تليجرام او فيسبوك)
+function safeGetLS(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function safeSetLS(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function safeRemoveLS(k){try{localStorage.removeItem(k);}catch(e){}}
+
 var cardId='',logoUrl='',servicesData={},saveTimer=null,lastSaveTime=null,viewSvcData=null;
 SERVICES.forEach(function(s){servicesData[s.id]={images:[],pdf:null,pdfName:''};});
 
 function cleanWhatsApp(n){if(!n)return'';n=n.trim().replace(/[^0-9]/g,'');if(n.indexOf('00')===0)n=n.substring(2);if(n.indexOf('0')===0&&n.length===11)n='2'+n;return n;}
 function cleanPhone(n){if(!n)return'';return n.trim().replace(/[^0-9+]/g,'');}
-function getCardId(){if(cardId)return cardId;cardId=localStorage.getItem('card_id');if(!cardId){cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('card_id',cardId);}return cardId;}
+function getCardId(){if(cardId)return cardId;cardId=safeGetLS('card_id');if(!cardId){cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);safeSetLS('card_id',cardId);}return cardId;}
 function getFixedUrl(){var pu=document.getElementById('pageUrl').value.trim();if(!pu)return'';var sep=pu.indexOf('?')>-1?'&':'?';return pu+sep+'id='+getCardId();}
 
 var splashGone=false,pendingViewId=null;
@@ -328,9 +332,7 @@ async function saveCardToCloud(){
     var jsonStr=JSON.stringify(payload);
     var blob=new Blob([jsonStr],{type:'application/json'});
     var path='cards/'+getCardId()+'.json';
-    // محاولة حذف القديم
     try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}
-    // رفع الجديد
     var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});
     if(r.error){
         console.error('Upload error:',r.error);
@@ -339,12 +341,12 @@ async function saveCardToCloud(){
     return true;
 }
     
-    async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
+async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
 
 function setSaveBar(type,msg){var el=document.getElementById('saveBar'),txt=document.getElementById('saveText');if(!el||!txt)return;el.className='save-bar '+type;var icon=el.querySelector('i');if(type==='saving'){txt.textContent=msg||'جاري الحفظ...';if(icon)icon.className='fas fa-spinner fa-spin';}else if(type==='saved'){txt.textContent=msg||'تم الحفظ';if(icon)icon.className='fas fa-check-circle';}else if(type==='error'){txt.textContent=msg||'خطأ';if(icon)icon.className='fas fa-exclamation-circle';}}
 function onFormChange(){updatePreview();triggerAutoSave();}
 function triggerAutoSave(){saveToLocalStorage();clearTimeout(saveTimer);setSaveBar('saving');saveTimer=setTimeout(async function(){try{await saveCardToCloud();setSaveBar('saved');lastSaveTime=new Date();updateLastSave();}catch(e){setSaveBar('error',e.toString().substring(0,50));}},3000);}
-function saveToLocalStorage(){try{var d=getFormData();localStorage.setItem('businessCardData',JSON.stringify(Object.assign({},d,{logoUrl:logoUrl})));localStorage.setItem('gsi_state',JSON.stringify(servicesData));}catch(e){}}
+function saveToLocalStorage(){try{var d=getFormData();safeSetLS('businessCardData',JSON.stringify(Object.assign({},d,{logoUrl:logoUrl})));safeSetLS('gsi_state',JSON.stringify(servicesData));}catch(e){}}
 async function saveNow(){
     var btn=document.getElementById('saveNowBtn');
     btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
@@ -363,7 +365,7 @@ async function saveNow(){
     btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';
 }
     
-    function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
+function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
 function testView(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة الأول');return;}window.open(url,'_blank');}
 function copyFixedUrl(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة');return;}navigator.clipboard.writeText(url).then(function(){showToast('تم نسخ الرابط');});}
 
@@ -376,7 +378,7 @@ async function onImgFiles(e,svcId){var files=Array.from(e.target.files);if(!file
 async function delImg(svcId,idx,url){servicesData[svcId].images.splice(idx,1);deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف الصورة');}
 async function onPdfFile(e,svcId){var file=e.target.files[0];if(!file)return;setMsg('جاري رفع PDF...','working');try{var url=await uploadToSupabase(file,svcId+'_pdf');servicesData[svcId].pdf=url;servicesData[svcId].pdfName=file.name;saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع PDF','done');}catch(err){setMsg('فشل رفع PDF','fail');}e.target.value='';}
 async function delPdf(svcId,url){servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف PDF');}
-function loadState(){try{var s=localStorage.getItem('gsi_state');if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}}catch(e){}try{var sv=localStorage.getItem('businessCardData');if(sv){var d=JSON.parse(sv);setFormData(d);if(d.logoUrl)logoUrl=d.logoUrl;}}catch(e){}try{var pu=localStorage.getItem('page_url');if(pu)document.getElementById('pageUrl').value=pu;}catch(e){}renderServicesEditor();updatePreview();}
+function loadState(){try{var s=safeGetLS('gsi_state');if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}}catch(e){}try{var sv=safeGetLS('businessCardData');if(sv){var d=JSON.parse(sv);setFormData(d);if(d.logoUrl)logoUrl=d.logoUrl;}}catch(e){}try{var pu=safeGetLS('page_url');if(pu)document.getElementById('pageUrl').value=pu;}catch(e){}renderServicesEditor();updatePreview();}
 
 async function handleLogoUpload(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){logoUrl=ev.target.result;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};reader.readAsDataURL(file);try{var url=await uploadToSupabase(file,'logos/'+getCardId());logoUrl=url;document.getElementById('logoPreviewThumb').src=logoUrl;saveToLocalStorage();triggerAutoSave();}catch(err){saveToLocalStorage();triggerAutoSave();}}
 
@@ -484,22 +486,19 @@ function makeQR(text,cid,sid,dc,ls){
             var img=new Image();
             if(ls.indexOf('data:')!==0) img.crossOrigin='Anonymous';
             img.onload=function(){
-                var l=sz*.24; // حجم اللوجو نفسه
+                var l=sz*.24;
                 var x=(sz-l)/2;
                 var y=(sz-l)/2;
                 
-                var whiteGap = 8; // المسافة البيضا بين اللوجو والحد الأسود
-                var blackBorder = 8; // سمك الحد الأسود (عريض زي الصورة اللي إنتي منزلتيها)
+                var whiteGap = 8;
+                var blackBorder = 8;
 
-                // 1. الحد الأسود العريض
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(x - whiteGap - blackBorder, y - whiteGap - blackBorder, l + (whiteGap*2) + (blackBorder*2), l + (whiteGap*2) + (blackBorder*2));
                 
-                // 2. الخلفية البيضا جوه الحد الأسود
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(x - whiteGap, y - whiteGap, l + (whiteGap*2), l + (whiteGap*2));
                 
-                // 3. رسم اللوجو واضح وجوه الأبيض
                 ctx.drawImage(img, x, y, l, l);
                 done();
             };
@@ -531,92 +530,18 @@ function makeQR(text,cid,sid,dc,ls){
         ct.innerHTML='<div class="qr-err" style="background:rgba(239,68,68,.08)"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p style="color:#f87171">بيانات كبيرة</p></div>';if(st)st.innerHTML='';return false;
     }
 }
-function drawLogo(ctx,img,sz,cs,dc){
-    // حجم اللوجو 32% من حجم QR
-    var logoW=sz*0.32;
-    var imgRatio=img.naturalHeight/img.naturalWidth;
-    var logoH=logoW*imgRatio;
-    // حدود قصوى للارتفاع
-    if(logoH>sz*0.36){logoH=sz*0.36;logoW=logoH/imgRatio;}
-    
-    var lx=(sz-logoW)/2;
-    var ly=(sz-logoH)/2;
-    var pad=cs*2.5;
-    var cornerR=cs*2;
-    
-    // مسح المنطقة خلف اللوجو (بيضا) - أكبر من اللوجو
-    ctx.save();
-    roundRect(ctx,lx-pad,ly-pad,logoW+pad*2,logoH+pad*2,cornerR);
-    ctx.fillStyle='#ffffff';
-    ctx.fill();
-    ctx.restore();
-    
-    // shadow أنيق
-    ctx.save();
-    ctx.shadowColor='rgba(0,0,0,0.18)';
-    ctx.shadowBlur=cs*5;
-    ctx.shadowOffsetY=cs*2;
-    roundRect(ctx,lx-pad*0.6,ly-pad*0.6,logoW+pad*1.2,logoH+pad*1.2,cornerR*0.9);
-    ctx.fillStyle='#ffffff';
-    ctx.fill();
-    ctx.restore();
-    
-    // طبقة بيضا نظيفة فوق الشادو
-    ctx.save();
-    roundRect(ctx,lx-pad*0.6,ly-pad*0.6,logoW+pad*1.2,logoH+pad*1.2,cornerR*0.9);
-    ctx.fillStyle='#ffffff';
-    ctx.fill();
-    ctx.restore();
-    
-    // رسم اللوجو نفسه - بدون clip عشان يبان كامل
-    ctx.drawImage(img,lx,ly,logoW,logoH);
-    
-    // حدود بيضا سميكة
-    ctx.save();
-    roundRect(ctx,lx-pad*0.6,ly-pad*0.6,logoW+pad*1.2,logoH+pad*1.2,cornerR*0.9);
-    ctx.strokeStyle='#ffffff';
-    ctx.lineWidth=cs*1.5;
-    ctx.stroke();
-    ctx.restore();
-    
-    // حدود ملونة رفيعة
-    ctx.save();
-    roundRect(ctx,lx-pad*0.6,ly-pad*0.6,logoW+pad*1.2,logoH+pad*1.2,cornerR*0.9);
-    ctx.strokeStyle=dc;
-    ctx.lineWidth=cs*0.8;
-    ctx.stroke();
-    ctx.restore();
-}
-// دالة مساعدة لرسم مستطيل بزوايا مستديرة
-
-function roundRect(ctx,x,y,w,h,r){
-    r=Math.min(r,w/2,h/2);
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.lineTo(x+w-r,y);
-    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-    ctx.lineTo(x+w,y+h-r);
-    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-    ctx.lineTo(x+r,y+h);
-    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-    ctx.lineTo(x,y+r);
-    ctx.quadraticCurveTo(x,y,x+r,y);
-    ctx.closePath();
-}
 
 function downloadQR(cid,fn){
     var c=document.getElementById(cid),img=c?c.querySelector('img'):null;
     if(!img||!img.src){showToastErr('QR مش جاهز');return;}
     var a=document.createElement('a');
     a.download=fn;
-    a.href=img.src; // الصورة الأصلية عالية الجودة
+    a.href=img.src;
     document.body.appendChild(a);a.click();document.body.removeChild(a);
     showToast('تم تحميل QR بجودة عالية');
 }
 function generateAllQR(){
     var d=getFormData();
-    // للـ QR: نستخدم رابط Supabase لو موجود، غير كده الثابت
-    // base64 مش بيشتغل في canvas عشان CORS
     var ls=logoUrl;
     if(!ls || ls.indexOf('data:')===0) ls=STATIC_LOGO;
     
@@ -632,7 +557,8 @@ function generateAllQR(){
     else{document.getElementById('qrWaResult').innerHTML='<div class="qr-err" style="background:rgba(255,255,255,.03)"><p style="color:var(--muted)">لا يوجد واتساب</p></div>';document.getElementById('qrWaStatus').innerHTML='';}
     
     makeQR(generateVCard(d),'qrVcardResult','qrVcardStatus','#061A12',ls);
-}function onPageUrlChange(){localStorage.setItem('page_url',document.getElementById('pageUrl').value.trim());generateAllQR();triggerAutoSave();}
+}
+function onPageUrlChange(){safeSetLS('page_url',document.getElementById('pageUrl').value.trim());generateAllQR();triggerAutoSave();}
 function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');});document.querySelector('.qr-tab[data-tab="'+tab+'"]').classList.add('active');document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrPage').style.display=tab==='page'?'':'none';}
 function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\nFN:'+(d.name||'')+'\nORG:'+(d.name||'')+'\n';if(d.phone1)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone1)+'\n';if(d.phone2)v+='TEL;TYPE=WORK:'+cleanPhone(d.phone2)+'\n';if(d.whatsapp)v+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.email)v+='EMAIL;TYPE=WORK:'+d.email+'\n';if(d.facebook)v+='URL:'+d.facebook+'\n';if(d.tiktok)v+='URL:'+d.tiktok+'\n';if(d.desc)v+='NOTE:'+d.desc+'\n';return v+'END:VCARD';}
 
@@ -640,12 +566,11 @@ function generateVCard(d){var v='BEGIN:VCARD\nVERSION:3.0\nFN:'+(d.name||'')+'\n
 function buildServicesHTML(svcs,mini,sdRef){
     if(!svcs||!svcs.length)return'';var cls=mini?'svc-mini':'svc-card';var h='';
     svcs.forEach(function(s){
+        if(s.id === 'svc5') return; // إخفاء كارت شركاؤنا في النجاح من الكروت
         var sd=sdRef?(sdRef[s.id]||{images:[],pdf:null,pdfName:''}):(servicesData[s.id]||{images:[],pdf:null,pdfName:''});var ic=sd.images.length,hp=!!sd.pdf;
         h+='<div class="'+cls+'" onclick="galOpen(\''+s.id+'\',0)"><div class="svc-cover">';
-        // الغلاف الأصلي دايماً
         if(s.cover)h+='<img src="'+s.cover+'" alt="'+s.title+'" referrerpolicy="no-referrer">';
         h+='<div class="svc-cover-grad"></div>';if(!mini)h+='<div class="svc-cover-icon" style="background:'+s.color+'"><i class="fas '+s.icon+'"></i></div>';
-        // عداد الصور على الغلاف
         if(!mini&&ic>0)h+='<div class="svc-img-badge"><i class="fas fa-images" style="font-size:10px"></i> '+ic+'</div>';
         h+='</div><div class="svc-body"><div class="svc-title">'+s.title+'</div>';
         if(!mini){h+='<div class="svc-desc">'+s.desc+'</div><div class="svc-badges">';if(ic)h+='<span class="svc-badge svc-badge-imgs"><i class="fas fa-images"></i> '+ic+'</span>';if(hp)h+='<span class="svc-badge svc-badge-pdf"><i class="fas fa-file-pdf"></i> أسعار</span>';if(!ic&&!hp)h+='<span class="svc-badge" style="background:rgba(255,255,255,.05);color:var(--muted)"><i class="fas fa-arrow-left"></i> تصفح</span>';h+='</div>';}
@@ -653,7 +578,23 @@ function buildServicesHTML(svcs,mini,sdRef){
     });return h;
 }
 
-function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoUrl||STATIC_LOGO;var li=document.getElementById('previewLogoImg'),lic=document.getElementById('previewLogoIcon');if(ls){li.src=ls;li.style.display='block';lic.style.display='none';}else{li.style.display='none';lic.style.display='';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';document.getElementById('previewServices').innerHTML=buildServicesHTML(SERVICES,true);var wb=document.getElementById('previewWaBtn'),wn=cleanWhatsApp(d.whatsapp);if(wn){wb.href='https://wa.me/'+wn;wb.style.display='flex';}else wb.style.display='none';}
+/* ===== شبكة لوجوهات الشركاء ===== */
+function buildPartnersHTML(sdRef){
+    var sd=sdRef?(sdRef['svc5']||{images:[]}):(servicesData['svc5']||{images:[]});
+    if(!sd||!sd.images.length) return '';
+    var h='<div style="margin-top:24px; margin-bottom:16px;">';
+    h+='<h3 style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:12px; text-align:center;"><i class="fas fa-handshake" style="margin-left:6px;"></i>شركاؤنا في النجاح</h3>';
+    h+='<div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap:12px; justify-items:center;">';
+    sd.images.forEach(function(url){
+        h+='<div style="width:65px; height:65px; background:#fff; padding:5px; border-radius:14px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center;">';
+        h+='<img src="'+url+'" style="width:100%; height:100%; object-fit:contain; border-radius:10px;" referrerpolicy="no-referrer">';
+        h+='</div>';
+    });
+    h+='</div></div>';
+    return h;
+}
+
+function updatePreview(){var d=getFormData();document.getElementById('previewName').textContent=d.name||'المؤسسة العالمية للتوريدات';document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';var ls=logoUrl||STATIC_LOGO;var li=document.getElementById('previewLogoImg'),lic=document.getElementById('previewLogoIcon');if(ls){li.src=ls;li.style.display='block';lic.style.display='none';}else{li.style.display='none';lic.style.display='';}var se=document.getElementById('previewSocials');se.innerHTML='';[{url:d.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:d.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:d.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';se.appendChild(a);}});var ce=document.getElementById('previewContact');ce.innerHTML='';if(d.phone1)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone1+'</p>';if(d.phone2)ce.innerHTML+='<p><i class="fas fa-phone text-blue-400 ml-1"></i> '+d.phone2+'</p>';if(d.email)ce.innerHTML+='<p><i class="fas fa-envelope text-red-400 ml-1"></i> '+d.email+'</p>';document.getElementById('previewServices').innerHTML=buildServicesHTML(SERVICES,true) + buildPartnersHTML();var wb=document.getElementById('previewWaBtn'),wn=cleanWhatsApp(d.whatsapp);if(wn){wb.href='https://wa.me/'+wn;wb.style.display='flex';}else wb.style.display='none';}
 
 async function startViewMode(id){
     document.getElementById('editorMode').style.display='none';
@@ -681,7 +622,7 @@ async function startViewMode(id){
         var vl=document.getElementById('viewLogoImg');
         vl.src=data.logoUrl||STATIC_LOGO;
         vl.onerror=function(){this.src=STATIC_LOGO;};
-        document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>';
+        document.getElementById('viewServices').innerHTML='<h3 class="text-sm font-bold mb-3" style="color:var(--gold)"><i class="fas fa-star ml-1"></i> خدماتنا</h3><div class="grid grid-cols-1 gap-3">'+buildServicesHTML(SERVICES,false,data.services)+'</div>' + buildPartnersHTML(data.services);
         var vp=document.getElementById('viewPhones');
         vp.innerHTML='';
         if(data.phone1)vp.innerHTML+='<a href="tel:'+cleanPhone(data.phone1)+'" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl" style="color:var(--text)"><i class="fas fa-phone text-blue-400"></i> '+data.phone1+'</a>';
@@ -689,7 +630,7 @@ async function startViewMode(id){
         var wd=document.getElementById('viewWhatsApp');
         wd.innerHTML='';
         var wn=cleanWhatsApp(data.whatsapp);
-        if(wn)wd.innerHTML='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
+        if(wn)wd.innerHTML+='<a href="https://wa.me/'+wn+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>';
         var vsc=document.getElementById('viewSocials');
         vsc.innerHTML='';
         [{url:data.email,icon:'fas fa-envelope',cls:'soc-em',ie:true},{url:data.facebook,icon:'fab fa-facebook-f',cls:'soc-fb',ie:false},{url:data.tiktok,icon:'fab fa-tiktok',cls:'soc-tk',ie:false}].forEach(function(s){if(s.url){var a=document.createElement('a');a.href=s.ie?'mailto:'+s.url:s.url;a.target=s.ie?'_self':'_blank';a.className='soc-icon '+s.cls;a.innerHTML='<i class="'+s.icon+'"></i>';vsc.appendChild(a);}});
@@ -701,7 +642,7 @@ async function startViewMode(id){
     document.getElementById('viewContent').style.display='';
     document.getElementById('viewContent').classList.add('fade-up');
 }
-async function resetAll(){if(!confirm('هتمسحي كل حاجة؟'))return;document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoUrl='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';if(supabaseClient){for(var i=0;i<SERVICES.length;i++){var sd=servicesData[SERVICES[i].id];if(sd){sd.images.forEach(function(u){deleteFromSupabase(u);});if(sd.pdf)deleteFromSupabase(sd.pdf);}}try{await supabaseClient.storage.from(BUCKET_NAME).remove(['cards/'+getCardId()+'.json']);}catch(e){}}SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});localStorage.removeItem('businessCardData');localStorage.removeItem('gsi_state');localStorage.removeItem('page_url');cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('card_id',cardId);renderServicesEditor();updatePreview();generateAllQR();showToast('تم مسح كل حاجة');}
+async function resetAll(){if(!confirm('هتمسحي كل حاجة؟'))return;document.querySelectorAll('.inp').forEach(function(i){i.value='';});logoUrl='';document.getElementById('logoPreviewThumb').style.display='none';document.getElementById('logoPlaceholder').style.display='';if(supabaseClient){for(var i=0;i<SERVICES.length;i++){var sd=servicesData[SERVICES[i].id];if(sd){sd.images.forEach(function(u){deleteFromSupabase(u);});if(sd.pdf)deleteFromSupabase(sd.pdf);}}try{await supabaseClient.storage.from(BUCKET_NAME).remove(['cards/'+getCardId()+'.json']);}catch(e){}}SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});safeRemoveLS('businessCardData');safeRemoveLS('gsi_state');safeRemoveLS('page_url');cardId='c'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);safeSetLS('card_id',cardId);renderServicesEditor();updatePreview();generateAllQR();showToast('تم مسح كل حاجة');}
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
 function showToastErr(msg){var t=document.getElementById('toast');t.textContent='⚠ '+msg;t.className='toast-msg toast-err show';setTimeout(function(){t.className='toast-msg toast-err';},5000);}
