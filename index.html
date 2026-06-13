@@ -17,113 +17,110 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>tailwind.config={theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
     <style>
-        :root{--bg:#0f172a;--card:#1e293b;--card2:#263548;--accent:#10b981;--accent-light:#34d399;--accent-glow:rgba(16,185,129,.15);--gold:#fbbf24;--text:#f8fafc;--muted:#94a3b8;--border:rgba(148,163,184,.08);--whatsapp:#25D366;--email:#EA4335}
+        :root{--bg:#061A12;--card:#0C291D;--card2:#0F3325;--accent:#1E8C5E;--accent-light:#2ECC71;--accent-glow:rgba(46,204,113,.2);--accent-glow2:rgba(30,140,94,.15);--gold:#D4A843;--text:#E8F5EE;--muted:#5E8A72;--border:rgba(46,204,113,.15);--whatsapp:#25D366;--email:#EA4335}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
         #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .7s,visibility .7s}
         #splash.fade-out{opacity:0;visibility:hidden;pointer-events:none}
         .splash-rings{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
         .splash-ring{position:absolute;border-radius:50%;border:2px solid transparent;animation:rp 3s ease-in-out infinite}
-        .splash-ring:nth-child(1){width:160px;height:160px;border-color:rgba(16,185,129,.5)}
-        .splash-ring:nth-child(2){width:210px;height:210px;border-color:rgba(16,185,129,.3);animation-delay:.5s}
-        .splash-ring:nth-child(3){width:260px;height:260px;border-color:rgba(251,191,36,.2);animation-delay:1s}
+        .splash-ring:nth-child(1){width:160px;height:160px;border-color:rgba(46,204,113,.5)}
+        .splash-ring:nth-child(2){width:210px;height:210px;border-color:rgba(46,204,113,.3);animation-delay:.5s}
+        .splash-ring:nth-child(3){width:260px;height:260px;border-color:rgba(212,168,67,.2);animation-delay:1s}
         @keyframes rp{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:1}}
-        .splash-logo{width:140px;height:140px;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;animation:le 1s cubic-bezier(.34,1.56,.64,1) forwards,lf 3s ease-in-out 1s infinite;opacity:0;transform:scale(.3) rotate(-10deg);box-shadow:0 0 60px var(--accent-glow);z-index:2;position:relative;overflow:hidden;padding:8px}
-        .splash-logo img{width:100%;height:100%;object-fit:contain;border-radius:16px}
+        .splash-logo{width:140px;height:140px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;animation:le 1s cubic-bezier(.34,1.56,.64,1) forwards,lf 3s ease-in-out 1s infinite;opacity:0;transform:scale(.3) rotate(-20deg);box-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);z-index:2;position:relative;overflow:hidden;border:4px solid var(--accent-light);padding:6px}
+        .splash-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
         @keyframes le{to{opacity:1;transform:scale(1) rotate(0)}}
         @keyframes lf{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         .splash-title{margin-top:36px;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--accent-light),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:translateY(20px);animation:tu .8s ease forwards .6s;text-align:center;padding:0 20px}
         .splash-sub{margin-top:8px;font-size:14px;color:var(--muted);opacity:0;transform:translateY(15px);animation:tu .8s ease forwards .9s}
         .splash-skip{margin-top:20px;font-size:11px;color:var(--muted);opacity:0;animation:tu .6s ease forwards 2s}
         @keyframes tu{to{opacity:1;transform:translateY(0)}}
-        .splash-bar-wrap{width:200px;height:4px;border-radius:2px;background:rgba(16,185,129,.1);margin-top:30px;overflow:hidden;opacity:0;animation:tu .6s ease forwards 1.2s}
+        .splash-bar-wrap{width:200px;height:3px;border-radius:2px;background:rgba(46,204,113,.1);margin-top:30px;overflow:hidden;opacity:0;animation:tu .6s ease forwards 1.2s}
         .splash-bar{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));animation:bf 2s ease forwards 1.4s}
         @keyframes bf{to{width:100%}}
         .splash-particle{position:absolute;border-radius:50%;opacity:0;animation:sp var(--dur) ease-in-out infinite var(--delay)}
         @keyframes sp{0%{transform:translate(0,0) scale(0);opacity:0}20%{opacity:.7}80%{opacity:.7}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
-        .bg-blob{position:fixed;border-radius:50%;filter:blur(120px);opacity:.06;pointer-events:none;z-index:0}
+        .bg-blob{position:fixed;border-radius:50%;filter:blur(120px);opacity:.08;pointer-events:none;z-index:0}
         .blob-1{width:500px;height:500px;background:var(--accent-light);top:-180px;right:-180px;animation:bb 22s ease-in-out infinite}
-        .blob-2{width:400px;height:400px;background:var(--gold);bottom:-120px;left:-120px;animation:bb 18s ease-in-out infinite reverse}
+        .blob-2{width:400px;height:400px;background:var(--accent);bottom:-120px;left:-120px;animation:bb 18s ease-in-out infinite reverse}
         @keyframes bb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-40px) scale(1.1)}66%{transform:translate(-30px,30px) scale(.92)}}
-
-        .bento-card{background:var(--card);border-radius:20px;border:1px solid var(--border);padding:24px;transition:border-color .3s}
-        .bento-card:hover{border-color:rgba(148,163,184,.15)}
-        .bento-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-        .bento-icon{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
-        .bento-title{font-size:15px;font-weight:800;color:var(--text)}
-
-        .inp{background:rgba(15,23,42,.6);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:12px;font-family:'Cairo';font-size:14px;width:100%;transition:all .3s}
+        .glass{background:rgba(12,41,29,.7);backdrop-filter:blur(20px);border:1px solid var(--border)}
+        .inp{background:rgba(6,26,18,.8);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:12px;font-family:'Cairo';font-size:14px;width:100%;transition:all .3s}
         .inp:focus{outline:none;border-color:var(--accent-light);box-shadow:0 0 0 3px var(--accent-glow)}
-        .inp::placeholder{color:var(--muted);opacity:.6}
+        .inp::placeholder{color:var(--muted);opacity:.5}
         .inp-ltr{direction:ltr;text-align:left}
-        .btn-green{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#0f172a;font-weight:700;padding:13px 30px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:16px;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+        .btn-green{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;font-weight:700;padding:13px 30px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:16px;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
         .btn-green:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
         .btn-green:disabled{opacity:.5;cursor:not-allowed;transform:none}
-        .btn-outline{background:transparent;color:var(--accent-light);border:1px solid rgba(16,185,129,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
+        .btn-outline{background:transparent;color:var(--accent-light);border:1px solid rgba(46,204,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
         .btn-outline:hover{background:var(--accent-glow)}
-        .btn-gold{background:transparent;color:var(--gold);border:1px solid rgba(251,191,36,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
-        .btn-gold:hover{background:rgba(251,191,36,.1)}
+        .btn-gold{background:transparent;color:var(--gold);border:1px solid rgba(212,168,67,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
+        .btn-gold:hover{background:rgba(212,168,67,.1)}
         .btn-red{background:transparent;color:#f87171;border:1px solid rgba(248,113,113,.3);padding:9px 20px;border-radius:11px;cursor:pointer;font-family:'Cairo';font-size:13px;display:inline-flex;align-items:center;gap:6px}
         .toast-msg{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);padding:14px 28px;border-radius:14px;font-weight:700;z-index:10000;transition:transform .4s;pointer-events:none;font-size:14px;text-align:center;max-width:90vw}
         .toast-msg.show{transform:translateX(-50%) translateY(0)}
-        .toast-ok{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#0f172a}
+        .toast-ok{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff}
         .toast-err{background:linear-gradient(135deg,#dc2626,#f87171);color:#fff}
         .fade-up{animation:fu .6s ease-out both}
         @keyframes fu{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--card2);border-radius:3px}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
         .green-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--gold));border-radius:2px}
-        .logo-zone{width:110px;height:110px;border-radius:20px;border:2px dashed rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;background:#fff;padding:6px}
+        .logo-zone{width:120px;height:120px;border-radius:50%;border:3px dashed rgba(46,204,113,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden;flex-shrink:0;position:relative;background:#fff;padding:6px}
         .logo-zone:hover{border-color:var(--accent-light);box-shadow:0 0 25px var(--accent-glow)}
-        .logo-zone img{width:100%;height:100%;object-fit:contain;border-radius:14px}
-        .logo-zone .overlay{position:absolute;inset:0;background:rgba(15,23,42,.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;border-radius:18px}
+        .logo-zone img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+        .logo-zone .overlay{position:absolute;inset:0;background:rgba(6,26,18,.65);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;border-radius:50%}
         .logo-zone:hover .overlay{opacity:1}
-        .soc-icon{width:44px;height:44px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:18px;transition:all .3s;cursor:pointer;text-decoration:none;color:#fff}
-        .soc-icon:hover{transform:translateY(-3px) scale(1.1)}
+        .soc-icon{width:50px;height:50px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;transition:all .3s;cursor:pointer;text-decoration:none;color:#fff}
+        .soc-icon:hover{transform:translateY(-4px) scale(1.1)}
         .soc-fb{background:#1877F2}.soc-tk{background:#010101;border:1px solid #333}.soc-em{background:var(--email)}
-        
-        .phone-frame-new{width:100%;background:#000;border-radius:30px;border:4px solid #334155;padding:30px 16px 20px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.6);overflow:hidden}
-        .phone-frame-new::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:70px;height:18px;background:#1e293b;border-radius:20px;z-index:10}
-        
-        .preview-logo-wrap{width:80px;height:80px;border-radius:20px;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.3);border:2px solid var(--accent-light);padding:4px}
-        .preview-logo-wrap img{width:100%;height:100%;object-fit:contain;border-radius:16px}
-        
-        .wa-btn{background:var(--whatsapp);color:#fff;font-weight:700;padding:12px 20px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:14px;transition:all .3s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:100%;justify-content:center;box-shadow:0 4px 15px rgba(37,211,102,.2)}
-        .qr-result{width:200px;height:200px;border-radius:16px;background:#fff;padding:10px;display:inline-flex;align-items:center;justify-content:center}
+        .phone-frame{width:300px;background:linear-gradient(160deg,#0F3325,#081A12);border-radius:30px;border:2.5px solid rgba(46,204,113,.15);padding:30px 18px 24px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px var(--accent-glow2)}
+        .phone-frame::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:65px;height:4px;background:rgba(46,204,113,.2);border-radius:2px}
+        .preview-logo-wrap{width:110px;height:110px;border-radius:50%;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 20px var(--accent-glow2);position:relative;border:3px solid var(--accent-light);padding:5px}
+        .preview-logo-wrap img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+        .logo-shimmer{position:relative;overflow:hidden}
+        .logo-shimmer::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%);animation:sh 3s ease-in-out infinite}
+        @keyframes sh{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
+        .wa-btn{background:var(--whatsapp);color:#fff;font-weight:700;padding:14px 24px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:15px;transition:all .3s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:100%;justify-content:center}
+        .qr-result{width:220px;height:220px;border-radius:14px;background:#fff;padding:12px;display:inline-flex;align-items:center;justify-content:center}
         .qr-result img{width:100%;height:100%;image-rendering:pixelated}
-        .qr-err{width:200px;height:200px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center}
+        .qr-err{width:220px;height:220px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center}
         .qr-err i{font-size:28px}.qr-err p{font-size:11px}
-        .qr-status{padding:6px 14px;border-radius:10px;font-size:11px;margin-top:6px;display:inline-block}
-        .qr-status.ok{background:rgba(16,185,129,.1);color:var(--accent-light)}
-        .qr-tab{padding:7px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
-        .qr-tab.active{background:var(--accent);color:#fff;border-color:transparent;box-shadow:0 4px 15px var(--accent-glow)}
-
-        .view-card-new{background:var(--card);border-radius:24px;overflow:hidden;position:relative;border:1px solid var(--border);box-shadow:0 20px 50px rgba(0,0,0,.3)}
-        .id-header{height:120px;background:linear-gradient(135deg,var(--accent),#0f766e);position:relative}
-        .id-logo-area{display:flex;justify-content:center;margin-top:-50px;position:relative;z-index:2}
-        .id-logo{width:100px;height:100px;border-radius:24px;background:#fff;overflow:hidden;border:4px solid var(--card);box-shadow:0 8px 20px rgba(0,0,0,.4);padding:5px}
-        .id-logo img{width:100%;height:100%;object-fit:contain;border-radius:20px}
-        .id-body{padding:24px;text-align:center}
-        .id-quick-actions{display:flex;justify-content:center;gap:12px;margin:16px 0}
-        .id-action-btn{width:40px;height:40px;border-radius:12px;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;color:var(--accent-light);text-decoration:none;transition:all .3s;font-size:16px}
-        .id-action-btn:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
-        
-        .svc-grid-view{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-        .svc-item-new{background:var(--card2);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:all .3s;border:1px solid transparent}
-        .svc-item-new:hover{border-color:var(--accent-light);transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
-        .svc-item-new .svc-ico-sm{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;margin:0 auto 6px}
-        .svc-item-new .svc-tit{font-size:11px;font-weight:700;color:var(--text)}
-
-        .view-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px}
-        .view-loading .spinner{width:40px;height:40px;border:3px solid rgba(16,185,129,.15);border-top-color:var(--accent-light);border-radius:50%;animation:spin 1s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
-
-        .svc-editor-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:rgba(30,41,59,.5)}
+        .qr-status{padding:8px 16px;border-radius:10px;font-size:12px;margin-top:8px;display:inline-block}
+        .qr-status.ok{background:rgba(46,204,113,.1);color:var(--accent-light)}
+        .qr-tab{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Cairo';font-size:12px;transition:all .3s;font-weight:600}
+        .qr-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border-color:transparent;box-shadow:0 4px 15px var(--accent-glow)}
+        .view-card{background:linear-gradient(160deg,var(--card2),var(--bg));border:1px solid var(--border);border-radius:28px;overflow:hidden}
+        .promo-cover{position:relative;width:100%;height:260px;overflow:hidden}
+        .promo-cover .bg{width:100%;height:100%;background-size:cover;background-position:center}
+        .promo-cover .grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.95) 0%,rgba(6,26,18,.6) 40%,rgba(6,26,18,.1) 100%)}
+        .card-logo-area{display:flex;justify-content:center;margin-top:-55px;position:relative;z-index:10;padding:0 20px}
+        .card-logo-circle{width:110px;height:110px;border-radius:50%;background:#fff;overflow:hidden;border:4px solid var(--accent-light);box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 25px var(--accent-glow2);padding:5px}
+        .card-logo-circle img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+        .header-logo{width:50px;height:50px;border-radius:50%;background:#fff;padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--accent-light)}
+        .header-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+        .svc-card{border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--border);transition:all .35s;background:var(--card);cursor:pointer}
+        .svc-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.5),0 0 20px var(--accent-glow2);border-color:var(--accent-light)}
+        .svc-cover{width:100%;height:200px;position:relative;overflow:hidden;background:#fff}
+        .svc-cover img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+        .svc-card:hover .svc-cover img{transform:scale(1.02)}
+        .svc-cover-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,26,18,.85) 0%,rgba(6,26,18,.2) 50%,transparent 100%);z-index:1}
+        .svc-cover-icon{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+        .svc-img-badge{position:absolute;bottom:10px;left:10px;z-index:3;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:4px 12px;border-radius:20px;font-size:11px;color:#fff;font-weight:700;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.1)}
+        .svc-body{padding:14px 16px 16px;text-align:center;position:relative;z-index:2;margin-top:-30px}
+        .svc-title{font-size:15px;font-weight:800;color:var(--text);text-shadow:0 2px 8px rgba(0,0,0,.5)}
+        .svc-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+        .svc-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+        .svc-badge{font-size:10px;padding:3px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
+        .svc-badge-imgs{background:rgba(46,204,113,.1);color:var(--accent-light)}
+        .svc-badge-pdf{background:rgba(212,168,67,.1);color:var(--gold)}
+        .svc-editor-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:rgba(6,26,18,.5)}
         .svc-editor-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s}
-        .svc-editor-header:hover{background:rgba(16,185,129,.04)}
+        .svc-editor-header:hover{background:rgba(46,204,113,.04)}
         .svc-editor-header .svc-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
         .svc-editor-header .svc-h-title{font-size:14px;font-weight:700;flex:1}
         .svc-editor-header .svc-h-desc{font-size:10px;color:var(--muted);display:block}
-        .svc-editor-header .svc-h-badge{font-size:10px;padding:3px 10px;border-radius:8px;background:rgba(16,185,129,.1);color:var(--accent-light)}
+        .svc-editor-header .svc-h-badge{font-size:10px;padding:3px 10px;border-radius:8px;background:rgba(46,204,113,.1);color:var(--accent-light)}
         .svc-editor-header .svc-h-arrow{transition:transform .3s;color:var(--muted);font-size:12px}
         .svc-editor-header.open .svc-h-arrow{transform:rotate(180deg)}
         .svc-editor-body{padding:0 16px 16px;display:none}
@@ -134,9 +131,9 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
         .svc-img-thumb img{width:100%;height:100%;object-fit:cover}
         .svc-img-thumb .del-btn{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;border:none;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
         .svc-img-thumb:hover .del-btn{opacity:1}
-        .svc-add-img{width:100%;aspect-ratio:1;border-radius:10px;border:2px dashed rgba(16,185,129,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted);font-size:10px;gap:4px}
-        .svc-add-img:hover{border-color:var(--accent-light);background:var(--accent-glow);color:var(--accent-light)}
-        .svc-pdf-area{margin-top:10px;padding:10px 12px;border-radius:10px;border:1px dashed rgba(251,191,36,.25);background:rgba(251,191,36,.04)}
+        .svc-add-img{width:100%;aspect-ratio:1;border-radius:10px;border:2px dashed rgba(46,204,113,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted);font-size:10px;gap:4px}
+        .svc-add-img:hover{border-color:var(--accent-light);background:var(--accent-glow2);color:var(--accent-light)}
+        .svc-pdf-area{margin-top:10px;padding:10px 12px;border-radius:10px;border:1px dashed rgba(212,168,67,.25);background:rgba(212,168,67,.04)}
         .svc-pdf-row{display:flex;align-items:center;gap:8px}
         .svc-pdf-row i{color:var(--gold);font-size:18px}
         .svc-pdf-row .pdf-name{flex:1;font-size:12px;color:var(--gold);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -144,24 +141,23 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
         .svc-pdf-upload{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted)}
         .svc-pdf-upload:hover{color:var(--gold)}
         .upload-msg{padding:10px;border-radius:10px;font-size:12px;margin-top:8px;display:none;font-weight:600;text-align:center}
-        .upload-msg.working{display:block;background:rgba(16,185,129,.06);color:var(--accent-light);border:1px solid rgba(16,185,129,.12)}
-        .upload-msg.done{display:block;background:rgba(16,185,129,.1);color:var(--accent-light);border:1px solid rgba(16,185,129,.2)}
+        .upload-msg.working{display:block;background:rgba(46,204,113,.06);color:var(--accent-light);border:1px solid rgba(46,204,113,.12)}
+        .upload-msg.done{display:block;background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
         .upload-msg.fail{display:block;background:rgba(239,68,68,.06);color:#f87171;border:1px solid rgba(239,68,68,.12)}
         .save-bar{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:10px;font-size:12px;font-weight:700;transition:all .3s}
-        .save-bar.saving{background:rgba(251,191,36,.1);color:var(--gold);border:1px solid rgba(251,191,36,.2)}
-        .save-bar.saved{background:rgba(16,185,129,.1);color:var(--accent-light);border:1px solid rgba(16,185,129,.2)}
+        .save-bar.saving{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.2)}
+        .save-bar.saved{background:rgba(46,204,113,.1);color:var(--accent-light);border:1px solid rgba(46,204,113,.2)}
         .save-bar.error{background:rgba(239,68,68,.08);color:#f87171;border:1px solid rgba(239,68,68,.15)}
-
-        .gal-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;background:rgba(15,23,42,.98);backdrop-filter:blur(20px);opacity:0;transition:opacity .5s ease}
+        .gal-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;background:#000;opacity:0;transition:opacity .5s ease}
         .gal-overlay.show{display:flex;opacity:1}
-        .gal-blur-bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(80px) brightness(.15);transform:scale(1.2);transition:background-image .8s ease;z-index:0}
+        .gal-blur-bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(50px) brightness(.3);transform:scale(1.2);transition:background-image .8s ease;z-index:0}
         .gal-content{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;width:100vw}
         .gal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;flex-shrink:0}
         .gal-info{display:flex;align-items:center;gap:14px}
         .gal-svc-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.4)}
         .gal-svc-name{font-size:17px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-        .gal-counter-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);padding:8px 18px;border-radius:30px;font-size:14px;font-weight:700;color:rgba(255,255,255,.9)}
-        .gal-close-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+        .gal-counter-pill{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);padding:8px 18px;border-radius:30px;font-size:14px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:1px}
+        .gal-close-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(12px)}
         .gal-close-btn:hover{background:rgba(255,255,255,.2);transform:rotate(90deg) scale(1.1)}
         .gal-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;padding:0 80px}
         .gal-img-wrap{position:relative;max-width:min(85vw,900px);max-height:65vh;transition:transform .3s}
@@ -169,29 +165,34 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
         .gal-img-wrap img.gal-fade-out{opacity:0;transform:scale(.94)}
         .gal-img-wrap img.gal-fade-in{opacity:0;transform:scale(1.04)}
         .gal-big-num{position:absolute;font-size:140px;font-weight:900;color:rgba(255,255,255,.03);pointer-events:none;line-height:1;right:-30px;bottom:-20px}
-        .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:5}
-        .gal-arrow:hover{background:rgba(16,185,129,.25);border-color:rgba(16,185,129,.4);color:#fff;transform:translateY(-50%) scale(1.1)}
+        .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(12px);z-index:5}
+        .gal-arrow:hover{background:rgba(46,204,113,.25);border-color:rgba(46,204,113,.4);color:#fff;transform:translateY(-50%) scale(1.1)}
+        .gal-arrow:active{transform:translateY(-50%) scale(.9)}
         .gal-prev{right:16px}.gal-next{left:16px}
         .gal-bottom{flex-shrink:0;padding:16px 28px 24px;display:flex;flex-direction:column;align-items:center;gap:14px}
         .gal-thumbs{display:flex;gap:10px;justify-content:center;overflow-x:auto;max-width:100%;padding:4px}
         .gal-thumbs::-webkit-scrollbar{height:0}
         .gal-th-item{width:60px;height:60px;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:all .3s;opacity:.4}
         .gal-th-item:hover{opacity:.7;border-color:rgba(255,255,255,.3)}
-        .gal-th-item.active{border-color:var(--accent-light);opacity:1;transform:scale(1.15);box-shadow:0 4px 20px rgba(16,185,129,.3)}
+        .gal-th-item.active{border-color:var(--accent-light);opacity:1;transform:scale(1.15);box-shadow:0 4px 20px rgba(46,204,113,.3)}
         .gal-th-item img{width:100%;height:100%;object-fit:cover}
         .gal-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
-        .gal-act{padding:10px 22px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .25s}
-        .gal-act:hover{transform:translateY(-2px)}.gal-act:active{transform:translateY(0)}
-        .gal-act-pdf{background:linear-gradient(135deg,rgba(251,191,36,.9),rgba(184,148,47,.9));color:#000}
+        .gal-act{padding:10px 22px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo';font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .25s;backdrop-filter:blur(12px)}
+        .gal-act:hover{transform:translateY(-2px)}
+        .gal-act:active{transform:translateY(0)}
+        .gal-act-pdf{background:linear-gradient(135deg,rgba(212,168,67,.9),rgba(184,148,47,.9));color:#000}
         .gal-act-wa{background:linear-gradient(135deg,rgba(37,211,102,.9),rgba(18,140,126,.9));color:#fff}
         .gal-act-dl{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff}
-
+        .view-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px}
+        .view-loading .spinner{width:40px;height:40px;border:3px solid rgba(46,204,113,.15);border-top-color:var(--accent-light);border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
         @media(max-width:768px){
-            .splash-title{font-size:20px}.logo-zone{width:90px;height:90px}
+            .phone-frame{width:270px}.splash-title{font-size:20px}.logo-zone{width:100px;height:100px}.preview-logo-wrap{width:95px;height:95px}.card-logo-circle{width:95px;height:95px}.svc-card .svc-cover{height:160px}
             .gal-stage{padding:0 50px}.gal-arrow{width:42px;height:42px;font-size:16px}.gal-prev{right:6px}.gal-next{left:6px}
             .gal-img-wrap,.gal-img-wrap img{max-width:92vw;max-height:55vh}
             .gal-th-item{width:48px;height:48px;border-radius:10px}
             .gal-big-num{font-size:80px;right:-10px;bottom:-10px}
+            .gal-top{padding:14px 16px}
         }
     </style>
 </head>
@@ -200,61 +201,42 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
 <div id="splash" onclick="skipSplash()"><div id="splashParticles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div><div class="splash-rings"><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-ring"></div><div class="splash-logo"><img src="https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div></div><div class="splash-title">المؤسسة العالمية للتوريدات</div><div class="splash-sub">شريكك الموثوق في التوريدات</div><div class="splash-bar-wrap"><div class="splash-bar"></div></div><div class="splash-skip">اضغط لتخطي</div></div>
 <div class="bg-blob blob-1"></div><div class="bg-blob blob-2"></div><div id="toast" class="toast-msg toast-ok"></div>
 
-<!-- ===== وضع التعديل (Dashboard Layout) ===== -->
+<!-- ===== وضع التعديل ===== -->
 <div id="editorMode" style="display:none" class="relative z-10">
-    <header class="py-5 px-4 fade-up"><div class="flex items-center justify-between max-w-7xl mx-auto"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center"><img src="https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg" alt="" class="w-full h-full rounded-lg object-contain p-0.5" referrerpolicy="no-referrer"></div><div><h1 class="text-xl font-black">المؤسسة العالمية للتوريدات</h1><div id="saveBar" class="save-bar saved mt-1 inline-flex"><i class="fas fa-check-circle"></i> <span id="saveText">جاهز</span></div></div></div></div></header>
-    <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <section class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.1s">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="bento-card"><div class="bento-header"><div class="bento-icon" style="background:var(--accent)"><i class="fas fa-building"></i></div><div class="bento-title">بيانات الشركة</div></div><div class="flex flex-col items-center gap-4 mb-4"><div class="logo-zone" onclick="document.getElementById('logoInput').click()"><div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-xl mb-1" style="color:var(--muted)"></i><p class="text-[10px]" style="color:var(--muted)">ارفع اللوجو</p></div><img id="logoPreviewThumb" src="" style="display:none"><div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div></div><input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"></div><div class="space-y-3"><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="onFormChange()"></div></div></div>
-                <div class="space-y-5">
-                    <div class="bento-card"><div class="bento-header"><div class="bento-icon" style="background:#0ea5e9"><i class="fas fa-phone"></i></div><div class="bento-title">التواصل</div></div><div class="space-y-3"><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="onFormChange()"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234" oninput="onFormChange()"></div></div></div></div>
-                    
-                    <!-- كارت رسالة الواتساب التلقائية الجديد -->
-                    <div class="bento-card" style="border-color:rgba(37,211,102,.2)">
-                        <div class="bento-header">
-                            <div class="bento-icon" style="background:var(--whatsapp)"><i class="fab fa-whatsapp"></i></div>
-                            <div class="bento-title">رسالة واتساب تلقائية</div>
-                        </div>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="text-xs font-semibold block mb-1" style="color:var(--muted)">رسالة الترحيب (هتبعت تلقائي لما العميل يمسح QR)</label>
-                                <textarea class="inp" id="waMessage" rows="3" placeholder="مرحبا! أنا زرت صفحتكم وأود الاستفسار عن العروض والمنتجات." oninput="onFormChange()" style="resize:none"></textarea>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold block mb-1" style="color:var(--muted)"><i class="fas fa-image ml-1"></i> رابط صورة العروض (اختياري)</label>
-                                <input class="inp inp-ltr" id="waImage" placeholder="https://example.com/offer.jpg" oninput="onFormChange()">
-                                <p class="text-[10px] mt-1" style="color:var(--muted)">الصورة هتظهر للعميل في البوب أب، ورابطها هيتضاف جوه رسالة الواتساب عشان يقدر يفتحها</p>
-                            </div>
-                        </div>
-                    </div>
+    <header class="py-6 px-4 text-center fade-up"><div class="flex items-center justify-center gap-4 mb-2"><div class="header-logo"><img src="https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg" alt="" referrerpolicy="no-referrer"></div><h1 class="text-2xl md:text-3xl font-black">المؤسسة العالمية للتوريدات</h1></div><div id="saveBar" class="save-bar saved mt-2 inline-flex"><i class="fas fa-check-circle"></i> <span id="saveText">جاهز</span></div></header>
+    <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <section class="lg:col-span-3 space-y-5 fade-up" style="animation-delay:.1s">
+            <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-building text-sm" style="color:var(--accent-light)"></i></span> بيانات الشركة</h2><div class="flex gap-5 items-start mb-4"><div><div class="logo-zone" onclick="document.getElementById('logoInput').click()"><div id="logoPlaceholder" class="text-center"><i class="fas fa-cloud-arrow-up text-2xl mb-1" style="color:var(--muted)"></i><p class="text-xs" style="color:var(--muted)">ارفع اللوجو</p></div><img id="logoPreviewThumb" src="" style="display:none"><div class="overlay"><i class="fas fa-pen text-white text-sm"></i></div></div><input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"></div><div class="flex-1 space-y-3"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">اسم الشركة <span class="text-red-400">*</span></label><input class="inp" id="companyName" placeholder="المؤسسة العالمية للتوريدات" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">وصف مختصر</label><input class="inp" id="companyDesc" placeholder="شريكك الموثوق في التوريدات" oninput="onFormChange()"></div></div></div></div>
+            
+            <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-phone text-sm" style="color:var(--accent-light)"></i></span> بيانات التواصل</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-whatsapp text-green-400 ml-1"></i> واتساب</label><input class="inp inp-ltr" id="whatsapp" placeholder="201234567890" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 1</label><input class="inp inp-ltr" id="phone1" placeholder="+201234567890" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-phone text-blue-400 ml-1"></i> هاتف 2</label><input class="inp inp-ltr" id="phone2" placeholder="+201234567890" oninput="onFormChange()"></div></div></div>
 
-                    <div class="bento-card"><div class="bento-header"><div class="bento-icon" style="background:#6366f1"><i class="fas fa-share-nodes"></i></div><div class="bento-title">السوشيال</div></div><div class="space-y-3"><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="onFormChange()"></div></div></div>
-                </div>
-            </div>
-            <div class="bento-card" style="border-color:rgba(251,191,36,.15)"><div class="bento-header"><div class="bento-icon" style="background:var(--gold)"><i class="fas fa-images"></i></div><div class="bento-title">خدماتنا وشركاؤنا</div></div><div id="servicesEditor" class="space-y-3"></div><div id="uploadMsg" class="upload-msg"></div></div>
-            <div class="bento-card"><div class="bento-header"><div class="bento-icon" style="background:#64748b"><i class="fas fa-link"></i></div><div class="bento-title">الرابط والحفظ</div></div><div class="mb-3"><label class="text-xs font-semibold block mb-1" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app" oninput="onPageUrlChange()"></div><div class="mb-3 p-3 rounded-xl" style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.1)"><div class="text-xs font-bold mb-1" style="color:var(--gold)"><i class="fas fa-link ml-1"></i> رابط البطاقة:</div><div id="fixedUrlDisplay" class="text-xs font-mono break-all" style="color:var(--text);direction:ltr">—</div></div><div class="flex flex-wrap gap-2"><button id="saveNowBtn" class="btn-green" onclick="saveNow()"><i class="fas fa-cloud-arrow-up"></i> حفظ</button><button class="btn-gold" onclick="testView()"><i class="fas fa-external-link-alt"></i> اختبار</button><button class="btn-outline" onclick="copyFixedUrl()"><i class="fas fa-copy"></i> نسخ</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح</button></div><div id="lastSaveInfo" class="text-xs mt-3" style="color:var(--muted)"></div></div>
+            <!-- ===== رسالة واتساب التلقائية الجديدة ===== -->
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(37,211,102,.3)"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(37,211,102,.15)"><i class="fab fa-whatsapp text-sm" style="color:var(--whatsapp)"></i></span> رسالة واتساب تلقائية</h2><div class="space-y-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رسالة الترحيب (هتبعت تلقائي لما العميل يمسح الـ QR)</label><textarea class="inp" id="waMessage" rows="3" placeholder="مرحبا! أنا زرت صفحتكم وأود الاستفسار عن العروض والمنتجات." oninput="onFormChange()" style="resize:none"></textarea></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-image ml-1"></i> رابط صورة العروض (اختياري - هتظهر للعميل وهيتضاف في رسالة الواتساب)</label><input class="inp inp-ltr" id="waImage" placeholder="https://example.com/offer.jpg" oninput="onFormChange()"></div><div class="p-3 rounded-xl text-xs" style="background:rgba(37,211,102,.05);border:1px solid rgba(37,211,102,.12);color:var(--whatsapp)"><i class="fas fa-info-circle ml-1"></i> لما العميل يمسح الـ QR، هيقفله نافذة فيها الصورة والرسالة، ويضغط فيفتح واتساب بالرسالة دي جاهزة!</div></div></div>
+
+            <div class="glass rounded-2xl p-6"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-share-nodes text-sm" style="color:var(--accent-light)"></i></span> السوشيال ميديا</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fas fa-envelope text-red-400 ml-1"></i> البريد</label><input class="inp inp-ltr" id="email" placeholder="info@company.com" oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-facebook text-blue-500 ml-1"></i> فيسبوك</label><input class="inp inp-ltr" id="facebook" placeholder="https://facebook.com/..." oninput="onFormChange()"></div><div><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)"><i class="fab fa-tiktok ml-1"></i> تيك توك</label><input class="inp inp-ltr" id="tiktok" placeholder="https://tiktok.com/..." oninput="onFormChange()"></div></div></div>
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(212,168,67,.3)"><h2 class="text-lg font-bold mb-2 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(212,168,67,.15)"><i class="fas fa-images text-sm" style="color:var(--gold)"></i></span> خدماتنا</h2><p class="text-xs mb-3" style="color:var(--muted)">اضغطي الخدمة > افتحيها > (+) لرفع صور</p><div id="servicesEditor" class="space-y-3"></div><div id="uploadMsg" class="upload-msg"></div><div class="mt-3 p-3 rounded-xl text-xs" style="background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.12);color:var(--accent-light)"><i class="fas fa-cloud ml-1"></i> الصور بتتحفظ على Supabase - مش بتتمسح أبداً</div></div>
+            <div class="glass rounded-2xl p-6" style="border-color:rgba(46,204,113,.35)"><h2 class="text-lg font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--accent-glow)"><i class="fas fa-qrcode text-sm" style="color:var(--accent-light)"></i></span> رابط الصفحة والحفظ</h2><div class="mb-4"><label class="text-xs font-semibold block mb-1.5" style="color:var(--muted)">رابط الموقع</label><input class="inp inp-ltr" id="pageUrl" placeholder="https://your-site.netlify.app" oninput="onPageUrlChange()"></div><div class="mb-4 p-3 rounded-xl" style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.12)"><div class="text-xs font-bold mb-1" style="color:var(--gold)"><i class="fas fa-link ml-1"></i> رابط البطاقة الثابت:</div><div id="fixedUrlDisplay" class="text-xs font-mono break-all" style="color:var(--text);direction:ltr">—</div></div><div class="flex flex-wrap gap-2"><button id="saveNowBtn" class="btn-green" onclick="saveNow()"><i class="fas fa-cloud-arrow-up"></i> حفظ الآن</button><button class="btn-gold" onclick="testView()"><i class="fas fa-external-link-alt"></i> اختبار</button><button class="btn-outline" onclick="copyFixedUrl()"><i class="fas fa-copy"></i> نسخ الرابط</button><button class="btn-red" onclick="resetAll()"><i class="fas fa-trash"></i> مسح الكل</button></div><div id="lastSaveInfo" class="text-xs mt-3" style="color:var(--muted)"></div></div>
         </section>
-        <aside class="lg:col-span-1 space-y-5 fade-up" style="animation-delay:.2s">
-            <div class="bento-card sticky top-4"><h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i> المعاينة المباشرة</h2><div class="phone-frame-new"><div id="cardPreview" class="text-center space-y-2 mt-2"><div class="preview-logo-wrap"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-sm" id="previewName">المؤسسة العالمية للتوريدات</h3><p class="text-[10px]" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-8 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-1 mt-1"></div><div id="previewContact" class="space-y-0.5 text-[10px]" style="color:var(--muted)"></div><div id="previewServices" class="space-y-1"></div><a id="previewWaBtn" class="wa-btn text-[11px] mt-1" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div>
-            <div class="bento-card"><h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i> أكواد QR</h2><div class="flex gap-2 mb-4 flex-wrap"><button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button><button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button><button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button></div><div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><button class="btn-outline mt-3 text-xs" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><button class="btn-outline mt-3 text-xs" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><button class="btn-outline mt-3 text-xs" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button></div></div>
+        <aside class="lg:col-span-2 space-y-5 fade-up" style="animation-delay:.2s">
+            <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-eye text-xs" style="color:var(--accent-light)"></i></span> معاينة</h2><div class="flex justify-center"><div class="phone-frame"><div id="cardPreview" class="text-center space-y-3 mt-3"><div class="preview-logo-wrap logo-shimmer"><i class="fas fa-building" id="previewLogoIcon"></i><img id="previewLogoImg" src="" style="display:none" referrerpolicy="no-referrer"></div><h3 class="font-bold text-base" id="previewName">المؤسسة العالمية للتوريدات</h3><p class="text-xs" id="previewDesc" style="color:var(--muted)">شريكك الموثوق في التوريدات</p><div class="green-bar w-10 mx-auto"></div><div id="previewSocials" class="flex justify-center gap-2 mt-2"></div><div id="previewContact" class="space-y-1 text-xs" style="color:var(--muted)"></div><div id="previewServices" class="space-y-2"></div><a id="previewWaBtn" class="wa-btn text-xs mt-2" href="#" target="_blank" style="display:none"><i class="fab fa-whatsapp"></i> تواصل واتساب</a></div></div></div></div>
+            <div class="glass rounded-2xl p-5"><h2 class="text-lg font-bold mb-5 flex items-center gap-2"><span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent-glow2)"><i class="fas fa-qrcode text-xs" style="color:var(--accent-light)"></i></span> أكواد QR</h2><div class="flex gap-2 mb-5 flex-wrap"><button class="qr-tab active" data-tab="page" onclick="switchQRTab('page')"><i class="fas fa-link ml-1"></i> بطاقة</button><button class="qr-tab" data-tab="whatsapp" onclick="switchQRTab('whatsapp')"><i class="fab fa-whatsapp ml-1"></i> واتساب</button><button class="qr-tab" data-tab="vcard" onclick="switchQRTab('vcard')"><i class="fas fa-address-card ml-1"></i> كونتاكت</button></div><div id="qrPage" class="text-center"><div id="qrPageResult"></div><div id="qrPageStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrPageResult','page-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrWhatsapp" class="text-center" style="display:none"><div id="qrWaResult"></div><div id="qrWaStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrWaResult','whatsapp-qr.png')"><i class="fas fa-download"></i> تحميل</button></div><div id="qrVcard" class="text-center" style="display:none"><div id="qrVcardResult"></div><div id="qrVcardStatus"></div><button class="btn-outline mt-3" onclick="downloadQR('qrVcardResult','vcard-qr.png')"><i class="fas fa-download"></i> تحميل</button></div></div>
         </aside>
     </main>
 </div>
 
-<!-- ===== وضع العرض (Digital ID Card) ===== -->
-<div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card-new w-full max-w-md"><div id="viewLoading" class="view-loading"><div class="spinner"></div><p style="color:var(--muted)">جاري تحميل البيانات...</p></div><div id="viewContent" style="display:none"><div class="id-header"></div><div class="id-logo-area"><div class="id-logo"><img id="viewLogoImg" src="" referrerpolicy="no-referrer" onerror="this.src='https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg'"></div></div><div class="id-body"><h1 class="text-xl font-black mb-1" id="viewName"></h1><p class="text-xs mb-3" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-16 mx-auto mb-4"></div><div id="viewServices" class="mb-4"></div><div id="viewPhones" class="space-y-2 text-sm mb-4"></div><div id="viewWhatsApp" class="mb-4"></div><div id="viewSocials" class="id-quick-actions"></div></div></div></div></div>
+<!-- ===== وضع العرض ===== -->
+<div id="viewMode" class="relative z-10 min-h-screen flex items-center justify-center p-4" style="display:none"><div class="view-card w-full max-w-md"><div id="viewLoading" class="view-loading"><div class="spinner"></div><p style="color:var(--muted)">جاري تحميل البيانات...</p></div><div id="viewContent" style="display:none"><div class="promo-cover"><div id="viewPromoBg" class="bg"></div><div class="grad"></div></div><div class="card-logo-area"><div class="card-logo-circle"><img id="viewLogoImg" src="https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg" referrerpolicy="no-referrer" onerror="this.src='https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg'"></div></div><div class="p-8 text-center"><h1 class="text-2xl font-black mb-1" id="viewName"></h1><p class="text-sm mb-4" id="viewDesc" style="color:var(--muted)"></p><div class="green-bar w-20 mx-auto mb-5"></div><div id="viewServices" class="mb-5"></div><div id="viewPhones" class="space-y-2 text-sm mb-5"></div><div id="viewWhatsApp" class="mb-5"></div><div id="viewSocials" class="flex justify-center gap-4"></div></div></div></div></div>
 
-<!-- نافذة رسالة الواتساب التلقائية للعميل -->
+<!-- ===== نافذة رسالة واتساب التلقائية للعميل ===== -->
 <div id="autoWaPopup" style="display:none" class="fixed inset-0 z-[8000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-    <div class="bento-card max-w-sm w-full text-center p-6 fade-up" style="border-color:rgba(37,211,102,.4); background:var(--card);">
-        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl shadow-lg" style="background:var(--whatsapp); box-shadow:0 0 20px rgba(37,211,102,.3);">
+    <div class="glass rounded-3xl max-w-sm w-full text-center p-6 fade-up" style="border-color:rgba(37,211,102,.4)">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl shadow-lg" style="background:var(--whatsapp);box-shadow:0 0 25px rgba(37,211,102,.3)">
             <i class="fab fa-whatsapp"></i>
         </div>
         <h3 class="text-lg font-black mb-2" style="color:var(--accent-light)">عروضنا و منتجاتنا!</h3>
-        <img id="popupWaImage" src="" style="display:none; border-radius:12px; max-height:180px; object-fit:cover; margin:0 auto 12px; width:100%;" referrerpolicy="no-referrer">
+        <img id="popupWaImage" src="" style="display:none;border-radius:14px;max-height:180px;object-fit:cover;margin:0 auto 12px;width:100%;" referrerpolicy="no-referrer">
         <p id="popupWaMsg" class="text-sm mb-5 leading-relaxed" style="color:var(--text)"></p>
-        <a id="popupWaLink" href="#" target="_blank" class="wa-btn mb-3" style="font-size:15px;">
+        <a id="popupWaLink" href="#" target="_blank" class="wa-btn mb-3" style="font-size:15px">
             <i class="fab fa-whatsapp"></i> تواصل الآن للاستفسار
         </a>
         <button onclick="closeAutoWaPopup()" class="block mx-auto text-xs mt-2 transition hover:text-white" style="color:var(--muted)">تصفح البطاقة فقط</button>
@@ -262,7 +244,31 @@ window.location.href=window.location.origin+window.location.pathname+'?redirecte
 </div>
 
 <!-- ===== المعرض الاحترافي ===== -->
-<div id="galOverlay" class="gal-overlay"><div class="gal-blur-bg" id="galBlur"></div><div class="gal-content"><div class="gal-top"><div class="gal-info"><div class="gal-svc-icon" id="galIcon"><i class="fas fa-broom"></i></div><div class="gal-svc-name" id="galTitle">الخدمة</div></div><div class="gal-counter-pill" id="galCounter">1 / 5</div><button class="gal-close-btn" onclick="galClose()"><i class="fas fa-times"></i></button></div><div class="gal-stage" id="galStage" onclick="galStageClick(event)"><button class="gal-arrow gal-prev" onclick="galNav(-1)"><i class="fas fa-chevron-right"></i></button><div class="gal-img-wrap"><img id="galImg" src="" alt="" referrerpolicy="no-referrer"><div class="gal-big-num" id="galBigNum">1</div></div><button class="gal-arrow gal-next" onclick="galNav(1)"><i class="fas fa-chevron-left"></i></button></div><div class="gal-bottom"><div class="gal-thumbs" id="galThumbs"></div><div class="gal-actions" id="galActions"></div></div></div></div>
+<div id="galOverlay" class="gal-overlay">
+    <div class="gal-blur-bg" id="galBlur"></div>
+    <div class="gal-content">
+        <div class="gal-top">
+            <div class="gal-info">
+                <div class="gal-svc-icon" id="galIcon"><i class="fas fa-broom"></i></div>
+                <div class="gal-svc-name" id="galTitle">الخدمة</div>
+            </div>
+            <div class="gal-counter-pill" id="galCounter">1 / 5</div>
+            <button class="gal-close-btn" onclick="galClose()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="gal-stage" id="galStage" onclick="galStageClick(event)">
+            <button class="gal-arrow gal-prev" onclick="galNav(-1)"><i class="fas fa-chevron-right"></i></button>
+            <div class="gal-img-wrap">
+                <img id="galImg" src="" alt="" referrerpolicy="no-referrer">
+                <div class="gal-big-num" id="galBigNum">1</div>
+            </div>
+            <button class="gal-arrow gal-next" onclick="galNav(1)"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="gal-bottom">
+            <div class="gal-thumbs" id="galThumbs"></div>
+            <div class="gal-actions" id="galActions"></div>
+        </div>
+    </div>
+</div>
 
 <script>
 var SUPABASE_URL='https://crlkjamyckguaodkmfst.supabase.co';
@@ -280,7 +286,8 @@ var SERVICES=[
     {id:'svc5',title:'شركاؤنا في النجاح',desc:'شركاء التميز والنجاح',icon:'fa-handshake',color:'#D4A843',cover:'https://z-cdn-media.chatglm.cn/files/39141d85-bca2-434c-a97a-3ef34be11a09.png?auth_key=1880777850-39ac30b08a1f416fbfaca2d95c05ea4a-0-08e52191671cbdbe1385c6c7ca32e031'},
 ];
 var STATIC_LOGO='https://ggpzrlzdtppwapclgsmi.supabase.co/storage/v1/object/public/photos/WhatsApp%20Image%202026-05-16%20at%208.13.25%20PM.jpeg';
-    
+var STATIC_PROMO='https://z-cdn-media.chatglm.cn/files/97f2921c-4234-44d7-8d5b-31e9ae4bf8c6.jpeg?auth_key=1878957431-ac75c272dd284336b97ce50516c73363-0-b7067ebce480649513463e0b4a9d0562';
+
 function safeGetLS(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function safeSetLS(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 function safeRemoveLS(k){try{localStorage.removeItem(k);}catch(e){}}
@@ -301,27 +308,36 @@ setTimeout(hideSplash,3500);setTimeout(function(){if(!splashGone)hideSplash();},
 
 async function uploadToSupabase(file,folder){if(!supabaseClient)throw'Supabase مش متصل';var ext=file.name.split('.').pop();var fn=folder+'/'+Date.now()+'_'+Math.random().toString(36).substr(2,5)+'.'+ext;var r=await supabaseClient.storage.from(BUCKET_NAME).upload(fn,file,{cacheControl:'3600',upsert:false});if(r.error)throw r.error.message||'فشل الرفع';var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl(r.data.path);return u.data.publicUrl;}
 async function deleteFromSupabase(url){if(!supabaseClient||!url)return;try{var parts=url.split('/public/'+BUCKET_NAME+'/');if(parts.length<2)return;await supabaseClient.storage.from(BUCKET_NAME).remove([parts[1].split('?')[0]]);}catch(e){}}
-async function saveCardToCloud(){if(!supabaseClient)throw'Supabase مش متصل';var d=getFormData();var payload={name:d.name,desc:d.desc,whatsapp:d.whatsapp,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,waMessage:d.waMessage,waImage:d.waImage,logoUrl:logoUrl,services:{}};SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd)payload.services[svc.id]={images:sd.images.slice(),pdf:sd.pdf,pdfName:sd.pdfName};});var jsonStr=JSON.stringify(payload);var blob=new Blob([jsonStr],{type:'application/json'});var path='cards/'+getCardId()+'.json';try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});if(r.error){throw r.error.message||'فشل رفع البيانات';}return true;}
+async function saveCardToCloud(){
+    if(!supabaseClient)throw'Supabase مش متصل';
+    var d=getFormData();
+    var payload={name:d.name,desc:d.desc,whatsapp:d.whatsapp,phone1:d.phone1,phone2:d.phone2,email:d.email,facebook:d.facebook,tiktok:d.tiktok,waMessage:d.waMessage,waImage:d.waImage,logoUrl:logoUrl,services:{}};
+    SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd)payload.services[svc.id]={images:sd.images.slice(),pdf:sd.pdf,pdfName:sd.pdfName};});
+    var jsonStr=JSON.stringify(payload);
+    var blob=new Blob([jsonStr],{type:'application/json'});
+    var path='cards/'+getCardId()+'.json';
+    try{await supabaseClient.storage.from(BUCKET_NAME).remove([path]);}catch(e){}
+    var r=await supabaseClient.storage.from(BUCKET_NAME).upload(path,blob,{contentType:'application/json',upsert:true});
+    if(r.error){throw r.error.message||'فشل رفع البيانات';}
+    return true;
+}
 async function loadCardFromCloud(id){if(!supabaseClient)return null;try{var u=supabaseClient.storage.from(BUCKET_NAME).getPublicUrl('cards/'+id+'.json');var url=u.data.publicUrl;if(!url)return null;var sep=url.indexOf('?')>-1?'&':'?';var resp=await fetch(url+sep+'_t='+Date.now());if(!resp.ok)return null;return await resp.json();}catch(e){return null;}}
 
 function setSaveBar(type,msg){var el=document.getElementById('saveBar'),txt=document.getElementById('saveText');if(!el||!txt)return;el.className='save-bar '+type;var icon=el.querySelector('i');if(type==='saving'){txt.textContent=msg||'جاري الحفظ...';if(icon)icon.className='fas fa-spinner fa-spin';}else if(type==='saved'){txt.textContent=msg||'تم الحفظ';if(icon)icon.className='fas fa-check-circle';}else if(type==='error'){txt.textContent=msg||'خطأ';if(icon)icon.className='fas fa-exclamation-circle';}}
 function onFormChange(){updatePreview();triggerAutoSave();}
 function triggerAutoSave(){saveToLocalStorage();clearTimeout(saveTimer);setSaveBar('saving');saveTimer=setTimeout(async function(){try{await saveCardToCloud();setSaveBar('saved');lastSaveTime=new Date();updateLastSave();}catch(e){setSaveBar('error',e.toString().substring(0,50));}},3000);}
 function saveToLocalStorage(){try{var d=getFormData();safeSetLS('businessCardData',JSON.stringify(Object.assign({},d,{logoUrl:logoUrl})));safeSetLS('gsi_state',JSON.stringify(servicesData));}catch(e){}}
-async function saveNow(){var btn=document.getElementById('saveNowBtn');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';setSaveBar('saving');saveToLocalStorage();try{await saveCardToCloud();lastSaveTime=new Date();updateLastSave();setSaveBar('saved');showToast('تم الحفظ بنجاح');}catch(e){setSaveBar('error','خطأ');showToastErr('فشل الحفظ: '+e.toString().substring(0,80));}btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ';}
+async function saveNow(){
+    var btn=document.getElementById('saveNowBtn');
+    btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+    setSaveBar('saving');saveToLocalStorage();
+    try{await saveCardToCloud();lastSaveTime=new Date();updateLastSave();setSaveBar('saved');showToast('تم الحفظ بنجاح');}
+    catch(e){setSaveBar('error','خطأ');showToastErr('فشل الحفظ: '+e.toString().substring(0,80));}
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-up"></i> حفظ الآن';
+}
 function updateLastSave(){var el=document.getElementById('lastSaveInfo');if(!el||!lastSaveTime)return;el.innerHTML='<i class="fas fa-clock ml-1"></i> آخر حفظ: '+lastSaveTime.toLocaleTimeString('ar-EG');}
 function testView(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة الأول');return;}window.open(url,'_blank');}
 function copyFixedUrl(){var url=getFixedUrl();if(!url){showToastErr('حطي رابط الصفحة');return;}navigator.clipboard.writeText(url).then(function(){showToast('تم نسخ الرابط');});}
-
-function renderServicesEditor(){var c=document.getElementById('servicesEditor');if(!c)return;var h='';SERVICES.forEach(function(svc){var sd=servicesData[svc.id]||{images:[],pdf:null,pdfName:''};var ic=sd.images.length,hp=!!sd.pdf;h+='<div class="svc-editor-card"><div class="svc-editor-header" id="hdr_'+svc.id+'" onclick="toggleSvc(\''+svc.id+'\')"><div class="svc-ico" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div style="flex:1"><span class="svc-h-title">'+svc.title+'</span><span class="svc-h-desc">'+svc.desc+'</span></div><span class="svc-h-badge">'+ic+' صور'+(hp?' + PDF':'')+'</span><i class="fas fa-chevron-down svc-h-arrow"></i></div>';h+='<div class="svc-editor-body" id="body_'+svc.id+'"><div class="svc-img-grid">';sd.images.forEach(function(url,i){h+='<div class="svc-img-thumb" onclick="event.stopPropagation();galOpen(\''+svc.id+'\','+i+')"><img src="'+url+'" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+',\''+url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button></div>';});if(ic<10)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';h+='</div><input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgFiles(event,\''+svc.id+'\')" style="display:none"><div class="svc-pdf-area">';if(hp){h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\',\''+sd.pdf.replace(/'/g,"\\'")+'\')"><i class="fas fa-trash"></i></button></div>';}else{h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfFile(event,\''+svc.id+'\')" style="display:none">';}h+='</div></div></div>';});c.innerHTML=h;}
-function toggleSvc(id){var h=document.getElementById('hdr_'+id),b=document.getElementById('body_'+id);if(h)h.classList.toggle('open');if(b)b.classList.toggle('open');}
-function doUpload(id){var f=document.getElementById('fup_'+id);if(f){f.value='';f.click();}}
-function doPdfUpload(id){var f=document.getElementById('pfup_'+id);if(f){f.value='';f.click();}}
-function setMsg(msg,type){var m=document.getElementById('uploadMsg');if(!m)return;m.textContent=msg;m.className='upload-msg '+type;if(type!=='working')setTimeout(function(){m.className='upload-msg';},5000);}
-async function onImgFiles(e,svcId){var files=Array.from(e.target.files);if(!files.length)return;var sd=servicesData[svcId];if(!sd)return;if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}setMsg('جاري رفع '+files.length+' صورة...','working');var ok=0;for(var i=0;i<files.length;i++){try{var url=await uploadToSupabase(files[i],svcId);sd.images.push(url);ok++;saveToLocalStorage();}catch(err){setMsg('فشل رفع صورة: '+err,'fail');}}if(ok>0){renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع '+ok+' صورة','done');}e.target.value='';}
-async function delImg(svcId,idx,url){servicesData[svcId].images.splice(idx,1);deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف الصورة');}
-async function onPdfFile(e,svcId){var file=e.target.files[0];if(!file)return;setMsg('جاري رفع PDF...','working');try{var url=await uploadToSupabase(file,svcId+'_pdf');servicesData[svcId].pdf=url;servicesData[svcId].pdfName=file.name;saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع PDF','done');}catch(err){setMsg('فشل رفع PDF','fail');}e.target.value='';}
-async function delPdf(svcId,url){servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف PDF');}
 
 function getFormData(){
     return {
@@ -350,88 +366,20 @@ function setFormData(d){
     document.getElementById('tiktok').value=d.tiktok||'';
     document.getElementById('waMessage').value=d.waMessage||'';
     document.getElementById('waImage').value=d.waImage||'';
-    if(d.logoUrl){
-        logoUrl=d.logoUrl;
-        document.getElementById('logoPreviewThumb').src=logoUrl;
-        document.getElementById('logoPreviewThumb').style.display='block';
-        document.getElementById('logoPlaceholder').style.display='none';
-    }
+    if(d.logoUrl){logoUrl=d.logoUrl;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';}
 }
 
+function renderServicesEditor(){var c=document.getElementById('servicesEditor');if(!c)return;var h='';SERVICES.forEach(function(svc){var sd=servicesData[svc.id]||{images:[],pdf:null,pdfName:''};var ic=sd.images.length,hp=!!sd.pdf;h+='<div class="svc-editor-card"><div class="svc-editor-header" id="hdr_'+svc.id+'" onclick="toggleSvc(\''+svc.id+'\')"><div class="svc-ico" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div style="flex:1"><span class="svc-h-title">'+svc.title+'</span><span class="svc-h-desc">'+svc.desc+'</span></div><span class="svc-h-badge">'+ic+' صور'+(hp?' + PDF':'')+'</span><i class="fas fa-chevron-down svc-h-arrow"></i></div>';h+='<div class="svc-editor-body" id="body_'+svc.id+'"><div class="svc-img-grid">';sd.images.forEach(function(url,i){h+='<div class="svc-img-thumb" onclick="event.stopPropagation();galOpen(\''+svc.id+'\','+i+')"><img src="'+url+'" alt="" referrerpolicy="no-referrer"><button class="del-btn" onclick="event.stopPropagation();delImg(\''+svc.id+'\','+i+',\''+url.replace(/'/g,"\\'")+'\')"><i class="fas fa-times"></i></button></div>';});if(ic<10)h+='<div class="svc-add-img" onclick="event.stopPropagation();doUpload(\''+svc.id+'\')"><i class="fas fa-plus"></i><span>إضافة</span></div>';h+='</div><input type="file" id="fup_'+svc.id+'" accept="image/*" multiple onchange="onImgFiles(event,\''+svc.id+'\')" style="display:none"><div class="svc-pdf-area">';if(hp){h+='<div class="svc-pdf-row"><i class="fas fa-file-pdf"></i><span class="pdf-name">'+sd.pdfName+'</span><button class="pdf-del" onclick="event.stopPropagation();delPdf(\''+svc.id+'\',\''+sd.pdf.replace(/'/g,"\\'")+'\')"><i class="fas fa-trash"></i></button></div>';}else{h+='<div class="svc-pdf-upload" onclick="event.stopPropagation();doPdfUpload(\''+svc.id+'\')"><i class="fas fa-file-circle-plus"></i><span>رفع PDF</span></div><input type="file" id="pfup_'+svc.id+'" accept="application/pdf" onchange="onPdfFile(event,\''+svc.id+'\')" style="display:none">';}h+='</div></div></div>';});c.innerHTML=h;}
+function toggleSvc(id){var h=document.getElementById('hdr_'+id),b=document.getElementById('body_'+id);if(h)h.classList.toggle('open');if(b)b.classList.toggle('open');}
+function doUpload(id){var f=document.getElementById('fup_'+id);if(f){f.value='';f.click();}}
+function doPdfUpload(id){var f=document.getElementById('pfup_'+id);if(f){f.value='';f.click();}}
+function setMsg(msg,type){var m=document.getElementById('uploadMsg');if(!m)return;m.textContent=msg;m.className='upload-msg '+type;if(type!=='working')setTimeout(function(){m.className='upload-msg';},5000);}
+async function onImgFiles(e,svcId){var files=Array.from(e.target.files);if(!files.length)return;var sd=servicesData[svcId];if(!sd)return;if(sd.images.length>=10){setMsg('الحد أقصى 10 صور','fail');return;}setMsg('جاري رفع '+files.length+' صورة...','working');var ok=0;for(var i=0;i<files.length;i++){try{var url=await uploadToSupabase(files[i],svcId);sd.images.push(url);ok++;saveToLocalStorage();}catch(err){setMsg('فشل رفع صورة: '+err,'fail');}}if(ok>0){renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع '+ok+' صورة','done');}e.target.value='';}
+async function delImg(svcId,idx,url){servicesData[svcId].images.splice(idx,1);deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف الصورة');}
+async function onPdfFile(e,svcId){var file=e.target.files[0];if(!file)return;setMsg('جاري رفع PDF...','working');try{var url=await uploadToSupabase(file,svcId+'_pdf');servicesData[svcId].pdf=url;servicesData[svcId].pdfName=file.name;saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();setMsg('تم رفع PDF','done');}catch(err){setMsg('فشل رفع PDF','fail');}e.target.value='';}
+async function delPdf(svcId,url){servicesData[svcId].pdf=null;servicesData[svcId].pdfName='';deleteFromSupabase(url);saveToLocalStorage();renderServicesEditor();updatePreview();triggerAutoSave();showToast('تم حذف PDF');}
 function loadState(){try{var s=safeGetLS('gsi_state');if(s){var p=JSON.parse(s);SERVICES.forEach(function(svc){if(p[svc.id])servicesData[svc.id]=p[svc.id];});}}catch(e){}try{var sv=safeGetLS('businessCardData');if(sv){var d=JSON.parse(sv);setFormData(d);if(d.logoUrl)logoUrl=d.logoUrl;}}catch(e){}try{var pu=safeGetLS('page_url');if(pu)document.getElementById('pageUrl').value=pu;}catch(e){}renderServicesEditor();updatePreview();}
-
 async function handleLogoUpload(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){logoUrl=ev.target.result;document.getElementById('logoPreviewThumb').src=logoUrl;document.getElementById('logoPreviewThumb').style.display='block';document.getElementById('logoPlaceholder').style.display='none';updatePreview();};reader.readAsDataURL(file);try{var url=await uploadToSupabase(file,'logos/'+getCardId());logoUrl=url;document.getElementById('logoPreviewThumb').src=logoUrl;saveToLocalStorage();triggerAutoSave();}catch(err){saveToLocalStorage();triggerAutoSave();}}
-
-// View Mode Logic
-function getUrlParam(k){var p=new URLSearchParams(window.location.search);return p.get(k);}
-async function startViewMode(id){
-    document.getElementById('editorMode').style.display='none';
-    document.getElementById('viewMode').style.display='flex';
-    var d=await loadCardFromCloud(id);
-    if(!d){document.getElementById('viewLoading').innerHTML='<p style="color:#f87171">لم يتم العثور على البيانات</p>';return;}
-    viewSvcData=d.services||{};viewSvcData._whatsapp=d.whatsapp;
-    
-    document.getElementById('viewLoading').style.display='none';
-    document.getElementById('viewContent').style.display='block';
-    document.getElementById('viewLogoImg').src=d.logoUrl||STATIC_LOGO;
-    document.getElementById('viewName').textContent=d.name||'';
-    document.getElementById('viewDesc').textContent=d.desc||'';
-    
-    var ph='';if(d.phone1)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone1+'</div>';if(d.phone2)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone2+'</div>';document.getElementById('viewPhones').innerHTML=ph;
-    
-    if(d.whatsapp){var cw=cleanWhatsApp(d.whatsapp);document.getElementById('viewWhatsApp').innerHTML='<a href="https://wa.me/'+cw+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>';}
-    
-    var so='';if(d.facebook)so+='<a href="'+d.facebook+'" target="_blank" class="id-action-btn"><i class="fab fa-facebook-f"></i></a>';if(d.tiktok)so+='<a href="'+d.tiktok+'" target="_blank" class="id-action-btn"><i class="fab fa-tiktok"></i></a>';if(d.email)so+='<a href="mailto:'+d.email+'" class="id-action-btn"><i class="fas fa-envelope"></i></a>';document.getElementById('viewSocials').innerHTML=so;
-    
-    var sh='';SERVICES.forEach(function(svc){var sd=d.services?d.services[svc.id]:null;if(sd&&sd.images&&sd.images.length>0){sh+='<div class="svc-item-new" onclick="galOpen(\''+svc.id+'\',0)"><div class="svc-ico-sm" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div class="svc-tit">'+svc.title+'</div></div>';}});document.getElementById('viewServices').innerHTML='<div class="svc-grid-view">'+sh+'</div>';
-
-    // تفعيل رسالة واتساب الترحيبية التلقائية
-    if (d.whatsapp && d.waMessage) {
-        setTimeout(function() {
-            showAutoWaPopup(d.whatsapp, d.waMessage, d.waImage);
-        }, 1500); 
-    }
-}
-
-var G={open:false,svcId:'',imgs:[],cur:0,pdf:null,pdfName:'',title:'',icon:'',color:'',whatsapp:'',zoomed:false};
-function galOpen(svcId,idx){var sd=viewSvcData?(viewSvcData[svcId]||{images:[],pdf:null}):(servicesData[svcId]||{images:[],pdf:null});if(!sd||!sd.images.length){showToastErr('لا توجد صور بعد');return;}var svc=SERVICES.find(function(s){return s.id===svcId;});var wn='';if(viewSvcData&&viewSvcData._whatsapp)wn=cleanWhatsApp(viewSvcData._whatsapp);else{var wEl=document.getElementById('whatsapp');if(wEl)wn=cleanWhatsApp(wEl.value);}G={open:true,svcId:svcId,imgs:sd.images,cur:idx||0,pdf:sd.pdf||null,pdfName:sd.pdfName||'',title:svc?svc.title:'',icon:svc?svc.icon:'fa-images',color:svc?svc.color:'#10b981',whatsapp:wn,zoomed:false};galShow();var ov=document.getElementById('galOverlay');ov.style.display='flex';requestAnimationFrame(function(){ov.classList.add('show');});document.body.style.overflow='hidden';}
-function galClose(){document.getElementById('galOverlay').classList.remove('show');setTimeout(function(){document.getElementById('galOverlay').style.display='none';},500);document.body.style.overflow='';G.open=false;}
-function galNav(dir){var next=(G.cur+dir+G.imgs.length)%G.imgs.length;var img=document.getElementById('galImg');img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');setTimeout(function(){G.cur=next;G.zoomed=false;img.src=G.imgs[next];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);galUpdateUI();},200);}
-function galGo(i){if(i===G.cur)return;var dir=i>G.cur?1:-1;var img=document.getElementById('galImg');img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');setTimeout(function(){G.cur=i;G.zoomed=false;img.src=G.imgs[i];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);galUpdateUI();},200);}
-function galStageClick(e){if(e.target.tagName==='IMG'){if(G.zoomed){e.target.style.maxWidth='';e.target.style.maxHeight='';e.target.style.cursor='zoom-in';G.zoomed=false;}else{e.target.style.maxWidth='none';e.target.style.maxHeight='none';e.target.style.cursor='zoom-out';G.zoomed=true;}}}
-function galShow(){var img=document.getElementById('galImg');img.src=G.imgs[G.cur];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';G.zoomed=false;var icon=document.getElementById('galIcon');icon.style.background=G.color;icon.innerHTML='<i class="fas '+G.icon+'"></i>';document.getElementById('galTitle').textContent=G.title;document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[G.cur]+')';galUpdateUI();}
-function galUpdateUI(){document.getElementById('galCounter').textContent=(G.cur+1)+' / '+G.imgs.length;document.getElementById('galBigNum').textContent=G.cur+1;document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[G.cur]+')';var th='';G.imgs.forEach(function(url,i){th+='<div class="gal-th-item '+(i===G.cur?'active':'')+'" onclick="galGo('+i+')"><img src="'+url+'" referrerpolicy="no-referrer"></div>';});document.getElementById('galThumbs').innerHTML=th;var acts='';if(G.whatsapp){var msg='مرحبا، أود الاستفسار عن '+G.title;acts+='<a href="https://wa.me/'+G.whatsapp+'?text='+encodeURIComponent(msg)+'" target="_blank" class="gal-act gal-act-wa"><i class="fab fa-whatsapp"></i> واتساب</a>';}if(G.pdf){acts+='<a href="'+G.pdf+'" target="_blank" class="gal-act gal-act-pdf"><i class="fas fa-file-pdf"></i> PDF</a>';}acts+='<a href="'+G.imgs[G.cur]+'" download class="gal-act gal-act-dl"><i class="fas fa-download"></i> تحميل</a>';document.getElementById('galActions').innerHTML=acts;}
-
-// دوال الواتساب التلقائي
-function showAutoWaPopup(phone, msg, imgUrl) {
-    var cleanPhone = cleanWhatsApp(phone);
-    var fullMsg = msg;
-    if (imgUrl) {
-        fullMsg += '\n' + imgUrl; 
-    }
-    var waUrl = 'https://wa.me/' + cleanPhone + '?text=' + encodeURIComponent(fullMsg);
-    
-    document.getElementById('popupWaMsg').innerText = msg;
-    document.getElementById('popupWaLink').href = waUrl;
-    
-    var imgEl = document.getElementById('popupWaImage');
-    if (imgUrl) {
-        imgEl.src = imgUrl;
-        imgEl.style.display = 'block';
-    } else {
-        imgEl.style.display = 'none';
-    }
-    
-    document.getElementById('autoWaPopup').style.display = 'flex';
-}
-
-function closeAutoWaPopup() {
-    document.getElementById('autoWaPopup').style.display = 'none';
-}
-
-// Toast & QR
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
-function showToastErr(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-err show';setTimeout(function(){t.classList.remove('show');},3000);}
 
 function updatePreview(){
     var d=getFormData();
@@ -439,43 +387,79 @@ function updatePreview(){
     document.getElementById('previewDesc').textContent=d.desc||'شريكك الموثوق في التوريدات';
     if(logoUrl){document.getElementById('previewLogoImg').src=logoUrl;document.getElementById('previewLogoImg').style.display='block';document.getElementById('previewLogoIcon').style.display='none';}
     var so='';if(d.facebook)so+='<a href="#" class="soc-icon soc-fb" onclick="event.preventDefault()"><i class="fab fa-facebook-f"></i></a>';if(d.tiktok)so+='<a href="#" class="soc-icon soc-tk" onclick="event.preventDefault()"><i class="fab fa-tiktok"></i></a>';if(d.email)so+='<a href="#" class="soc-icon soc-em" onclick="event.preventDefault()"><i class="fas fa-envelope"></i></a>';document.getElementById('previewSocials').innerHTML=so;
-    var sh='';SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd&&sd.images.length>0){sh+='<div style="background:var(--card2);border-radius:8px;padding:6px 8px;font-size:9px;font-weight:700;color:var(--accent-light);text-align:center"><i class="fas '+svc.icon+'" style="margin-left:4px"></i> '+svc.title+'</div>';}});document.getElementById('previewServices').innerHTML=sh;
+    var sh='';SERVICES.forEach(function(svc){var sd=servicesData[svc.id];if(sd&&sd.images.length>0){sh+='<div style="background:var(--card2);border-radius:10px;padding:8px 10px;font-size:10px;font-weight:700;color:var(--accent-light);text-align:center;border:1px solid var(--border)"><i class="fas '+svc.icon+'" style="margin-left:4px"></i> '+svc.title+'</div>';}});document.getElementById('previewServices').innerHTML=sh;
     if(d.whatsapp){var cw=cleanWhatsApp(d.whatsapp);document.getElementById('previewWaBtn').href='https://wa.me/'+cw;document.getElementById('previewWaBtn').style.display='';}else{document.getElementById('previewWaBtn').style.display='none';}
 }
 
-function generateQR(container,text){var c=document.getElementById(container);if(!c)return;c.innerHTML='';if(!text){c.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle" style="color:var(--gold)"></i><p style="color:var(--muted)">أدخل الرقم أولاً</p></div>';return;}try{var qr=qrcode(0,'M');qr.addData(text);qr.make();var img=document.createElement('img');img.src=qr.createDataURL(4,8);img.style.width='100%';img.style.height='100%';img.style.imageRendering='pixelated';c.appendChild(img);}catch(e){c.innerHTML='<div class="qr-err"><i class="fas fa-times-circle" style="color:#f87171"></i><p style="color:var(--muted)">خطأ في إنشاء الكود</p></div>';}}
+function getUrlParam(k){var p=new URLSearchParams(window.location.search);return p.get(k);}
 
-function generateAllQR(){
-    var url=getFixedUrl();
-    generateQR('qrPageResult',url);
-    var statusEl=document.getElementById('qrPageStatus');
-    if(url){statusEl.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{statusEl.innerHTML='';}
-    
-    var wa=document.getElementById('whatsapp').value.trim();
-    var waLink=wa?'https://wa.me/'+cleanWhatsApp(wa):'';
-    generateQR('qrWaResult',waLink);
-    var waStatus=document.getElementById('qrWaStatus');
-    if(waLink){waStatus.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{waStatus.innerHTML='';}
-    
-    var d=getFormData();var vc='BEGIN:VCARD\nVERSION:3.0\nN:'+d.name+';;;\nFN:'+d.name+'\nORG:'+d.name+'\n';if(d.phone1)vc+='TEL;TYPE=WORK,VOICE:'+d.phone1+'\n';if(d.phone2)vc+='TEL;TYPE=WORK,VOICE:'+d.phone2+'\n';if(d.whatsapp)vc+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.email)vc+='EMAIL:'+d.email+'\n';vc+='END:VCARD';
-    generateQR('qrVcardResult',vc);
-    var vcStatus=document.getElementById('qrVcardStatus');
-    if(d.name){vcStatus.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{vcStatus.innerHTML='';}
+async function startViewMode(id){
+    document.getElementById('editorMode').style.display='none';
+    document.getElementById('viewMode').style.display='flex';
+    var d=await loadCardFromCloud(id);
+    if(!d){document.getElementById('viewLoading').innerHTML='<p style="color:#f87171">لم يتم العثور على البيانات</p>';return;}
+    viewSvcData=d.services||{};viewSvcData._whatsapp=d.whatsapp;
+    document.getElementById('viewLoading').style.display='none';
+    document.getElementById('viewContent').style.display='block';
+    document.getElementById('viewLogoImg').src=d.logoUrl||STATIC_LOGO;
+    document.getElementById('viewName').textContent=d.name||'';
+    document.getElementById('viewDesc').textContent=d.desc||'';
+    if(d.logoUrl)document.getElementById('viewPromoBg').style.backgroundImage='url('+d.logoUrl+')';
+    else document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
+    var ph='';if(d.phone1)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone1+'</div>';if(d.phone2)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone2+'</div>';document.getElementById('viewPhones').innerHTML=ph;
+    if(d.whatsapp){var cw=cleanWhatsApp(d.whatsapp);document.getElementById('viewWhatsApp').innerHTML='<a href="https://wa.me/'+cw+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>';}
+    var so='';if(d.facebook)so+='<a href="'+d.facebook+'" target="_blank" class="soc-icon soc-fb"><i class="fab fa-facebook-f"></i></a>';if(d.tiktok)so+='<a href="'+d.tiktok+'" target="_blank" class="soc-icon soc-tk"><i class="fab fa-tiktok"></i></a>';if(d.email)so+='<a href="mailto:'+d.email+'" class="soc-icon soc-em"><i class="fas fa-envelope"></i></a>';document.getElementById('viewSocials').innerHTML=so;
+    var sh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';SERVICES.forEach(function(svc){var sd=d.services?d.services[svc.id]:null;if(sd&&sd.images&&sd.images.length>0){sh+='<div class="svc-card" onclick="galOpen(\''+svc.id+'\',0)"><div class="svc-cover"><img src="'+svc.cover+'" referrerpolicy="no-referrer"><div class="svc-cover-grad"></div><div class="svc-cover-icon" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div class="svc-img-badge"><i class="fas fa-images"></i> '+sd.images.length+'</div></div><div class="svc-body"><div class="svc-title">'+svc.title+'</div></div></div>';}});sh+='</div>';document.getElementById('viewServices').innerHTML=sh;
+
+    // ===== تفعيل رسالة واتساب الترحيبية التلقائية =====
+    if(d.whatsapp && d.waMessage){
+        setTimeout(function(){
+            showAutoWaPopup(d.whatsapp, d.waMessage, d.waImage);
+        }, 1500);
+    }
 }
 
+var G={open:false,svcId:'',imgs:[],cur:0,pdf:null,pdfName:'',title:'',icon:'',color:'',whatsapp:'',zoomed:false};
+function galOpen(svcId,idx){var sd=viewSvcData?(viewSvcData[svcId]||{images:[],pdf:null}):(servicesData[svcId]||{images:[],pdf:null});if(!sd||!sd.images.length){showToastErr('لا توجد صور بعد');return;}var svc=SERVICES.find(function(s){return s.id===svcId;});var wn='';if(viewSvcData&&viewSvcData._whatsapp)wn=cleanWhatsApp(viewSvcData._whatsapp);else{var wEl=document.getElementById('whatsapp');if(wEl)wn=cleanWhatsApp(wEl.value);}G={open:true,svcId:svcId,imgs:sd.images,cur:idx||0,pdf:sd.pdf||null,pdfName:sd.pdfName||'',title:svc?svc.title:'',icon:svc?svc.icon:'fa-images',color:svc?svc.color:'#2ECC71',whatsapp:wn,zoomed:false};galShow();var ov=document.getElementById('galOverlay');ov.style.display='flex';requestAnimationFrame(function(){ov.classList.add('show');});document.body.style.overflow='hidden';}
+function galClose(){document.getElementById('galOverlay').classList.remove('show');setTimeout(function(){document.getElementById('galOverlay').style.display='none';},500);document.body.style.overflow='';G.open=false;}
+function galNav(dir){var next=(G.cur+dir+G.imgs.length)%G.imgs.length;var img=document.getElementById('galImg');img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');setTimeout(function(){G.cur=next;G.zoomed=false;img.src=G.imgs[next];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);galUpdateUI();},200);}
+function galGo(i){if(i===G.cur)return;var dir=i>G.cur?1:-1;var img=document.getElementById('galImg');img.classList.add(dir>0?'gal-fade-out':'gal-fade-in');setTimeout(function(){G.cur=i;G.zoomed=false;img.src=G.imgs[i];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';img.onload=function(){img.classList.remove('gal-fade-out','gal-fade-in');};setTimeout(function(){img.classList.remove('gal-fade-out','gal-fade-in');},50);galUpdateUI();},200);}
+function galStageClick(e){if(e.target.tagName==='IMG'){if(G.zoomed){e.target.style.maxWidth='';e.target.style.maxHeight='';e.target.style.cursor='zoom-in';G.zoomed=false;}else{e.target.style.maxWidth='none';e.target.style.maxHeight='none';e.target.style.cursor='zoom-out';G.zoomed=true;}}}
+function galShow(){var img=document.getElementById('galImg');img.src=G.imgs[G.cur];img.style.maxWidth='';img.style.maxHeight='';img.style.cursor='zoom-in';G.zoomed=false;var icon=document.getElementById('galIcon');icon.style.background=G.color;icon.innerHTML='<i class="fas '+G.icon+'"></i>';document.getElementById('galTitle').textContent=G.title;document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[G.cur]+')';galUpdateUI();}
+function galUpdateUI(){document.getElementById('galCounter').textContent=(G.cur+1)+' / '+G.imgs.length;document.getElementById('galBigNum').textContent=G.cur+1;document.getElementById('galBlur').style.backgroundImage='url('+G.imgs[G.cur]+')';var th='';G.imgs.forEach(function(url,i){th+='<div class="gal-th-item '+(i===G.cur?'active':'')+'" onclick="galGo('+i+')"><img src="'+url+'" referrerpolicy="no-referrer"></div>';});document.getElementById('galThumbs').innerHTML=th;var acts='';if(G.whatsapp){var msg='مرحبا، أود الاستفسار عن '+G.title;acts+='<a href="https://wa.me/'+G.whatsapp+'?text='+encodeURIComponent(msg)+'" target="_blank" class="gal-act gal-act-wa"><i class="fab fa-whatsapp"></i> واتساب</a>';}if(G.pdf){acts+='<a href="'+G.pdf+'" target="_blank" class="gal-act gal-act-pdf"><i class="fas fa-file-pdf"></i> PDF</a>';}acts+='<a href="'+G.imgs[G.cur]+'" download class="gal-act gal-act-dl"><i class="fas fa-download"></i> تحميل</a>';document.getElementById('galActions').innerHTML=acts;}
+
+// ===== دوال الواتساب التلقائي =====
+function showAutoWaPopup(phone, msg, imgUrl){
+    var cleanPhone=cleanWhatsApp(phone);
+    var fullMsg=msg;
+    if(imgUrl){fullMsg+='\n'+imgUrl;}
+    var waUrl='https://wa.me/'+cleanPhone+'?text='+encodeURIComponent(fullMsg);
+    document.getElementById('popupWaMsg').innerText=msg;
+    document.getElementById('popupWaLink').href=waUrl;
+    var imgEl=document.getElementById('popupWaImage');
+    if(imgUrl){imgEl.src=imgUrl;imgEl.style.display='block';}else{imgEl.style.display='none';}
+    document.getElementById('autoWaPopup').style.display='flex';
+}
+function closeAutoWaPopup(){document.getElementById('autoWaPopup').style.display='none';}
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-ok show';setTimeout(function(){t.classList.remove('show');},3000);}
+function showToastErr(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast-msg toast-err show';setTimeout(function(){t.classList.remove('show');},3000);}
+
+function generateQR(container,text){var c=document.getElementById(container);if(!c)return;c.innerHTML='';if(!text){c.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle" style="color:var(--gold)"></i><p style="color:var(--muted)">أدخل البيانات أولاً</p></div>';return;}try{var qr=qrcode(0,'M');qr.addData(text);qr.make();var img=document.createElement('img');img.src=qr.createDataURL(4,8);img.style.width='100%';img.style.height='100%';img.style.imageRendering='pixelated';c.appendChild(img);}catch(e){c.innerHTML='<div class="qr-err"><i class="fas fa-times-circle" style="color:#f87171"></i><p style="color:var(--muted)">خطأ</p></div>';}}
+function generateAllQR(){
+    var url=getFixedUrl();generateQR('qrPageResult',url);
+    var statusEl=document.getElementById('qrPageStatus');if(url){statusEl.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{statusEl.innerHTML='';}
+    var wa=document.getElementById('whatsapp').value.trim();var waLink=wa?'https://wa.me/'+cleanWhatsApp(wa):'';generateQR('qrWaResult',waLink);
+    var waStatus=document.getElementById('qrWaStatus');if(waLink){waStatus.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{waStatus.innerHTML='';}
+    var d=getFormData();var vc='BEGIN:VCARD\nVERSION:3.0\nN:'+d.name+';;;\nFN:'+d.name+'\nORG:'+d.name+'\n';if(d.phone1)vc+='TEL;TYPE=WORK,VOICE:'+d.phone1+'\n';if(d.phone2)vc+='TEL;TYPE=WORK,VOICE:'+d.phone2+'\n';if(d.whatsapp)vc+='TEL;TYPE=CELL:'+cleanWhatsApp(d.whatsapp)+'\n';if(d.email)vc+='EMAIL:'+d.email+'\n';vc+='END:VCARD';
+    generateQR('qrVcardResult',vc);var vcStatus=document.getElementById('qrVcardStatus');if(d.name){vcStatus.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{vcStatus.innerHTML='';}
+}
 function switchQRTab(tab){document.querySelectorAll('.qr-tab').forEach(function(t){t.classList.remove('active');if(t.dataset.tab===tab)t.classList.add('active');});document.getElementById('qrPage').style.display=tab==='page'?'':'none';document.getElementById('qrWhatsapp').style.display=tab==='whatsapp'?'':'none';document.getElementById('qrVcard').style.display=tab==='vcard'?'':'none';}
-
 function downloadQR(container,filename){var c=document.getElementById(container);if(!c)return;var img=c.querySelector('img');if(!img){showToastErr('لا يوجد كود للتحميل');return;}var a=document.createElement('a');a.href=img.src;a.download=filename||'qr.png';document.body.appendChild(a);a.click();document.body.removeChild(a);}
-
 function onPageUrlChange(){safeSetLS('page_url',document.getElementById('pageUrl').value.trim());document.getElementById('fixedUrlDisplay').textContent=getFixedUrl()||'—';generateAllQR();}
-
 function resetAll(){if(!confirm('هل أنت متأكد من مسح جميع البيانات؟'))return;safeRemoveLS('businessCardData');safeRemoveLS('gsi_state');safeRemoveLS('card_id');safeRemoveLS('page_url');logoUrl='';setFormData({});SERVICES.forEach(function(svc){servicesData[svc.id]={images:[],pdf:null,pdfName:''};});renderServicesEditor();updatePreview();generateAllQR();showToast('تم مسح البيانات');}
 
-// Init
-(function(){
-    var vid=getUrlParam('id');
-    if(vid){pendingViewId=vid;}
-})();
+(function(){var vid=getUrlParam('id');if(vid){pendingViewId=vid;}})();
 </script>
 </body>
 </html>
