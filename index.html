@@ -389,22 +389,76 @@ function generateQR(container,text){
     var c=document.getElementById(container);if(!c)return;c.innerHTML='';
     if(!text){c.innerHTML='<div class="qr-err"><i class="fas fa-exclamation-triangle" style="color:var(--gold)"></i><p style="color:var(--muted)">أدخل البيانات أولاً</p></div>';return;}
     try{
-        var qr=qrcode(0,'H');qr.addData(text);qr.make();var qrDataUrl=qr.createDataURL(8,16);
-        var qrImg=new Image();qrImg.onload=function(){
-            var canvas=document.createElement('canvas');canvas.width=qrImg.width;canvas.height=qrImg.height;var ctx=canvas.getContext('2d');
-            ctx.drawImage(qrImg,0,0);var logoImg=new Image();logoImg.crossOrigin="anonymous";
+        var qr=qrcode(0,'H');
+        qr.addData(text);
+        qr.make();
+        var qrDataUrl=qr.createDataURL(10, 20);
+        
+        var qrImg=new Image();
+        qrImg.onload=function(){
+            var canvas=document.createElement('canvas');
+            canvas.width=qrImg.width;
+            canvas.height=qrImg.height;
+            var ctx=canvas.getContext('2d');
+            
+            // 1. رسم الكود الأساسي
+            ctx.drawImage(qrImg,0,0);
+            
+            var logoImg=new Image();
+            logoImg.crossOrigin="anonymous";
             logoImg.onload=function(){
-                var logoSize=canvas.width*0.30;var padding=15;var centerX=canvas.width/2;var centerY=canvas.height/2;var bgRadius=(logoSize/2)+padding;
-                ctx.save();ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=15;ctx.shadowOffsetX=0;ctx.shadowOffsetY=4;
-                ctx.fillStyle='#FFFFFF';ctx.beginPath();ctx.arc(centerX,centerY,bgRadius,0,Math.PI*2,true);ctx.fill();ctx.restore();
-                ctx.beginPath();ctx.arc(centerX,centerY,logoSize/2,0,Math.PI*2,true);ctx.clip();
-                var x=centerX-(logoSize/2);var y=centerY-(logoSize/2);ctx.drawImage(logoImg,x,y,logoSize,logoSize);
-                var finalImg=document.createElement('img');finalImg.src=canvas.toDataURL('image/png');finalImg.style.width='100%';finalImg.style.height='100%';finalImg.style.imageRendering='pixelated';c.appendChild(finalImg);
+                // 2. حجم اللوجو (38% عشان يبقى واضح جداً وكبير)
+                var logoSize=canvas.width*0.38; 
+                var padding=18; // مساحة بيضاء حوالين اللوجو
+                var border=6; // سمك الحد الأخضر
+                var x=(canvas.width-logoSize)/2;
+                var y=(canvas.height-logoSize)/2;
+
+                // 3. إضافة ظل تحت المربع
+                ctx.save();
+                ctx.shadowColor='rgba(0,0,0,0.6)';
+                ctx.shadowBlur=25;
+                ctx.shadowOffsetX=0;
+                ctx.shadowOffsetY=5;
+                
+                // 4. رسم المربع الأخضر (الحدود المحددة - حواف مربعة 90 درجة)
+                ctx.fillStyle='#1E8C5E'; // لون أخضر زي ثيم الموقع
+                ctx.fillRect(x - padding - border, y - padding - border, logoSize + (padding*2) + (border*2), logoSize + (padding*2) + (border*2));
+                ctx.restore();
+                
+                // 5. رسم المربع الأبيض كخلفية واقية (حواف مربعة)
+                ctx.fillStyle='#FFFFFF';
+                ctx.fillRect(x - padding, y - padding, logoSize + (padding*2), logoSize + (padding*2));
+                
+                // 6. قص المربع عشان اللوجو يتقص جواه ميخرجش بره
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(x, y, logoSize, logoSize);
+                ctx.clip();
+                
+                // 7. رسم اللوجو في المنتصف
+                ctx.drawImage(logoImg,x,y,logoSize,logoSize);
+                ctx.restore();
+                
+                // 8. تحويل النتيجة لصورة وعرضها
+                var finalImg=document.createElement('img');
+                finalImg.src=canvas.toDataURL('image/png');
+                finalImg.style.width='100%';
+                finalImg.style.height='100%';
+                finalImg.style.imageRendering='pixelated';
+                c.appendChild(finalImg);
             };
-            logoImg.onerror=function(){var finalImg=document.createElement('img');finalImg.src=qrDataUrl;finalImg.style.width='100%';finalImg.style.height='100%';finalImg.style.imageRendering='pixelated';c.appendChild(finalImg);};
+            logoImg.onerror=function(){
+                var finalImg=document.createElement('img');
+                finalImg.src=qrDataUrl;
+                finalImg.style.width='100%';finalImg.style.height='100%';finalImg.style.imageRendering='pixelated';c.appendChild(finalImg);
+            };
             logoImg.src=STATIC_LOGO;
-        };qrImg.src=qrDataUrl;
-    }catch(e){c.innerHTML='<div class="qr-err"><i class="fas fa-times-circle" style="color:#f87171"></i><p style="color:var(--muted)">خطأ</p></div>';}
+        };
+        qrImg.src=qrDataUrl;
+    }catch(e){
+        c.innerHTML='<div class="qr-err"><i class="fas fa-times-circle" style="color:#f87171"></i><p style="color:var(--muted)">خطأ</p></div>';
+    }
 }
 function generateAllQR(){
     var url=getFixedUrl();generateQR('qrPageResult',url);var statusEl=document.getElementById('qrPageStatus');if(url){statusEl.innerHTML='<div class="qr-status ok"><i class="fas fa-check-circle ml-1"></i> جاهز</div>';}else{statusEl.innerHTML='';}
