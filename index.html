@@ -366,7 +366,29 @@ async function startViewMode(id){
     
     // بناء الخدمات (لوجوهات الشركاء 5 في السطر)
        var sh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-    SERVICES.forEach(function(svc){var sd=d.services?d.services[svc.id]:null;if(sd&&sd.images&&sd.images.length>0){if(svc.id==='svc5'){sh+='<div style="grid-column:1/-1;background:var(--card2);border-radius:18px;padding:16px;border:1px solid var(--border);margin-bottom:20px">';sh+='<div style="text-align:center;margin-bottom:14px;font-weight:800;color:var(--text);font-size:14px"><i class="fas fa-handshake" style="color:var(--gold);margin-left:6px"></i> '+svc.title+'</div>';sh+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">';sd.images.forEach(function(imgUrl,idx){sh+='<div onclick="galOpen(\'svc5\','+idx+')" style="cursor:pointer;background:#fff;border-radius:12px;padding:8px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;transition:all .3s;border:1px solid rgba(255,255,255,.1)" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'none\'">';sh+='<img src="'+imgUrl+'" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:contain;border-radius:8px">';sh+='</div>';});sh+='</div></div>';}else{sh+='<div class="svc-card" onclick="galOpen(\''+svc.id+'\',0)"><div class="svc-cover"><img src="'+svc.cover+'" referrerpolicy="no-referrer"><div class="svc-cover-grad"></div><div class="svc-cover-icon" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div class="svc-img-badge"><i class="fas fa-images"></i> '+sd.images.length+'</div></div><div class="svc-body"><div class="svc-title">'+svc.title+'</div></div></div>';}}});sh+='</div>';document.getElementById('viewServices').innerHTML=sh;
+    SERVICES.forEach(function(svc){
+        var sd=d.services?d.services[svc.id]:null;
+        if(sd&&sd.images&&sd.images.length>0){
+            // ديزاين ثابت ومرتب لشركاؤنا في النجاح
+            if(svc.id==='svc5'){
+                sh+='<div style="grid-column:1/-1;background:var(--card2);border-radius:18px;padding:16px;border:1px solid var(--border);margin-bottom:20px">';
+                sh+='<div style="text-align:center;margin-bottom:14px;font-weight:800;color:var(--text);font-size:14px"><i class="fas fa-handshake" style="color:var(--gold);margin-left:6px"></i> '+svc.title+'</div>';
+                // استخدام Flex بتوسيط تلقائي وحجم ثابت للوجو عشان يبقى مرتب على كل الشاشات
+                sh+='<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px">';
+                sd.images.forEach(function(imgUrl,idx){
+                    sh+='<div onclick="galOpen(\'svc5\','+idx+')" style="width:75px;height:75px;cursor:pointer;background:#fff;border-radius:14px;padding:5px;display:flex;align-items:center;justify-content:center;transition:all .3s;border:1px solid rgba(255,255,255,.1);box-shadow:0 4px 10px rgba(0,0,0,.2)" onmouseover="this.style.transform=\'scale(1.08)\'" onmouseout="this.style.transform=\'none\'">';
+                    sh+='<img src="'+imgUrl+'" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:contain;border-radius:10px">';
+                    sh+='</div>';
+                });
+                sh+='</div></div>';
+            } 
+            // ديزاين الخدمات العادية
+            else {
+                sh+='<div class="svc-card" onclick="galOpen(\''+svc.id+'\',0)"><div class="svc-cover"><img src="'+svc.cover+'" referrerpolicy="no-referrer"><div class="svc-cover-grad"></div><div class="svc-cover-icon" style="background:'+svc.color+'"><i class="fas '+svc.icon+'"></i></div><div class="svc-img-badge"><i class="fas fa-images"></i> '+sd.images.length+'</div></div><div class="svc-body"><div class="svc-title">'+svc.title+'</div></div></div>';
+            }
+        }
+    });
+    sh+='</div>';document.getElementById('viewServices').innerHTML=sh;
     
     if(d.whatsapp&&d.waMessage){setTimeout(function(){showAutoWaPopup(d.whatsapp,d.waMessage,d.waImage);},1500);}
 }
