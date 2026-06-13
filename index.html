@@ -407,22 +407,22 @@ function generateQR(container,text){
             var logoImg=new Image();
             logoImg.crossOrigin="anonymous";
             logoImg.onload=function(){
-                // 2. حجم اللوجو (38% عشان يبقى واضح جداً وكبير)
-                var logoSize=canvas.width*0.38; 
-                var padding=18; // مساحة بيضاء حوالين اللوجو
-                var border=6; // سمك الحد الأخضر
+                // 2. حجم اللوجو (صغرناه لـ 28% عشان يبقى أصغر شوية ومتناسق)
+                var logoSize=canvas.width*0.28; 
+                var padding=14; // مساحة بيضاء حوالين اللوجو
+                var border=5; // سمك الحد الأسود
                 var x=(canvas.width-logoSize)/2;
                 var y=(canvas.height-logoSize)/2;
 
                 // 3. إضافة ظل تحت المربع
                 ctx.save();
                 ctx.shadowColor='rgba(0,0,0,0.6)';
-                ctx.shadowBlur=25;
+                ctx.shadowBlur=20;
                 ctx.shadowOffsetX=0;
-                ctx.shadowOffsetY=5;
+                ctx.shadowOffsetY=4;
                 
-                // 4. رسم المربع الأخضر (الحدود المحددة - حواف مربعة 90 درجة)
-                ctx.fillStyle='#1E8C5E'; // لون أخضر زي ثيم الموقع
+                // 4. رسم المربع الأسود (الحدود المحددة - حواف مربعة 90 درجة)
+                ctx.fillStyle='#000000'; // لون أسود زي ما طلبت
                 ctx.fillRect(x - padding - border, y - padding - border, logoSize + (padding*2) + (border*2), logoSize + (padding*2) + (border*2));
                 ctx.restore();
                 
