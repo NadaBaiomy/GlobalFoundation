@@ -357,8 +357,9 @@ async function startViewMode(id){
     var d=await loadCardFromCloud(id);if(!d){document.getElementById('viewLoading').innerHTML='<p style="color:#f87171">لم يتم العثور على البيانات</p>';return;}
     viewSvcData=d.services||{};viewSvcData._whatsapp=d.whatsapp;
     document.getElementById('viewLoading').style.display='none';document.getElementById('viewContent').style.display='block';
-    document.getElementById('viewLogoImg').src=d.logoUrl||STATIC_LOGO;document.getElementById('viewName').textContent=d.name||'';document.getElementById('viewDesc').textContent=d.desc||'';
-    // تخلي صورة الغلاف ثابتة دايماً علي الصورة اللي اختارتها ومش تتأثر بلوجو الشركة document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
+    document.getElementById('viewName').textContent=d.name||'';
+    document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
+    document.getElementById('viewDesc').textContent=d.desc||'';    // تخلي صورة الغلاف ثابتة دايماً علي الصورة اللي اختارتها ومش تتأثر بلوجو الشركة document.getElementById('viewPromoBg').style.backgroundImage='url('+STATIC_PROMO+')';
     var ph='';if(d.phone1)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone1+'</div>';if(d.phone2)ph+='<div style="color:var(--muted)"><i class="fas fa-phone ml-1" style="color:var(--accent-light)"></i> '+d.phone2+'</div>';document.getElementById('viewPhones').innerHTML=ph;
     if(d.whatsapp){var cw=cleanWhatsApp(d.whatsapp);document.getElementById('viewWhatsApp').innerHTML='<a href="https://wa.me/'+cw+'" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>';}
     var so='';if(d.facebook)so+='<a href="'+d.facebook+'" target="_blank" class="soc-icon soc-fb"><i class="fab fa-facebook-f"></i></a>';if(d.tiktok)so+='<a href="'+d.tiktok+'" target="_blank" class="soc-icon soc-tk"><i class="fab fa-tiktok"></i></a>';if(d.email)so+='<a href="mailto:'+d.email+'" class="soc-icon soc-em"><i class="fas fa-envelope"></i></a>';document.getElementById('viewSocials').innerHTML=so;
